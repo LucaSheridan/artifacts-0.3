@@ -62,33 +62,38 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            a {
+
+               text-decoration: none; 
+            
+              }
+
+            hr {
+               width: 88%; 
+            }
+
         </style>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <!-- <a href="{{ route('register') }}">Register </a>
-                         -->
-                        <a href="{{ route('registerTeacher') }}">Register as Teacher</a>
-                        <a href="{{ route('registerStudent') }}">Register as Student</a>
-                    @endif
-                </div>
-            @endif
 
             <div class="content">
                 <div class="title m-b-md">
-                    <a href="{{ url('/login') }}">Artifacts-0.2</a>
+                    <a href="{{ url('/login') }}">Artifacts</a>
                 </div>
-
+                
                 <div class="links">
-                    <a href="https://laravel.com/docs">ART PORTFOLIO, ASSESSMENT, & EXHIBITION TOOLS</a>   
+                <a href="{{ url('/login') }}">ART PORTFOLIO, ASSESSMENT, & EXHIBITION TOOLS</a>   
                 </div>
+                
+                <hr/>
+                <div class="links">
+                <a href="{{ url('/login') }}">Version - 0.2</a>   
+                </div>
+                
             </div>
+
         </div>
     </body>
 </html>
