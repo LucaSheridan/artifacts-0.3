@@ -82,7 +82,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Artifacts-0.1
+                    <a href="{{ route('/login') }}">Artifacts-0.2</a>
                 </div>
 
                 <div class="links">
