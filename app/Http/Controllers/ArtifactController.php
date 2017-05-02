@@ -64,11 +64,15 @@ class ArtifactController extends Controller
         // get file input data as object
         $file = $request->file('file');
 
+        //dd($request)->input;
+
         // get form input data
         $user_id = $request->input('user_id');
         $project_id = $request->input('project_id');
         $assignment_id = $request->input('assignment_id');
         $component_id = $request->input('component');
+
+        //dd($component_id);
 
         // set destination path
         $destination = "storage/uploads/".$user_id;
@@ -183,7 +187,7 @@ class ArtifactController extends Controller
         
         $artifact->save();
 
-        return redirect()->action('HomeController@index');
+        return redirect()->action('ProjectController@show', $artifact->project_id);
 
         }
 
@@ -224,11 +228,35 @@ class ArtifactController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \App\Site  $site
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Artifact $artifact)
+    {
+        //$artifact = Artifact::find($artifact);
+
+        return view('artifact.delete')->with('artifact', $artifact);
+    }
+    /**
+     * Remove the specified resource from storage.
+     *
      * @param  \App\Artifact  $artifact
      * @return \Illuminate\Http\Response
      */
     public function destroy(Artifact $artifact)
     {
-        //
+
+        // Delete image files from storage
+
+        File::delete($artifact->artifact_thumb);
+        File::delete($artifact->artifact_path);
+
+        $artifact->delete();
+
+        flash('Artifact deleted successfully!', 'danger');
+
+        return redirect()->action('ProjectController@show', $artifact->project_id);
+
+
     }
 }

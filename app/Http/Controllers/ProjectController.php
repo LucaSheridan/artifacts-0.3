@@ -171,11 +171,11 @@ class ProjectController extends Controller
     public function addArtifact($id)
     {
 
-            $project = Project::with('assignment')->findOrFail($id);
+        $project = Project::with('assignment')->findOrFail($id);
 
-            $assignment = Assignment::with('components')->find($project->assignment_id);
+        $assignment = Assignment::with('components')->find($project->assignment_id);
 
-            $components = Component::all()->where('assignment_id', '=', $project->assignment_id)->pluck('title','id');
+        $components = Component::all()->where('assignment_id', '=', $project->assignment_id)->pluck('title','id');
 
             
             //dd($assignments);
