@@ -69,19 +69,20 @@
 
         <div id="app" class="form-group{{ $errors->has('components') ? ' has-error' : '' }}">
 
-            <label class="col-md-4 control-label">Components</label>
+            <label class="col-md-4 control-label">Primary Artifact</label>
 
             <div class="col-md-6">
             <div  v-for="row in rows" class="input-group">
       
-            <input name="components[]" class="form-control" type="text" v-model="row.title">
-            
-            <span class="input-group-btn">
-     
-            <button class="btn btn-danger" type="button" @click.prevent="removeRow(row)">delete</button>
-            <button class="btn btn-primary" @click.prevent="addRow">add</button>
+<!-- <input name="components[]" class="form-control" type="text" v-model="row.title">-->
 
-            </span>
+<input name="components[title][]" class="form-control" type="text" v-model="row.title">       
+        <span class="input-group-btn">
+     
+        <button class="btn btn-danger" type="button" @click.prevent="removeRow(row)">x</button>
+        <button class="btn btn-primary" @click.prevent="addRow">+</button>
+
+        </span>
     
             </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->

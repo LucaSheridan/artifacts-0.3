@@ -103,9 +103,9 @@
                         
                         <!-- Begin Form -->
 
-                                <form  role="form" method="POST" action="{{ url('/artifact') }}" enctype="multipart/form-data">
-                                
-                                {!! csrf_field() !!}
+                        <form  role="form" method="POST" action="{{ url('/artifact') }}" enctype="multipart/form-data">
+                        
+                        {!! csrf_field() !!}
 
                         <!-- <div class="form-group{{ $errors->has('file') ? ' has-error' : '' }}">
 

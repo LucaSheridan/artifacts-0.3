@@ -172,8 +172,6 @@ class ArtifactController extends Controller
 
         // set and persist information to database
 
-
-
         $artifact = New Artifact;
         
         //$artifact->assignment = $assignment;
@@ -184,6 +182,34 @@ class ArtifactController extends Controller
         //$artifact->component_title = $component_title;
         $artifact->artifact_path = $media_path;
         $artifact->artifact_thumb = $thumb_path;
+
+            
+            // Check if this artifact is being submitted as this assignments primaryComponent
+
+            $CheckForPrimaryComponent = Component::where('id', $component_id)->first();
+
+            if ($CheckForPrimaryComponent->is_primary == 1 ){
+
+            // If so, set primaryArtifactThumb property in related Project record
+            // This link supplies the project's thumbnail image on student's portfolio page
+
+
+            // Locate related project
+
+            $SetProjectThumb = Project::findOrFail($project_id);
+
+            // Set primartArtifactThumb
+
+            $SetProjectThumb->primaryArtifactThumb = $thumb_path;
+
+            // Persist
+
+            $SetProjectThumb->save();
+
+            }
+
+            else {}
+    
         
         $artifact->save();
 
@@ -246,6 +272,19 @@ class ArtifactController extends Controller
     public function destroy(Artifact $artifact)
     {
 
+        // Check if this artifact was set as primaryComponent
+
+         $CheckForPrimaryComponent = Component::where('id', $artifact->component_id)->first();
+
+         if ($CheckForPrimaryComponent->is_primary == 1 ){
+
+        // If so, delete primaryArtifactThumb property in related Project record
+        // This link supplies the project's thumbnail image on student's portfolio page     
+        
+        }
+
+        else {}
+
         // Delete image files from storage
 
         File::delete($artifact->artifact_thumb);
@@ -256,7 +295,6 @@ class ArtifactController extends Controller
         flash('Artifact deleted successfully!', 'danger');
 
         return redirect()->action('ProjectController@show', $artifact->project_id);
-
 
     }
 }

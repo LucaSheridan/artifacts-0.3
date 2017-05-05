@@ -17,7 +17,7 @@ class CreateAssignmentsTable extends Migration
             $table->increments('id');
             $table->string('section_id');
             $table->string('title');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->date('date_due');
             $table->boolean('active');
             $table->timestamps();   

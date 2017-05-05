@@ -41,17 +41,14 @@ class AssignmentController extends Controller
         $this->validate($request, [
         
         'title' => 'required',
-        'description' => 'required',
+        //'description' => 'required',
         'components.*' => 'required',
         'section_id' => 'required',
 
         ]);
 
+
         //set and persist assignment information to database
-
-        $components = $request->input('components');
-
-        //dd($components);
 
         $assignment = New Assignment;
         
@@ -62,14 +59,43 @@ class AssignmentController extends Controller
         $assignment->active = false;
         $assignment->save();
 
-        foreach ($components as $component){
+        $components = $request->input('components');
+
+        
+    // Really ugly solutin here that came about because I couldn't wrap
+    // my head around how to access assciative arrays. I set a loop
+    // counter in order to set the first component as the primary image.
+    // (That's the one the kids will see on their hoome/ portfolio page.)
+    // Eventually, some one is going to want to have more than one primary // image. 
+
+        // set counter
+
+            $i = -1;
+
+            foreach ($components['title'] as $component ){
+
+        // increment counter
+
+            $i++;
 
              $newComponent = New Component;
 
              $newComponent->title = $component;
              $newComponent->assignment_id = $assignment->id;
              $newComponent->date_due = $request->input('date_due');
-             $newComponent->is_primary = true ;
+             
+             if ($i == 0 ) {
+
+                $newComponent->is_primary = true ;
+
+             }
+
+             else { 
+
+                $newComponent->is_primary = false;
+            
+             }
+
              $newComponent->save();
 
        }

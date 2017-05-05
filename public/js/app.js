@@ -790,14 +790,14 @@ var app = new Vue({
 
   data: {
 
-    rows: [{ title: "" }]
+    rows: [{ title: "Final Artwork", isPrimary: "1" }]
 
   },
 
   methods: {
     addRow: function addRow() {
 
-      this.rows.push({ title: "" });
+      this.rows.push({ title: "", isPrimary: "0" });
     },
 
     removeRow: function removeRow(row) {

@@ -15,6 +15,7 @@
                     <table class="table">
                     <thead>
                       <tr>
+                        <th>Artwork</th>
                         <th>Title</th>
                         <th>Assignment</th>
                         <th>Status</th>
@@ -24,7 +25,17 @@
 
                     @foreach ($projects as $project) 
 
+                            
                         <tr>
+                            <td>
+                            
+                            <a href="project/{{$project->id}}">
+                            <img src ='{{ $project->primaryArtifactThumb }}'>
+                            </a>
+
+                            </td>
+
+                            </td>
                             <td><a href="project/{{$project->id}}">{{ $project->title }}</a></td>
                             <td>{{ $project->assignment->title}}</td>
                             <td>Updated {{ $project->updated_at->diffForHumans() }}</td>
@@ -41,7 +52,7 @@
                     </div>
 
 
-                    <table class="table">
+                    <!-- <table class="table">
                     <thead>
                     <tr>
                     <td>Class</td>
@@ -79,7 +90,7 @@
                     </tr></tbody>
                      @endforeach 
                     
-                    </table>
+                    </table> -->
                     
 
                    

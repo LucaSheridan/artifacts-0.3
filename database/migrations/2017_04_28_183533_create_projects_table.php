@@ -18,6 +18,7 @@ class CreateProjectsTable extends Migration
             $table->string('title');
             $table->string('user_id');
             $table->string('assignment_id');
+            $table->string('primaryArtifactThumb')->nullable();
             $table->timestamps(); 
         });
     }

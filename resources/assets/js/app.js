@@ -21,7 +21,7 @@ var app  = new Vue({
   data: {
     
     rows: [
-      {title: ""},
+      {title: "Final Artwork", isPrimary: "1"},
     ],
     
   },
@@ -29,7 +29,7 @@ var app  = new Vue({
   methods:{
     addRow: function(){
       
-      this.rows.push({title:""});
+      this.rows.push({title:"", isPrimary: "0"});
     },
 
     removeRow: function(row){

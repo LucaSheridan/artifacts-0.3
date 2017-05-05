@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Project;
 use App\Assignment;
 use App\Component;
@@ -31,7 +32,12 @@ class ProjectController extends Controller
     {
 
          //$assignments = Assignment::all(); 
-         $assignments = Assignment::pluck('title', 'id');
+         
+         $section = (Auth::User()->sections()->first());
+
+         //dd($section);
+
+         $assignments = Assignment::where('section_id', $section->id)->pluck('title', 'id');
 
          // maybe add independent project to end of assignment array
 
@@ -95,6 +101,7 @@ class ProjectController extends Controller
                      'components.id AS componentID', 
                      'components.title AS componentTitle',
                      'components.date_due',
+                     'components.is_primary AS isPrimary',
                      'artifacts.id AS artifactID',
                      'artifacts.artifact_thumb AS artifactThumb',
                      'artifacts.artifact_path AS artifactPath',
