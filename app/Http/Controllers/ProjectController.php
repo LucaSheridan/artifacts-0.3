@@ -35,8 +35,6 @@ class ProjectController extends Controller
          
          $section = (Auth::User()->sections()->first());
 
-         //dd($section);
-
          $assignments = Assignment::where('section_id', $section->id)->pluck('title', 'id');
 
          // maybe add independent project to end of assignment array
@@ -68,12 +66,19 @@ class ProjectController extends Controller
         $title = $request->input('title');
         $user_id = $request->input('user_id');
 
+        //dd($assignment);
+        //dd($title);
+        //dd($user_id);
+
         // set and persist project information to database
 
         $project = New Project;
         
         $project->assignment_id = $assignment;
         $project->title = $title;
+        //$project->title = 'Untitled';
+        $project->medium = 'Unknown';
+        $project->dimensions = 'Unknown';
         $project->user_id = $user_id;
         $project->save();
 
@@ -126,7 +131,7 @@ class ProjectController extends Controller
     
     public function edit(Project $project)
     {
-        //
+       return view('project.edit')->with('project', $project);
     }
 
     /**
@@ -138,7 +143,36 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        
+        // create valiadator
+        $this->validate($request, [
+        'title' => 'required',
+        'medium' => 'required',
+        'dimensions' => 'required',
+        ]);
+
+        // get form input data
+        
+        $project->title = $request->input('title');
+        $project->medium = $request->input('medium');
+        $project->dimensions = $request->input('dimensions');
+        
+        $project->save();
+
+        flash('Project updated successfully!', 'success');
+
+        return redirect()->action('ProjectController@show', $project->id );
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Site  $site
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Project $project)
+    {
+        return view('project.delete')->with('project', $project);
     }
 
     /**
@@ -156,7 +190,7 @@ class ProjectController extends Controller
         // the media records to use in deletion. this
         // would be vastly more efficient.
 
-        foreach ($project->artifact as $artifact)
+        foreach ($project->artifacts as $artifact)
 
         { 
             $artifact->delete();
@@ -184,11 +218,7 @@ class ProjectController extends Controller
 
         $components = Component::all()->where('assignment_id', '=', $project->assignment_id)->pluck('title','id');
 
-            
-            //dd($assignments);
-
-
-    return view('artifact.create', ['project' => $project,
+        return view('artifact.create', ['project' => $project,
                                     'assignment' => $assignment,
                                     'components' => $components]
                         );

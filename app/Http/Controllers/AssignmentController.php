@@ -115,7 +115,17 @@ class AssignmentController extends Controller
     {
        //dd($assignment);
 
-       return view('assignment.show')->with('assignment', $assignment);
+
+       $assignment = Assignment::with(array('components' => function ($query) {
+        $query->orderBy('date_due', 'asc');
+        }
+        ))->where('id', $assignment->id)->first();
+
+       //dd($assignment);
+
+        return view('assignment.show')->with('assignment', $assignment);
+
+
     }
 
     /**
@@ -126,19 +136,36 @@ class AssignmentController extends Controller
      */
     public function edit(Assignment $assignment)
     {
-        //
+        
+        return view('assignment.edit')->with('assignment', $assignment);
+
     }
 
-    /**
+     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Assignment  $assignment
+     * @param  \App\Site  $site
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Assignment $assignment)
     {
-        //
+        // create valiadator
+        $this->validate($request, [
+        'title' => 'required',
+        ]);
+
+        // get form input data
+        
+        $assignment->title = $request->input('title');
+        $assignment->description = $request->input('description');
+        $assignment->description = $request->input('date_due');
+
+        $assignment->save();
+
+        flash('Assignment updated successfully!', 'success');
+
+        return redirect()->action('AssignmentController@show', $assignment->id );
     }
 
    /**

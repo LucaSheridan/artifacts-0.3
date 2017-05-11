@@ -9,11 +9,13 @@
                 <b>{{ $assignment->title }}</b><br/>
                 
                 <p>{{ $assignment->description }}</p>
+
+                <p>{{ $assignment->date_due }}</p>
        
                 <ul>
-                @foreach ($assignment->components as $component)
-                <li>{{ $component->title }}</li>
-                @endforeach 
+                    @foreach ($assignment->components as $component)
+                    <li>{{ $component->title }} | {{ Carbon\Carbon::parse($component->date_due)->format('D n/j') }}</li>
+                    @endforeach 
                 </ul>
 
                 <a class='btn btn-primary' href='{{action('AssignmentController@edit', $assignment->id)}}'>edit</a>

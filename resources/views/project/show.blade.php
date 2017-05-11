@@ -4,63 +4,84 @@
 <div class="container">
     <div class="row">
         
-        <!-- Primary Artifacts -->
-
         <div>
-
             <div class="media">
-                
+                <div class="media-left">
+
+                @if ($project->primaryArtifactThumb)
+
+                <img class="media-object" src="{{ url($project->primaryArtifactThumb) }}">
+
+                @else 
+
+                    <div class="project-placeholder">
+                    <p>no primary artifact</p>
+                    </div>
+                @endif
+                    
+                </div>
+
                 <div class="media-body">
                 
-                    <h4 class="media-heading"><i>{{ $project->title }}</i></h4>
-                   
-                    Media:<br/>
-                    Dimensions:<br/>
-                    Submitted {{ $project->created_at->diffForHumans() }}<br/>
+                    <b>Title:</b> <i>{{ $project->title }}</i><br/>
+                    <b>Medium:</b> {{ $project->medium }}<br/>
+                    <b>Dimensions:</b> {{ $project->dimensions }}<br/>
+                    <b>Completed:</b> {{ $project->created_at->diffForHumans() }}<br/>
+                    <b>Submitted for:</b> {{ $project->assignment->title }}<br/>
+
+                <br/><br/>
+
+                <ul class="list-inline">
+                <li>
+                
+                <div class="submit-button-container">
+                {!! Form::open(['action' => ['ProjectController@edit', $project->id], 
+                                'method' => 'Get',
+                                'class' => 'btn btn-primary']) !!}
+                {!! Form::submit('Edit Project Information') !!}
+                {!! Form::close() !!}
+                </div>
+                </li>
+
+                <li>
+                <div class="submit-button-container">
+
+                {!! Form::open(['action' => ['ProjectController@delete', $project->id], 
+                                'method' => 'Get',
+                                'class' => 'btn btn-danger']) !!}
+                {!! Form::submit('Delete') !!}
+                {!! Form::close() !!} 
                 
                 </div>
+                </li>
+                </ul>
+                
 
-                <div class="media-right">
-                    
-                    @forelse ($project->artifacts as $artifact) 
-
-<!--                     <img class="media-object" src='{{ url($artifact->artifact_thumb) }}' alt="">
- -->
-                    @empty
-
-                        <div class="well"><p>No artifacts currently attached!</p></div>
-
-                    @endforelse
-                </div>
-
-            </div>
 
         </div>
+                
+               <br/>
 
-        
+                
+            </div>
+        </div>
 
-        <hr/>
+        <!-- Begin components header -->
 
-        <div class="col-md-6">
-
-                 <table class='table'>
+        <table class='table'>
 
                 <tr>
                 <td><b>Image</b></td>  
                 <td><b>Component</b></td>  
                 <td><b>Status</b></td>
                 <td><b>Action</b></td>    
-                    
- 
-                </tr>
-                
+                </tr>       
         
         <!-- Interate through components -->
 
         @foreach ($checklist as $checklist_item)
-                
-                <tr>
 
+                <tr>
                     <td>
                     
                     @if ($checklist_item->artifactThumb)
@@ -68,15 +89,22 @@
                         <img class='artifact-thumbnail' src='{{ url($checklist_item->artifactThumb) }}'>
                     
                     @else
-
-                        
-
                     @endif
 
                     </td>
+                    
                     <!-- Component -->
 
-                    <td> {{$checklist_item->componentTitle}}</td>               
+                    <td> 
+
+                    @if ($checklist_item->componentTitle) 
+
+                        {{ $checklist_item->componentTitle }}
+
+                    @else
+                    @endif
+
+                    </td> 
 
                     <!-- Status-->
 
@@ -157,24 +185,7 @@
                 @endforeach
                 
 </table>
-
-                <ul class="list-inline">
-                <li>
-                {!! Form::open(['action' => ['ProjectController@edit', $project->id], 'method' => 'Get']) !!}
-                {!! Form::submit('Edit') !!}
-                {!! Form::close() !!}
-                </li>
-                <li>
-                {!! Form::open(['action' => ['ProjectController@destroy', $project->id], 'method' => 'Delete']) !!}
-                {!! Form::submit('Delete') !!}
-                {!! Form::close() !!} 
-                </li>
-                
-        
-            </ul>
-
-                </div>
-                <br/>
+                    
             </div>
             </div>
     

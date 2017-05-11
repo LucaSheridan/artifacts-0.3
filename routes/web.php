@@ -53,10 +53,17 @@ Route::resource('assignment', 'AssignmentController');
 Route::get('/assignment/create/{section}', 'AssignmentController@create');
 Route::get('/assignment/{assignment}/delete', 'AssignmentController@delete');
 
+// Component Routes
+
+Route::resource('component', 'ComponentController');
+Route::get('/component/{component}/delete', 'ComponentController@delete');
+
 // Project Routes
 
 Route::resource('project', 'ProjectController');
 Route::get('/project/{id}/addArtifact', 'ProjectController@addArtifact');
+Route::get('/project/{project}/delete', 'ProjectController@delete');
+
 
 // Artifact Routes
 

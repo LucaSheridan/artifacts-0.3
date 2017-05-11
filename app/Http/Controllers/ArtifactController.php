@@ -278,6 +278,13 @@ class ArtifactController extends Controller
 
          if ($CheckForPrimaryComponent->is_primary == 1 ){
 
+        $project = Project::findOrFail($artifact->project_id);
+        
+        //dd($project);
+
+        $project->primaryArtifactThumb = null;
+        $project->save();
+        
         // If so, delete primaryArtifactThumb property in related Project record
         // This link supplies the project's thumbnail image on student's portfolio page     
         

@@ -4,52 +4,53 @@
                     
     <p>Welcome {{ Auth::User()->firstName }}, Here is your project portfolio, current classes and assignments. </p>
                     
-        <div class="panel panel-default">
             
-            <div class="panel-heading">Portfolio</div>
+    <b>Portfolio</b><br/>
 
-            <div class="panel-body">
-              
-                <div class="table-responsive">
-
-                    <table class="table">
-                    <thead>
-                      <tr>
-                        <th>Artwork</th>
-                        <th>Title</th>
-                        <th>Assignment</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-
-                    @foreach ($projects as $project) 
-
-                            
-                        <tr>
-                            <td>
-                            
-                            <a href="project/{{$project->id}}">
-                            <img src ='{{ $project->primaryArtifactThumb }}'>
-                            </a>
-
-                            </td>
-
-                            </td>
-                            <td><a href="project/{{$project->id}}">{{ $project->title }}</a></td>
-                            <td>{{ $project->assignment->title}}</td>
-                            <td>Updated {{ $project->updated_at->diffForHumans() }}</td>
-                        </tr> 
-                        
-                    @endforeach
+    @foreach ($projects as $project) 
     
-                    </tbody>
-                    </table>
-                    </div>
+        <div>
+            <div class="media">
 
-                    <div>
-                        <a class="btn btn-primary" href ='{{ action('ProjectController@create') }}'>Create a New Project</a>
-                    </div>
+                <div class="media-left">
+
+                    @if ($project->primaryArtifactThumb)
+
+                   <a href="project/{{$project->id}}">
+                        <img src ='{{ $project->primaryArtifactThumb }}'>
+                   </a>
+
+                    @else 
+
+                    <a href="project/{{$project->id}}">
+                        <div class='project-placeholder'>
+                        <span class='project-placeholder-text'>In progress</span></div>
+                    </a>
+
+                    @endif
+                    
+                </div>
+
+                <div class="media-body">
+                
+                    <b>Title:</b> <i>{{ $project->title }}</i><br/>
+                    <b>Medium:</b> {{ $project->medium }}<br/>
+                    <b>Dimensions:</b> {{ $project->dimensions }}<br/>
+                    <b>Submitted:</b> {{ $project->created_at->diffForHumans() }}<br/>
+                
+                </div>
+
+               
+            </div>
+        </div><br/>
+
+    @endforeach
+    
+</div></div>
+
+<div>
+    <a class="btn btn-primary" href ='{{ action('ProjectController@create') }}'>Create a New Project</a>
+</div>
 
 
                     <!-- <table class="table">
