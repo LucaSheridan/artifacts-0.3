@@ -6,6 +6,7 @@ use App\Assignment;
 use Illuminate\Http\Request;
 use App\Component;
 use App\Section;
+use App\User;
 
 class AssignmentController extends Controller
 {
@@ -120,6 +121,9 @@ class AssignmentController extends Controller
         $query->orderBy('date_due', 'asc');
         }
         ))->where('id', $assignment->id)->first();
+
+       $students = User::whereHas('section')->get();
+       dd($students);
 
        //dd($assignment);
 

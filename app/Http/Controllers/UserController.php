@@ -48,6 +48,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $user = User::with('projects')->findOrFail($user->id);
+
+        //dd($user);
+
         return view('user.show')->with('user', $user);
 
     }

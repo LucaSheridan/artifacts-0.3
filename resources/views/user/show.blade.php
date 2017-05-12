@@ -22,6 +22,20 @@
             This is where comprehensive information about {{$user->firstName}} {{$user->lastName}} will be included. It will probably take the form of a tabbed table that gives information about student and teacher sections, assignments and exhibitions that are associated with this user.
             </div>
             </div>
+       
+        <div class="panel panel-default">
+               
+            <div class="panel-heading"><h3>Project Portfolio</h3>
+            
+            </div>
+            <div class="panel-body">
+            @foreach ($user->projects as $project) 
+            {{ $project->title}}<br/>
+            {{ $project->medium}}<br/>
+            {{ $project->dimensions}}<br/>
+            @endforeach
+            </div>
+            </div>
         </div>
     </div>
 </div>

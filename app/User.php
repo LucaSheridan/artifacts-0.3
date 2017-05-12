@@ -44,6 +44,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Section::class);
     }
 
+     public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+
      public function scopeTeacher($query)
     {
         return $query->hasRole('teacher');

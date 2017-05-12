@@ -1,11 +1,9 @@
-<div class="panel-heading">Student Dashboard</div>
+<div class="panel-heading">Project Portfolio</div>
 
 <div class="panel-body">
                     
-    <p>Welcome {{ Auth::User()->firstName }}, Here is your project portfolio, current classes and assignments. </p>
+    <p>Welcome to your IB Art portfolio. Click the button below to begin a project.</p><br/><br/>
                     
-            
-    <b>Portfolio</b><br/>
 
     @foreach ($projects as $project) 
     
@@ -24,7 +22,7 @@
 
                     <a href="project/{{$project->id}}">
                         <div class='project-placeholder'>
-                        <span class='project-placeholder-text'>In progress</span></div>
+                        <span class='project-placeholder-text'>Click Here to post images</span></div>
                     </a>
 
                     @endif
