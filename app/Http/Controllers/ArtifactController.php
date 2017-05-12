@@ -21,7 +21,13 @@ class ArtifactController extends Controller
      */
     public function index()
     {
-        //
+    
+    $artifacts = Artifact::get();
+
+    //dd($artifacts);
+
+    return view('artifact.index')->with('artifacts', $artifacts);
+
     }
 
     /**
