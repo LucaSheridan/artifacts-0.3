@@ -35,11 +35,13 @@
                 <li>
                 
                 <div class="submit-button-container">
+               
                 {!! Form::open(['action' => ['ProjectController@edit', $project->id], 
                                 'method' => 'Get',
                                 'class' => 'btn btn-primary']) !!}
                 {!! Form::submit('Edit Project Information') !!}
                 {!! Form::close() !!}
+                
                 </div>
                 </li>
 
@@ -83,12 +85,15 @@
 
                 <tr>
                     <td>
+                   
                     
                     @if ($checklist_item->artifactThumb)
 
                         <img class='artifact-thumbnail' src='{{ url($checklist_item->artifactThumb) }}'>
                     
                     @else
+
+
                     @endif
 
                     </td>
@@ -139,7 +144,7 @@
 
                          -->    
                         
-                        <span class="btn btn-default btn-file">Browse 
+                        <span class="btn btn-default btn-file">Select Image 
                         <input type="file" class="form-control" name="file" value="{{ old('file') }}"/>
                         </span>
 

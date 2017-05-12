@@ -100,8 +100,26 @@ class ProjectController extends Controller
 
         $assignment = Assignment::with('components')->find($project->assignment_id);
 
-        $checklist = DB::table('components')
-            ->leftjoin('artifacts', 'components.id', '=', 'artifacts.component_id')
+        //$matchThese = ['components.assignment_id' => $project->assignment_id];
+
+            // $checklist = DB::table('components') 
+            // ->leftjoin('artifacts', 'components.id', '=', 'artifacts.component_id')
+            // ->select('components.assignment_id AS assignmentID',
+            //          'components.id AS componentID', 
+            //          'components.title AS componentTitle',
+            //          'components.date_due',
+            //          'components.is_primary AS isPrimary',
+            //          'artifacts.id AS artifactID',
+            //          'artifacts.artifact_thumb AS artifactThumb',
+            //          'artifacts.artifact_path AS artifactPath',
+            //          'artifacts.component_id AS artifactComponentID',
+            //          'artifacts.created_at',
+            //          'artifacts.user_id AS user_id')
+            // ->where(['components.assignment_id' => $project->assignment_id])
+            // ->orderBy('componentID')
+            // ->get();
+
+            $checklist = DB::table('components') 
             ->select('components.assignment_id AS assignmentID',
                      'components.id AS componentID', 
                      'components.title AS componentTitle',
@@ -111,9 +129,18 @@ class ProjectController extends Controller
                      'artifacts.artifact_thumb AS artifactThumb',
                      'artifacts.artifact_path AS artifactPath',
                      'artifacts.component_id AS artifactComponentID',
-                     'artifacts.created_at')
-            ->where('components.assignment_id','=', $project->assignment_id )
-            ->orderBy('componentID')->get();
+                     'artifacts.created_at',
+                     'artifacts.user_id AS user_id')
+            ->leftjoin('artifacts', function ($join) {
+
+            $join->on('components.id', '=', 'artifacts.component_id') ;
+            $join->where('artifacts.user_id', '=', Auth::User()->id) ;
+            
+            })  
+            
+            ->where(['components.assignment_id' => $project->assignment_id])
+            ->orderBy('componentID')
+            ->get();
 
             //dd($checklist);
 
