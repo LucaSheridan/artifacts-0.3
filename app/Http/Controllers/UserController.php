@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Assignment;
 use App\User;
+use App\Section;
 
 class UserController extends Controller
 {
@@ -50,7 +52,12 @@ class UserController extends Controller
     {
         $user = User::with('projects')->findOrFail($user->id);
 
-        //dd($user);
+        //$section = Section::where('user_id', $user->id)->first();
+
+        //$assignments = Assignment::where('section_id', $section)->get();
+
+        //dd($section);
+        //dd($assignments);
 
         return view('user.show')->with('user', $user);
 

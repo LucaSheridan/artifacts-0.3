@@ -2,13 +2,16 @@
 
 <div class="panel-body">
                     
-    <p>Welcome to your IB Art portfolio. Click the button below to begin a project.</p><br/><br/>
+    <p>Welcome to your IB Art portfolio. Click the button below to begin a project.</p>
                     
+   <div>
+    <a class="btn btn-primary" href ='{{ action('ProjectController@create') }}'>Create a New Project</a><br/><br/>
+    </div>
 
-    @foreach ($projects as $project) 
+ @foreach ($projects as $project) 
     
         <div>
-            <div class="media">
+            <div class="media pull-left">
 
                 <div class="media-left">
 
@@ -27,28 +30,26 @@
 
                     @endif
                     
-                </div>
-
-                <div class="media-body">
                 
+
+                <!-- <div class="media-body"> -->
+                
+                    <br>
+                    <p>
                     <b>Title:</b> <i>{{ $project->title }}</i><br/>
                     <b>Medium:</b> {{ $project->medium }}<br/>
                     <b>Dimensions:</b> {{ $project->dimensions }}<br/>
-                    <b>Submitted:</b> {{ $project->created_at->diffForHumans() }}<br/>
-                
-                </div>
-
+                    <b>Submitted:</b> {{ $project->created_at->diffForHumans() }}
+                    </p>
+                <!-- </div> -->
                
             </div>
-        </div><br/>
+        </div>
 
     @endforeach
     
 </div></div>
 
-<div>
-    <a class="btn btn-primary" href ='{{ action('ProjectController@create') }}'>Create a New Project</a>
-</div>
 
 
                     <!-- <table class="table">

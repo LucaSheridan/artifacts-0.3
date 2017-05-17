@@ -29,12 +29,18 @@
             
             </div>
             <div class="panel-body">
-            @foreach ($user->projects as $project) 
-            {{ $project->title}}<br/>
-            {{ $project->medium}}<br/>
-            {{ $project->dimensions}}<br/>
-            @endforeach
+            
+                 @foreach ($user->projects as $project) 
+                <p>
+                <img src ='{{ $project->primaryArtifactThumb }}'>
+                <br/>
+                {{ $project->title}}<br/>
+                {{ $project->medium}}<br/>
+                {{ $project->dimensions}}<br/>
+                </p>
+                @endforeach
             </div>
+
             </div>
         </div>
     </div>

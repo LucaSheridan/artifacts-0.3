@@ -6,7 +6,10 @@ use App\Assignment;
 use Illuminate\Http\Request;
 use App\Component;
 use App\Section;
+use App\Project;
 use App\User;
+use Auth;
+use Illuminate\Support\Facades\DB;
 
 class AssignmentController extends Controller
 {
@@ -114,20 +117,68 @@ class AssignmentController extends Controller
      */
     public function show(Assignment $assignment)
     {
-       //dd($assignment);
 
+        // get assignment with components, sorted by due date for column labels
+        //dd($assignment);
 
-       $assignment = Assignment::with(array('components' => function ($query) {
-        $query->orderBy('date_due', 'asc');
-        }
-        ))->where('id', $assignment->id)->first();
+        $user = $_GET["id"];
 
-       $students = User::whereHas('section')->get();
-       dd($students);
+        $assignment = Assignment::with(array('components' => function ($query) {
+            
+            $query->orderBy('date_due', 'asc');
+        }))       ->where('id', $assignment->id)->first();
+        
+        //dd($section);
 
-       //dd($assignment);
+        $students = User::whereHas('sections', function ($query) use ($assignment){
+            $query->where('id', $assignment->section_id);
+        })
+        ->get();
+        
+        //dd($students);
 
-        return view('assignment.show')->with('assignment', $assignment);
+        $student_checklist = Project::with('user','artifacts')->where('assignment_id', $assignment->id)->get();
+
+        //dd($student_checklist);
+
+        $checklist = DB::table('components') 
+            ->select('components.assignment_id AS assignmentID',
+                     'components.id AS componentID', 
+                     'components.title AS componentTitle',
+                     'components.date_due',
+                     'components.is_primary AS isPrimary',
+                     'artifacts.id AS artifactID',
+                     'artifacts.artifact_thumb AS artifactThumb',
+                     'artifacts.artifact_path AS artifactPath',
+                     'artifacts.component_id AS artifactComponentID',
+                     'artifacts.created_at',
+                     'artifacts.user_id AS userID',
+                     'users.firstName AS firstName',
+                     'users.lastName AS lastName')
+            ->leftjoin('artifacts', function ($join) use ($user){
+
+            $join->on('components.id', '=', 'artifacts.component_id') ;
+            $join->where('artifacts.user_id', '=', $user );
+            
+            })  
+
+             ->leftjoin('users', function ($join) use ($user){
+
+            $join->on('artifacts.user_id', '=', 'users.id');
+            
+            })  
+            
+            ->where(['components.assignment_id' => $assignment->id])
+            ->orderBy('date_due', 'asc')
+            ->get();
+
+            // dd($checklist);
+
+        return view('assignment.show')->with([
+                                 'assignment' => $assignment,
+                                 'students' => $students,
+                                 'checklist' => $checklist,
+                                 'student_checklist' => $student_checklist] );
 
 
     }
