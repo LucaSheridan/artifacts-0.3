@@ -40,7 +40,7 @@
                 
                        @if ($checklist_item->artifactThumb) 
 
-                       <img class="artifact-thumbnail" src="{{ url($checklist_item->artifactThumb) }}">
+                       <a href="{{ url($checklist_item->artifactPath) }}"><img class="artifact-thumbnail" src="{{ url($checklist_item->artifactThumb) }}">
                         
 <!--                        <span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>
  -->
