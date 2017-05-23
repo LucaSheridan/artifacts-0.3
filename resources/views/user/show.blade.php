@@ -32,7 +32,7 @@
             
                  @foreach ($user->projects as $project) 
                 <p>
-                <img src ='{{ url($project->primaryArtifactThumb) }}'>
+                <a href="{{ action('ProjectController@show', $project->id)}}"><img src ='{{ url($project->primaryArtifactThumb) }}'></a>
                 <br/>
                 {{ $project->title}}<br/>
                 {{ $project->medium}}<br/>
