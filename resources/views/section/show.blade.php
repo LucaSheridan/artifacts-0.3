@@ -10,26 +10,15 @@
 
             <div class="panel-body">
 
-            <!-- Tabs-->
+            <p>Teacher: {{$teacher->firstName}} {{$teacher->lastName}}<br/>
+               School: {{$section->site->name}}<br/> 
+               Contact: {{$teacher->email}}<br/>
+               Registration Code: {{$section->code}}
+            </p>
 
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#info">Info</a></li>
-                <li><a data-toggle="tab" href="#students">Students ({{$students->count()}})</a></li>
-                <li><a data-toggle="tab" href="#assignments">Assignments ({{$assignments->count()}})</a></li>
-            </ul>
-            
-            <div class="tab-content">
-              
-                  <div id="info" class="tab-pane fade in active">
-                      
-                        <h3>Info</h3>
-                        <p>Teacher: {{$teacher->firstName}} {{$teacher->lastName}}<br/>
-                           School: {{$section->site->name}}<br/> 
-                           Contact: {{$teacher->email}}<br/>
-                           Registration Code: {{$section->code}}
-                        </p>
-                  
-                  <!-- Delete Section-->
+           <!-- Delete Section-->
+
+                  <div>       
 
                   {!! Form::open(['action' => ['SectionController@destroy', $section->id], 
                                   'method' => 'Delete']) !!}
@@ -38,43 +27,35 @@
                   
                   </div>
 
-                  
+                <div class="row">
+                
+                <div class="col-sm-3">
 
-                  <div id="students" class="tab-pane fade">
+                     <h4>Students ({{$students->count()}})</h4>
 
-                        <h3>Students</h3>
-
-            <table class='table'>
+                     @if ($students->count() == 0)
             
-            @if ($students->count() == 0)
-            
-            <tr><td>There are currently no students enrolled in this section.</td></tr>
+            <p>There are currently no students enrolled in this section.</p>
 
             @else
 
             @foreach ($students as $student)
            
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>
-                <a href='{{ action('UserController@show', $student->id) }}'>{{ $student->firstName}} {{ $student->lastName}}</a>
-                </td>
-                 <td>
-                </td>
-            </tr>
+            {{ $loop->iteration }} <a href="{{ action('UserController@show', $student->id) }}">{{ $student->firstName}} {{ $student->lastName}}</a><br/>
             
             @endforeach
 
             @endif
 
-            </table>
+                </div>
 
-    </div>
-              
-                  <div id="assignments" class="tab-pane fade">
-                                   
-                  <h3>Assignments</h3>
-@if ($assignments->count())
+                <div class="col-sm-9">
+
+                     <h4>Assignments ({{$assignments->count()}})</h4>
+
+                </div>
+
+                @if ($assignments->count())
 
             <table class='table'>
             

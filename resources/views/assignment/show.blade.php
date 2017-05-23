@@ -14,32 +14,40 @@
 
                 <div class="col-md-6">
 
-                <table border="1">
+                <table class="table-header-rotated">
+                <thead>
                 
-                <tr>
+                
 
                   @foreach ($checklist as $checklist_item)
 
-                   <td>
+                   <th class="rotate"><div><span>
                 
                    {{$checklist_item->componentTitle}}
 
-                   </td>
+                   </span></div></th>
 
                 @endforeach
 
                 </tr>
+                </thead>
+
                 <tr>
 
                 @foreach ($checklist as $checklist_item)
 
-                   <td>
+                   <td class="grid">
                 
                        @if ($checklist_item->artifactThumb) 
 
-                       <img class="thumbnail" src="{{ url($checklist_item->artifactThumb) }}">
+                       <img class="artifact-thumbnail" src="{{ url($checklist_item->artifactThumb) }}">
+                        
+<!--                        <span class="glyphicon glyphicon-ok green" aria-hidden="true"></span>
+ -->
+                       @else
 
-                        @else
+                       <span class="glyphicon glyphicon-minus yellow" aria-hidden="true"></span> 
+
                         @endif
 
                     </td>

@@ -50,3 +50,35 @@
     background: none;
     border: none;
 }
+
+
+th.rotate {
+    
+    height: 150px;
+    white-space: nowrap;
+}
+
+th.rotate > div {
+    
+    transform:
+
+        translate(8px, 50px)
+        rotate(315deg);
+    width: 45px;
+
+}
+
+th.rotate > div > span {
+    
+    border-top: 0px solid #CCC;
+    border-bottom: 0px solid #CCC;
+    border-left: 0px solid #CCC;
+    border-right: 0px solid #CCC;
+    padding: 6px 0px 6px 10px;
+    margin: 0px;
+}
+
+td.grid {margin: 0px; border: 1px solid #CCC;  text-align:center;}
+
+
+

@@ -134,6 +134,7 @@ class AssignmentController extends Controller
             $query->where('id', $assignment->section_id);
         })
         ->get();
+
         
         //dd($students);
 
