@@ -32,7 +32,7 @@
             
                  @foreach ($user->projects as $project) 
                 <p>
-                <img src ='{{ $project->primaryArtifactThumb }}'>
+                <img src ='{{ url($project->primaryArtifactThumb) }}'>
                 <br/>
                 {{ $project->title}}<br/>
                 {{ $project->medium}}<br/>
