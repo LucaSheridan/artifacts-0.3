@@ -7,19 +7,32 @@
 
                 @foreach ($projects as $project)
                   
-                    @if ($project->primaryArtifactThumb) 
+                <div class="media pull-left">
 
-                    <img src="{{ url($project->primaryArtifactThumb) }}"><br>
+                      @if ($project->primaryArtifactThumb) 
+
+                        <img src="{{ url($project->primaryArtifactThumb) }}"><br>
+
+                         <p>
+                    <b>Artist:</b> <i>{{ $project->user->firstName }} {{ $project->user->lastName }}</i><br/>
+                    <b>Title:</b> <i>{{ $project->title }}</i><br/>
+                    <b>Medium:</b> {{ $project->medium }}<br/>
+                    <b>Dimensions:</b> {{ $project->dimensions }}<br/>
+                    <b>Submitted:</b> {{ $project->created_at->diffForHumans() }}
+                </p>  
 
                     @else
 
 
                     @endif
 
-                {{ $project->title }}<br/>
+
 
                 @endforeach
+
+                </div>
     </div>
 </div>
                     
 @endsection
+
