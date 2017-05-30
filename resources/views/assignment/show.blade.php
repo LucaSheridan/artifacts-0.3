@@ -13,6 +13,7 @@
                 </div>
 
                 <div class="col-md-6">
+                <h2>{{ $assignment->title }}</h2>
 
                 <table class="table-header-rotated">
                 <thead>

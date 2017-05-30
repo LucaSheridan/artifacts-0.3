@@ -39,7 +39,7 @@ class ArtifactController extends Controller
     public function create($project_id)
    
         {
-          //
+          // Fulfilled by in ProjectController 
         }
 
     /**
@@ -231,7 +231,7 @@ class ArtifactController extends Controller
      */
     public function show(Artifact $artifact)
     {
-        //
+        return view('artifact.show')->with('artifact', $artifact);
     }
 
     /**

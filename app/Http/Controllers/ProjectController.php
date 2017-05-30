@@ -33,9 +33,23 @@ class ProjectController extends Controller
 
          //$assignments = Assignment::all(); 
          
+         // This will eventually break with multiple classes
+
          $section = (Auth::User()->sections()->first());
 
+         // All assignments for section.
+
          $assignments = Assignment::where('section_id', $section->id)->pluck('title', 'id');
+
+         // All assignments without projects started.
+
+         $assignments_withour_projects = Assignment::where('section_id', $section->id)
+
+         ->pluck('title', 'id');
+
+            ////////////////////////////////////
+
+            // also where id != assignment_id from students project list.
 
          // maybe add independent project to end of assignment array
 
@@ -131,10 +145,11 @@ class ProjectController extends Controller
                      'artifacts.component_id AS artifactComponentID',
                      'artifacts.created_at',
                      'artifacts.user_id AS user_id')
-            ->leftjoin('artifacts', function ($join) {
+            ->leftjoin('artifacts', function ($join) use ($project) {
 
-            $join->on('components.id', '=', 'artifacts.component_id') ;
-            $join->where('artifacts.user_id', '=', Auth::User()->id) ;
+            $join->on('components.id', '=', 'artifacts.component_id');
+            //$join->where('artifacts.user_id', '=', Auth::User()->id) ;
+            $join->where('artifacts.user_id', '=', $project->user_id );
             
             })  
             

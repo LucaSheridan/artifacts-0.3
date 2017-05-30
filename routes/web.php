@@ -52,9 +52,9 @@ Route::get('/section/{section}/createAssignment', 'SectionController@createAssig
 Route::resource('assignment', 'AssignmentController');
 Route::get('/assignment/create/{section}', 'AssignmentController@create');
 Route::get('/assignment/{assignment}/delete', 'AssignmentController@delete');
-
 Route::get('/assignment/{assignment}?id={id?}', 'AssignmentController@show', function ($id = 0) {
     return $id; });
+Route::get('/assignment/{assignment}/grid', 'AssignmentController@grid');
 
 // Component Routes
 

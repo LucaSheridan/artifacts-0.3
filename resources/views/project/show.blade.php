@@ -15,7 +15,7 @@
                 @else 
 
                     <div class="project-placeholder">
-                    <p>no primary artifact</p>
+                    <p>In Progress</p>
                     </div>
                 @endif
                     
@@ -51,7 +51,7 @@
                 {!! Form::open(['action' => ['ProjectController@delete', $project->id], 
                                 'method' => 'Get',
                                 'class' => 'btn btn-danger']) !!}
-                {!! Form::submit('Delete') !!}
+                {!! Form::submit('Delete Project') !!}
                 {!! Form::close() !!} 
                 
                 </div>
@@ -89,10 +89,13 @@
                     
                     @if ($checklist_item->artifactThumb)
 
+                    <a href='{{ action('ArtifactController@show', $checklist_item->artifactID) }}'>
                         <img class='artifact-thumbnail' src='{{ url($checklist_item->artifactThumb) }}'>
+                    </a>
                     
                     @else
 
+                        <img class='artifact-thumbnail'>
 
                     @endif
 

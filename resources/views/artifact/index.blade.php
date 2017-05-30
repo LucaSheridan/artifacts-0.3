@@ -10,7 +10,13 @@
             <div class="panel-body">
                 
             @foreach ($artifacts as $artifact)
-                        <div class="pull-left"> <img class='thumbnail' src="{{ url($artifact->artifact_thumb) }}"></div>
+                        <div class="pull-left">
+
+                        <a href="{{ action('ArtifactController@show', $artifact->id )}}">
+                            <img class='thumbnail' src="{{ url($artifact->artifact_thumb) }}">
+                        </a>
+
+                        </div>
             @endforeach
             
             </div>
