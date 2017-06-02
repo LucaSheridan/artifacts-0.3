@@ -25,4 +25,9 @@ class Assignment extends Model
             return $this->hasMany('App\Component');
     }
 
+     public function section()
+    {
+            return $this->belongsTo('App\Section');
+    }
+
 }

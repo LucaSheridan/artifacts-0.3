@@ -187,11 +187,12 @@ class AssignmentController extends Controller
     public function grid(Assignment $assignment)
     {
 
-        $projects = Project::with('user')->where('assignment_id', $assignment->id )->get();
+        $projects = Project::with('user')
+        ->where('assignment_id', $assignment->id )->get();
 
         //dd($projects);
 
-        return view('assignment.grid')->with('projects', $projects);
+        return view('assignment.grid')->with(['projects' => $projects, 'assignment' => $assignment ]);
 
 
     }

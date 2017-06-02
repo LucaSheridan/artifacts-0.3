@@ -4,7 +4,8 @@
 <div class="container">
     <div class="row">
         
-
+ <h3><a href="{{ action('SectionController@show', $assignment->section_id ) }}">{{ $assignment->section->name }}</a> - {{ $assignment->title }} </h3><br>
+      
  @foreach ($projects as $project) 
     
         <div>
@@ -15,14 +16,16 @@
                     @if ($project->primaryArtifactThumb)
 
                    <a href="{{action ('ProjectController@show', $project->id )}}">
+                        <div>
                         <img src ='{{ url($project->primaryArtifactThumb) }}'>
+                        </div>
                    </a>
 
                     @else 
 
                     <a href="project/{{$project->id}}">
                         <div class='project-placeholder'>
-                        <span class='project-placeholder-text'>Click Here to post images</span></div>
+                        <span class='project-placeholder-text'>not submitted</span></div>
                     </a>
 
                     @endif
@@ -39,6 +42,7 @@
                     <b>Dimensions:</b> {{ $project->dimensions }}<br/>
                     <b>Submitted:</b> {{ $project->created_at->diffForHumans() }}
                     </p>
+                
                 <!-- </div> -->
                
             </div>

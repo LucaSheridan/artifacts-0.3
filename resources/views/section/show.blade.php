@@ -6,106 +6,69 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                
-            <div class="panel-heading">{{$section->name}}</div>
+            <div class="panel-heading">{{$section->name}}
+            <span class="pull-right">{{$teacher->firstName}} {{$teacher->lastName}}</span><br/>
+            <span class="pull-left">{{$section->site->name}}</span>
+            <span class="pull-right">{{$teacher->email}}</span>
+
+            </div>
 
             <div class="panel-body">
 
-            <p>Teacher: {{$teacher->firstName}} {{$teacher->lastName}}<br/>
+            <p>Teacher: {{$teacher->lastName}}<br/>
                School: {{$section->site->name}}<br/> 
                Contact: {{$teacher->email}}<br/>
                Registration Code: {{$section->code}}
             </p>
 
-           <!-- Delete Section-->
-
-                  <div>       
-
-                  {!! Form::open(['action' => ['SectionController@destroy', $section->id], 
-                                  'method' => 'Delete']) !!}
-                  {!! Form::submit('Delete Section', ['class' => 'btn btn-danger'])!!}
-                  {!! Form::close() !!} 
-                  
-                  </div>
-
-                <div class="row">
                 
-                <div class="col-sm-3">
+            <div class="row">
+                
+            <!-- Student List -->
 
-                     <h4>Students ({{$students->count()}})</h4>
+            <div class="col-sm-3">
 
-                     @if ($students->count() == 0)
-            
-            <p>There are currently no students enrolled in this section.</p>
+            <h4>Students ({{$students->count()}})</h4>
 
-            @else
+                @if ($students->count() == 0)
+                
+                <p>There are currently no students enrolled in this section.</p>
+
+                @else
 
             @foreach ($students as $student)
            
-            {{ $loop->iteration }} <a href="{{ action('UserController@show', $student->id) }}">{{ $student->firstName}} {{ $student->lastName}}</a><br/>
+            <!-- {{ $loop->iteration }} -->
+
+            <a href="{{ action('UserController@show', $student->id) }}">{{ $student->firstName}} {{ $student->lastName}}</a><br/>
             
             @endforeach
 
             @endif
 
-                </div>
+            </div>
 
-                <div class="col-sm-9">
+            <!-- Assignment List -->
 
-                     <h4>Assignments ({{$assignments->count()}})</h4>
+            <div class="col-sm-9">
 
-                </div>
+            <h4>Assignments ({{$assignments->count()}})</h4>
 
+                
                 @if ($assignments->count())
+    
+                    @foreach ($assignments as $assignment)
+                   
+                    <!-- {{ $loop->iteration }} -->                           
+                    
+                    {{ $assignment->date_due }} | <a href='{{action('AssignmentController@grid', $assignment->id)}}'>{{ $assignment->title }}</a><br/>
+                                                
+                    @endforeach
 
-            <table class='table'>
-            
-            <thead>
-            <tr>
-                <td>
-                </td>
-                <td>
-                Title
-                </td>
-                <td>Due Date</td>
-                <td>Components</td>
-            </tr>
-            </thead>
-            
-            @foreach ($assignments as $assignment)
-           
-            <tr>
-                <td>{{ $loop->iteration }}
-                </td>
-                <td>
-                <a href='{{action('AssignmentController@show', $assignment->id)}}'>{{ $assignment->title }}</a>
-                </td>
-                 <td>
-                {{ $assignment->date_due }}
-                </td>
+                @else
+                @endif
                 
-                <!-- Components-->
-                
-                <td>
-                
-                <!-- this is wrong, as it used lazy loading -->
-               
-                @foreach ($assignment->components as $component)
-                {{ $component->title }}<br/>
-                @endforeach 
-                
-                </td>
-            </tr>
-            
-            @endforeach
-
-            </table>
-
-
-
-@else
-@endif
-
-<a class='btn btn-primary' href='{{action('SectionController@createAssignment', $section->id) }}'>Create Assignment</a>
+                <a class='btn btn-primary' href='{{action('SectionController@createAssignment', $section->id) }}'>Create Assignment</a>
 
 
 
