@@ -9,11 +9,11 @@
             <div class="panel-heading">
             
             <h3>{{$user->firstName}} {{$user->lastName}}</h3>
-            <h5>Art Portfolio</h5>
-            
-            <a href="mailto:{{$user->email}}">
+            <h5>Art Portfolio <a href="mailto:{{$user->email}}">
 
-            <span class="glyphicon glyphicon-envelope"></span></a>
+            <span class="glyphicon glyphicon-envelope"></span></a></h5>
+            
+
             
             </div>
             
@@ -24,7 +24,20 @@
                     <div class="pull-left">
  
                     <a href="{{ action('ProjectController@show', $project->id)}}">
+                    
+                    @if ($project->primaryArtifactThumb)
+                    
                     <img src ='{{ url($project->primaryArtifactThumb) }}'></a>
+                    
+                    @else
+                    
+                    <a href="{{ action('ProjectController@show', $project->id)}}">
+                        <div class='project-placeholder'>
+                        <span class='project-placeholder-text'>In Progress</span></div>
+                    </a>
+
+                    @endif
+
                     <br/>
                     {{ $project->title}}<br/>
                     {{ $project->medium}}<br/>
