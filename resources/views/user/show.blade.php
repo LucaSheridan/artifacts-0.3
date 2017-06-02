@@ -10,7 +10,10 @@
             
             <h3>{{$user->firstName}} {{$user->lastName}}</h3>
             <h5>Art Portfolio</h5>
-            <a href="mailto:{{$user->email}}">sample@email.com</a>
+            
+            <a href="mailto:{{$user->email}}">
+
+            <span class="glyphicon glyphicon-envelope"></span></a>
             
             </div>
             
