@@ -265,9 +265,9 @@ class ArtifactController extends Controller
      */
     public function delete(Artifact $artifact)
     {
-        //$artifact = Artifact::find($artifact);
+     
+    return view('artifact.delete')->with('artifact', $artifact);
 
-        return view('artifact.delete')->with('artifact', $artifact);
     }
     /**
      * Remove the specified resource from storage.
@@ -332,15 +332,12 @@ class ArtifactController extends Controller
         // open the selected thumbnail file
         $img = Image::make($artifact->artifact_thumb);
 
-        // open the selected thumbnail file
+        // rotate the selected thumbnail file
         $img->rotate(-90)
             ->save($artifact->artifact_thumb, 100);
+        
+        return redirect()->action('ProjectController@show', $artifact->project_id );
 
-        //$artwork->update();
-
-        dd($artifact->project_id);
-
-        return redirect()->action('ProjectController@show', $artifact->project_id);
  
     }
 }
