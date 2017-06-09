@@ -338,7 +338,8 @@ class ArtifactController extends Controller
 
         //$artwork->update();
 
- 
+        dd($artifact->project_id);
+
         return redirect()->action('ProjectController@show', $artifact->project_id);
  
     }
