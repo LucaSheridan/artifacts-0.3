@@ -320,8 +320,6 @@ class ArtifactController extends Controller
     public function rotate(Artifact $artifact)
     {
 
-        dd($artifact);
-
         $artifact = Artifact::findOrFail($artifact);
 
         // open the selected image file
@@ -340,7 +338,7 @@ class ArtifactController extends Controller
 
         //$artwork->update();
 
-        //dd($artifact->project_id);
+        dd($artifact->project_id);
 
         return redirect()->action('ProjectController@show', $artifact->project_id);
  
