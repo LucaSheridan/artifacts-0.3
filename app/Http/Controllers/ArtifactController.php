@@ -310,4 +310,36 @@ class ArtifactController extends Controller
         return redirect()->action('ProjectController@show', $artifact->project_id);
 
     }
+
+     /**
+     * Rotate an image instance.
+     *
+     * @return Response
+    */
+     
+    public function rotate(Artifact $artifact)
+    {
+
+        $artifact = Artifact::findOrFail($artifact);
+
+        // open the selected image file
+        $img = Image::make($artifact->artifact_path);
+
+        // rotate the selected image file
+        $img->rotate(-90)
+            ->save($artifact->artifact_path, 100);
+
+        // open the selected thumbnail file
+        $img = Image::make($artifact->artifact_thumb);
+
+        // open the selected thumbnail file
+        $img->rotate(-90)
+            ->save($artifact->artifact_thumb, 100);
+
+        //$artwork->update();
+
+ 
+        return redirect()->action('ProjectController@show', [ $artifact->project_id ]);
+ 
+    }
 }

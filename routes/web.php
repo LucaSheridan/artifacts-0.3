@@ -74,4 +74,5 @@ Route::resource('artifact', 'ArtifactController');
 Route::get('/artifact/create/{project_id}', 'ArtifactController@create');
 Route::post('/artifact', 'ArtifactController@store');
 Route::get('/artifact/{artifact}/delete', 'ArtifactController@delete');
+Route::get('/artifact/{artifact}/rotate', 'ArtifactController@rotate');
 

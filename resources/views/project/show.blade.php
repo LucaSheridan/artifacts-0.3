@@ -182,7 +182,8 @@
                     
                         @else 
 
-                             <a href='{{ action('ArtifactController@delete', $checklist_item->artifactID) }}'>Remove</a>
+                             <a href='{{ action('ArtifactController@delete', $checklist_item->artifactID) }}'>Remove</a> |
+                             <a href='{{ action('ArtifactController@rotate', $checklist_item->artifactID) }}'>Rotate</a>
                              
                         @endif
 
