@@ -9,9 +9,7 @@
  @foreach ($projects as $project) 
     
         <div>
-            <div class="media pull-left">
-
-                <div class="media-left">
+            <div class="pull-left project-wrapper">
 
                     @if ($project->primaryArtifactThumb)
 
@@ -36,16 +34,21 @@
                 
                     <br>
                     <p>
-                    <b>Artist:</b> {{ $project->user->firstName }} {{ $project->user->lastName }}</i><br/>
-                    <b>Title:</b> <i>{{ $project->title }}</i><br/>
-                    <b>Medium:</b> {{ $project->medium }}<br/>
-                    <b>Dimensions:</b> {{ $project->dimensions }}<br/>
-                    <b>Submitted:</b> {{ $project->created_at->diffForHumans() }}
+                    <!-- <b>Artist:</b> -->
+                    {{ $project->user->firstName }} {{ $project->user->lastName }}</i><br/>
+                    <!-- <b>Title:</b>-->
+                    <i>{{ $project->title }}</i><br/>
+                    <!-- <b>Medium:</b> -->
+                    {{ $project->medium }}<br/>
+                    <!-- <b>Dimensions:</b> -->
+                    {{ $project->dimensions }}<br/>
+                    <!-- <b>Submitted:</b> -->
+                    {{ $project->created_at->diffForHumans() }}
                     </p>
                 
                 <!-- </div> -->
                
-            </div>
+            
         </div>
 
     @endforeach
