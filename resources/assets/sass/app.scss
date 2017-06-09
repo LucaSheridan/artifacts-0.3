@@ -16,13 +16,13 @@
 
 .project-wrapper {
     
-    display:inline-block;
+    display: block;
     width: 215px;
     border: solid #CCC 2px;
     margin: 5px;
     padding: 5px;
     white-space: nowrap;
-    text-overflow: hidden;
+    overflow: hidden;
 }
 
 .project-placeholder {
