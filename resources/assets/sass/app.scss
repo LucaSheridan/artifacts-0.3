@@ -14,6 +14,17 @@
 	width: 75px;
 }
 
+.project-wrapper {
+    
+    display:inline-block;
+    width: 215px;
+    border: solid #CCC 2px;
+    margin: 5px;
+    padding: 5px;
+    white-space: nowrap;
+    text-overflow: hidden;
+}
+
 .project-placeholder {
     
     height: 200px;

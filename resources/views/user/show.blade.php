@@ -21,25 +21,25 @@
             
                     @foreach ($user->projects as $project) 
                     
-                    <div class="pull-left">
+                    <div class="pull-left project-wrapper">
  
                     <a href="{{ action('ProjectController@show', $project->id)}}">
                     
-                    @if ($project->primaryArtifactThumb)
+                         @if ($project->primaryArtifactThumb)
                     
-                    <img src ='{{ url($project->primaryArtifactThumb) }}'></a>
+                         <img src ='{{ url($project->primaryArtifactThumb) }}'><br>
                     
-                    @else
-                    
-                    <a href="{{ action('ProjectController@show', $project->id)}}">
-                        <div class='project-placeholder'>
-                        <span class='project-placeholder-text'>In Progress</span></div>
+                         @else
+                        
+                         <div class='project-placeholder'>
+                         <span class='project-placeholder-text'>In Progress</span>
+                         </div>
+                        
+                        @endif
                     </a>
 
-                    @endif
-
                     <br/>
-                    {{ $project->title}}<br/>
+                    <i>{{ $project->title}}</i><br/>
                     {{ $project->medium}}<br/>
                     {{ $project->dimensions}}<br/>
                     </div>

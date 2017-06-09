@@ -7,20 +7,19 @@
             <div class="panel panel-default">
                
             <div class="panel-heading">{{$section->name}}
-            <span class="pull-right">{{$teacher->firstName}} {{$teacher->lastName}}</span><br/>
-            <span class="pull-left">{{$section->site->name}}</span>
-            <span class="pull-right">{{$teacher->email}}</span>
-
+            <span class="pull-right">
+            <a href="mailto:{{$teacher->email}}">
+            {{$teacher->firstName}} {{$teacher->lastName}}</a></span><br/>
             </div>
 
             <div class="panel-body">
 
-            <p>Teacher: {{$teacher->lastName}}<br/>
+            <!-- <p>Teacher: {{$teacher->lastName}}<br/>
                School: {{$section->site->name}}<br/> 
                Contact: {{$teacher->email}}<br/>
                Registration Code: {{$section->code}}
             </p>
-
+ -->
                 
             <div class="row">
                 
@@ -28,7 +27,7 @@
 
             <div class="col-sm-3">
 
-            <h4>Students ({{$students->count()}})</h4>
+            <h4>Students</h4>
 
                 @if ($students->count() == 0)
                 
@@ -52,7 +51,7 @@
 
             <div class="col-sm-9">
 
-            <h4>Assignments ({{$assignments->count()}})</h4>
+            <h4>Assignments</h4>
 
                 
                 @if ($assignments->count())
@@ -67,8 +66,8 @@
 
                 @else
                 @endif
-                
-                <a class='btn btn-primary' href='{{action('SectionController@createAssignment', $section->id) }}'>Create Assignment</a>
+                <br/>
+                <a class='btn btn-primary' href='{{action('SectionController@createAssignment', $section->id) }}'>Create New Assignment</a>
 
 
 
