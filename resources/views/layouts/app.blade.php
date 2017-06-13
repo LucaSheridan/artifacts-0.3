@@ -103,13 +103,21 @@
 
             </div>
         </div>
+
         @endif
 
         <!-- Content -->
 
-        @yield('content')
-    
-        </div>
+        @yield('content')    
+
+             <div class="container">
+            <div class="row">
+            <div class="col-md-12">
+            @include('layouts.partials.footer')
+            </div></div></div>
+
+</div>
+
 
         <!-- Scripts -->
 

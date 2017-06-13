@@ -80,7 +80,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    <a href="{{ url('/login') }}">Artifacts</a>
+                    <a href="{{ url('/login') }}">ARTifacts</a>
                 </div>
                 
                 <div class="links">
@@ -89,7 +89,7 @@
                 
                 <hr/>
                 <div class="links">
-                <a href="{{ url('/login') }}">Version - 0.2</a>   
+                <a href="{{ url('/login') }}">Version - 0.3</a>   
                 </div>
                 
             </div>

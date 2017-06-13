@@ -48,7 +48,7 @@
     min-height: 100%;
     font-size: 100px;
     text-align: right;
-    filter: alpha(opacity=0);
+    filter: alpha(opacity=100);
     opacity: 0;
     outline: none;
     background: white;
@@ -90,6 +90,8 @@ th.rotate > div > span {
 }
 
 td.grid {margin: 0px; border: 1px solid #CCC;  text-align:center;}
+
+.footer {text-align: center;}
 
 
 
