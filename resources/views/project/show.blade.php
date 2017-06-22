@@ -25,9 +25,23 @@
                 
                     <b>Title:</b> <i>{{ $project->title }}</i><br/>
                     <b>Medium:</b> {{ $project->medium }}<br/>
-                    <b>Dimensions:</b> {{ $project->dimensions }}<br/>
+                    <b>Dimensions:</b> {{ $project->dimensions_height }} x 
+                    {{ $project->dimensions_width }} 
+
+                        @if (!$project->dimensions_depth)
+
+                        @else
+
+                            {{ 'x '.$project->dimensions_depth }}
+
+                        @endif
+
+                    {{ $project->dimensions_units }} 
+
+                    <br/>
+
                     <b>Completed:</b> {{ $project->created_at->diffForHumans() }}<br/>
-                    <b>Submitted for:</b> {{ $project->assignment->title }}<br/>
+                    <b>Assignment:</b> {{ $project->assignment->title }}<br/>
 
                 <br/><br/>
 
@@ -182,8 +196,8 @@
                     
                         @else 
 
-                             <a href='{{ action('ArtifactController@delete', $checklist_item->artifactID) }}'>Remove</a> |
-                             <a href='{{ action('ArtifactController@rotate', $checklist_item->artifactID) }}'>Rotate</a>
+                             <a href='{{ action('ArtifactController@delete', $checklist_item->artifactID) }}'>Remove</a> <!--  |
+                            <a href='{{ action('ArtifactController@rotate', $checklist_item->artifactID) }}'>Rotate</a> -->
                              
                         @endif
 

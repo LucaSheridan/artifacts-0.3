@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Auth;
 use App\Artifact;
 use App\Component;
 use App\Project;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Image;
 use Illuminate\Support\Facades\File;
+use Image;
+use League\Flysystem\Filesystem;
 
 
 class ArtifactController extends Controller
@@ -265,9 +266,9 @@ class ArtifactController extends Controller
      */
     public function delete(Artifact $artifact)
     {
-        //$artifact = Artifact::find($artifact);
+     
+    return view('artifact.delete')->with('artifact', $artifact);
 
-        return view('artifact.delete')->with('artifact', $artifact);
     }
     /**
      * Remove the specified resource from storage.
@@ -317,30 +318,26 @@ class ArtifactController extends Controller
      * @return Response
     */
      
-    public function rotate(Artifact $artifact)
-    {
+    // public function rotate(Artifact $artifact)
+    // {
 
-        $artifact = Artifact::findOrFail($artifact);
+    //     $artifact = Artifact::findOrFail($artifact);
 
-        // open the selected image file
-        $img = Image::make($artifact->artifact_path);
+    //     // open the selected image file
+    //     $img = Image::make($artifact->artifact_path);
 
-        // rotate the selected image file
-        $img->rotate(-90)
-            ->save($artifact->artifact_path, 100);
+    //     // rotate the selected image file
+    //     $img->rotate(-90)
+    //         ->save($artifact->artifact_path, 100);
 
-        // open the selected thumbnail file
-        $img = Image::make($artifact->artifact_thumb);
+    //     // open the selected thumbnail file
+    //     $img = Image::make($artifact->artifact_thumb);
 
-        // open the selected thumbnail file
-        $img->rotate(-90)
-            ->save($artifact->artifact_thumb, 100);
-
-        //$artwork->update();
-
-        //dd($artifact->project_id);
-
-        return redirect()->action('ProjectController@show', $artifact->project_id);
+    //     // rotate the selected thumbnail file
+    //     $img->rotate(-90)
+    //         ->save($artifact->artifact_thumb, 100);
+        
+    //     return redirect()->action('ProjectController@show', $artifact->project_id );
  
-    }
+    // }
 }

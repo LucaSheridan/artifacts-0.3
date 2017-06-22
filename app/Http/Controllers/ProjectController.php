@@ -30,28 +30,20 @@ class ProjectController extends Controller
      */
     public function create()
     {
-
-         //$assignments = Assignment::all(); 
          
+
+
          // This will eventually break with multiple classes
 
-         $section = (Auth::User()->sections()->first());
+        $section = (Auth::User()->sections()->first());
+                 
+        $projects = Project::where('user_id', Auth::User()->id)->pluck('assignment_id')->toArray();
+        
+        $assignments = Assignment::where('section_id', $section->id)->get();
 
-         // All assignments for section.
+        $assignments = $assignments->except($projects)->pluck('title','id');
 
-         $assignments = Assignment::where('section_id', $section->id)->pluck('title', 'id');
-
-         // All assignments without projects started.
-
-         $assignments_withour_projects = Assignment::where('section_id', $section->id)
-
-         ->pluck('title', 'id');
-
-            ////////////////////////////////////
-
-            // also where id != assignment_id from students project list.
-
-         // maybe add independent project to end of assignment array
+        // maybe add independent project to end of assignment array
 
         return view('project.create', ['assignments' => $assignments] );
 
@@ -70,29 +62,26 @@ class ProjectController extends Controller
 
         $this->validate($request, [
         'assignment' => 'required',
-        'title' => 'required',
         'user_id' => 'required',  
         ]);
 
         // get form input data for Project
 
         $assignment = $request->input('assignment');
-        $title = $request->input('title');
+        
         $user_id = $request->input('user_id');
-
-        //dd($assignment);
-        //dd($title);
-        //dd($user_id);
 
         // set and persist project information to database
 
         $project = New Project;
         
         $project->assignment_id = $assignment;
-        $project->title = $title;
-        //$project->title = 'Untitled';
+        $project->title = 'Untitled';
         $project->medium = 'Unknown';
-        $project->dimensions = 'Unknown';
+        $project->dimensions_height = 'Unknown';
+        $project->dimensions_width = 'Unknown';
+        $project->dimensions_depth = 'Unknown';
+        $project->dimensions_units = 'Unknown';
         $project->user_id = $user_id;
         $project->save();
 
@@ -190,14 +179,21 @@ class ProjectController extends Controller
         $this->validate($request, [
         'title' => 'required',
         'medium' => 'required',
-        'dimensions' => 'required',
+        'dimensions_height' => 'required',
+        'dimensions_width' => 'required',
+        //'dimensions_depth' => 'required',
+        'dimensions_units' => 'required',
+
         ]);
 
         // get form input data
         
         $project->title = $request->input('title');
         $project->medium = $request->input('medium');
-        $project->dimensions = $request->input('dimensions');
+        $project->dimensions_units = $request->input('dimensions_units');
+        $project->dimensions_height = $request->input('dimensions_height');
+        $project->dimensions_width = $request->input('dimensions_width');
+        $project->dimensions_depth = $request->input('dimensions_depth');
         
         $project->save();
 

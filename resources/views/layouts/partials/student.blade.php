@@ -21,16 +21,35 @@
                          @else
                         
                          <div class='project-placeholder'>
-                         <span class='project-placeholder-text'>In Progress</span>
+                         <span class='project-placeholder-text'>
+                         In Progress</span>
                          </div>
                         
                         @endif
                     </a>
 
                     <br/>
-                    <i>{{ $project->title}}</i><br/>
-                    {{ $project->medium}}<br/>
-                    {{ $project->dimensions}}<br/>
+                    
+                    <b>Title:</b> <i>{{ $project->title }}</i><br/>
+                    <b>Medium:</b> {{ $project->medium }}<br/>
+                    <b>Dimensions:</b> {{ $project->dimensions_height }} x 
+                    {{ $project->dimensions_width }} 
+
+                        @if (!$project->dimensions_depth)
+
+                        @else
+
+                            {{ 'x '.$project->dimensions_depth }}
+
+                        @endif
+
+                    {{ $project->dimensions_units }} 
+
+                    <br/>
+
+                    <b>Completed:</b> {{ $project->created_at->diffForHumans() }}<br/>
+                    <b>Assignment:</b> {{ $project->assignment->title }}<br/>
+
                     </div>
 
     @endforeach

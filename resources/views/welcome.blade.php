@@ -80,7 +80,13 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    <a href="{{ url('/login') }}">ARTifacts</a>
+                    <a href="{{ url('/login') }}">Artifacts</a>
+                </div>
+
+                <div>
+                <img class="artifact-thumbnail" src="{{ Storage::url('IMG_3914.jpg') }}"/> 
+
+
                 </div>
                 
                 <div class="links">
@@ -89,7 +95,7 @@
                 
                 <hr/>
                 <div class="links">
-                <a href="{{ url('/login') }}">Version - 0.3</a>   
+                <a href="{{ url('/login') }}">Beta - 0.3</a>   
                 </div>
                 
             </div>

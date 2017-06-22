@@ -21,9 +21,9 @@
 
             <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                                 
-                {!! Form::label('title', 'Project Title', array('class' => 'col-md-4 control-label')) !!}
+                {!! Form::label('title', 'Project Title', array('class' => 'col-md-2 control-label')) !!}
 
-                <div class="col-md-6">
+                <div class="col-md-8">
             
                 <input type="text" class="form-control" name="title" value="{{ $project->title }}">
 
@@ -40,9 +40,9 @@
 
             <div class="form-group{{ $errors->has('medium') ? ' has-error' : '' }}">
                                 
-                {!! Form::label('medium', 'Medium', array('class' => 'col-md-4 control-label')) !!}
+                {!! Form::label('medium', 'Medium', array('class' => 'col-md-2 control-label')) !!}
 
-                <div class="col-md-6">
+                <div class="col-md-8">
             
                 <input type="text" class="form-control" name="medium" value="{{ $project->medium }}">
 
@@ -54,23 +54,83 @@
                 </div>
             </div>        
 
-             <!-- Dimensions Input -->
 
-            <div class="form-group{{ $errors->has('dimensions') ? ' has-error' : '' }}">
+
+            <div class="form-horizontal">
+
+           <!-- Dimensions Height Input -->
+
+            <div class="form-group{{ $errors->has('dimensions_height') ? ' has-error' : '' }}">
                                 
-                {!! Form::label('dimensions', 'Dimensions', array('class' => 'col-md-4 control-label')) !!}
+                {!! Form::label('dimensions_height', 'Height', array('class' => 'col-md-2 control-label')) !!}
 
-                <div class="col-md-6">
+                <div class="col-md-2">
             
-                <input type="text" class="form-control" name="dimensions" value="{{ $project->dimensions }}">
+                <input type="text" class="form-control" name="dimensions_height" value="{{ $project->dimensions_height }}">
 
-                        @if ($errors->has('dimensions'))
+                        @if ($errors->has('dimensions_height'))
                             <span class="help-block">
-                                <strong>{{ $errors->first('dimensions') }}</strong>
+                                <strong>{{ $errors->first('dimensions_height') }}</strong>
                             </span>
                         @endif
                 </div>
             </div>       
+
+            <!-- Dimensions Width Input -->
+
+            <div class="form-group{{ $errors->has('dimensions_width') ? ' has-error' : '' }}">
+                                
+                {!! Form::label('dimensions_width', 'Width', array('class' => 'col-md-2 control-label')) !!}
+
+                <div class="col-md-2">
+            
+                <input type="text" class="form-control" name="dimensions_width" value="{{ $project->dimensions_width }}">
+
+                        @if ($errors->has('dimensions_width'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('dimensions_width') }}</strong>
+                            </span>
+                        @endif
+                </div>
+            </div>       
+
+            <!-- Dimensions Depth Input -->
+
+             <div class="form-group{{ $errors->has('dimensions_depth') ? ' has-error' : '' }}">
+                                
+                {!! Form::label('dimensions_depth', 'Depth', array('class' => 'col-md-2 control-label')) !!}
+
+                <div class="col-md-2">
+            
+                <input type="text" class="form-control" name="dimensions_depth" value="{{ $project->dimensions_depth }}">
+
+                        @if ($errors->has('dimensions_depth'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('dimensions_depth') }}</strong>
+                            </span>
+                        @endif
+                </div>
+            </div> 
+
+            <!-- Dimensions Units -->
+
+
+            <div class="form-group{{ $errors->has('dimensions_units') ? ' has-error' : '' }}">
+                                
+                {!! Form::label('dimensions_units', 'Units', array('class' => 'col-md-2 control-label')) !!}
+                
+
+                <div class="col-md-2">
+            
+                {!! Form::select('dimensions_units', ['inches' => 'inches', 'cm' => 'cm'], 'cm', ['class' => 'form-control','value' => $project->dimensions_units]) !!}
+                
+                        @if ($errors->has('dimensions_units'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('dimensions_units') }}</strong>
+                            </span>
+                        @endif
+                </div>
+            </div>  
 
         <!-- Update Button -->
 

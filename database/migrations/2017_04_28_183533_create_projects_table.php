@@ -18,7 +18,10 @@ class CreateProjectsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('medium');
-            $table->string('dimensions');
+            $table->string('dimensions_height');
+            $table->string('dimensions_width');
+            $table->string('dimensions_depth')->nullable();
+            $table->string('dimensions_units');
             $table->string('user_id');
             $table->string('assignment_id');
             $table->string('primaryArtifactThumb')->nullable();
