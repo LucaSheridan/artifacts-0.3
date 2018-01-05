@@ -54,7 +54,7 @@
 
 
                 <a href="{{ action('ArtifactController@show', $artifact->id)}}">
-                    <img src ='{{ url($artifact->artifact_thumb) }}'>
+                <img  src="https://s3.amazonaws.com/artifacts-0.3/{{$checklistItem->artifactThumb}}">
                 </a>
 
                 <p>
