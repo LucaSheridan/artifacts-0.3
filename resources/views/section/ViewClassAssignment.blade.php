@@ -29,7 +29,14 @@
             
             <div class="panel-body">
 
-           Students
+            @foreach ($roster as $rosterspot)
+
+
+                <a href="{{ action('SectionController@StudentAssignmentProgressView', ['$section' => $section->id, '$assignment' => $assignment->id, '$student' => $rosterspot->id])}}">
+                {{$rosterspot->firstName}} {{$rosterspot->lastName}}</a><br/>
+
+            @endforeach
+
             </div>
         </div>
     </div>

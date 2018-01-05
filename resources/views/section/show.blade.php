@@ -6,7 +6,8 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                
-            <div class="panel-heading">{{$section->name}}<span class='pull-right'>Registration code: {{$section->code}}</span>
+            <div class="panel-heading">
+            {{$section->label}}<span class='pull-right'>Registration code: {{$section->code}}</span>
             
             </div>
 
@@ -20,17 +21,17 @@
 
             <h4>Roster</h4>
 
-                @if ($students->count() == 0)
+                @if ($roster->count() == 0)
                 
                 <p>There are currently no students enrolled in this section.</p>
 
                 @else
 
-            @foreach ($students as $student)
+            @foreach ($roster as $rosterspot)
            
             <!-- {{ $loop->iteration }} -->
 
-            <a href="{{ action('UserController@show', $student->id) }}">{{ $student->firstName}} {{ $student->lastName}}</a><br/>
+            <a href="{{ action('UserController@show', $rosterspot->id) }}">{{ $rosterspot->firstName}} {{ $rosterspot->lastName}}</a><br/>
             
             @endforeach
 

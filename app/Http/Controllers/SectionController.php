@@ -82,13 +82,13 @@ class SectionController extends Controller
     {
         $teacher = User::find($section->teacher_id);
         $assignments = Assignment::where('section_id', $section->id)->get();
-        $students = User::whereHas('roles', function ($query) { 
+        $roster = User::whereHas('roles', function ($query) { 
         $query->where('name', 'like', 'student');
             })->whereHas('sections', function ( $query ) use($section) {
         $query->where('id', $section->id );
-        })->get();
+        })->orderBy('lastName','asc')->get();
         
-        return view('section.show', compact('section', 'teacher','students', 'assignments'));
+        return view('section.show', compact('section', 'teacher','roster', 'assignments'));
     }
 
     /**
@@ -136,6 +136,12 @@ class SectionController extends Controller
     public function ViewClassAssignment(Section $section, Assignment $assignment)
     {
         
+        $roster = User::whereHas('roles', function ($query) { 
+        $query->where('name', 'like', 'student');
+            })->whereHas('sections', function ( $query ) use($section) {
+        $query->where('id', $section->id );
+        })->orderBy('lastName','asc')->get();
+        
         $students = User::with(['artifacts' => function ($query)  use($assignment) {
         $query->where('is_published', '=', true)
               ->where('assignment_id', '=', $assignment->id);
@@ -148,7 +154,7 @@ class SectionController extends Controller
         $section = Section::findOrFail($section->id);
         $assignment = Assignment::findOrFail($assignment->id);
 
-        return view('section.ViewClassAssignment')->with(compact('incomplete','students','assignment', 'section'));
+        return view('section.ViewClassAssignment')->with(compact('roster','incomplete','students','assignment', 'section'));
      }
 
     /**
