@@ -64,7 +64,7 @@
                 <td><b>Component</b></td>
                 <td><b>Due Date</b></td>
                 <td><b>Status</b></td>    
-                <td><b>Submitted</b></td>    
+                <td><b>Published</b></td>    
                 <td></td>    
         </tr> 
 
@@ -85,7 +85,7 @@
                     @else
 
                     <a href="{{ action('ArtifactController@show', $checklistItem->artifactID)}}">
-                    <img  src="https://s3.amazonaws.com/artifacts-0.3/{{$checklistItem->artifactThumb}}">
+                    <img class="artifact-thumbnail" src="https://s3.amazonaws.com/artifacts-0.3/{{$checklistItem->artifactThumb}}">
 
                     </a>
 
@@ -100,9 +100,9 @@
     <!-- Due Date -->
 
     <td>
-    
-    Due on {{ Carbon\Carbon::parse($checklistItem->componentDateDue)->format('D n/j g:i a') }}
+    {{ Carbon\Carbon::parse($checklistItem->componentDateDue)->format('n/j/Y g:i a') }}
 
+    <!--     {{ Carbon\Carbon::parse($checklistItem->componentDateDue)->format('n/j/y g:i a') }}-->
     </td>
    
     <!-- Submission Status -->
@@ -110,7 +110,7 @@
     <td>
              @if (!$checklistItem->artifactID)
 
-                        Pending
+                        <span class="label label-default">Pending</span>
             
                         @else
 
@@ -136,11 +136,14 @@
                 @endif
 
     </td>
+    
     <td>
      @if ($checklistItem->is_published)
-     submitted!
-     @else
-     @endif
+    <span class="label label-success">
+    <span class="glyphicon glyphicon-ok"></span> Published</span>
+    @else
+    @endif
+    
     </td>
 
     </tr>
