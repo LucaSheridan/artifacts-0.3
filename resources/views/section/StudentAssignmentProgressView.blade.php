@@ -84,7 +84,10 @@
 
                     @else
 
-                    <a href="{{ action('ArtifactController@show', $checklistItem->artifactID)}}"><img class="artifact-thumbnail" src='{{ url($checklistItem->artifactThumb) }}'></a>
+                    <a href="{{ action('ArtifactController@show', $checklistItem->artifactID)}}">
+                    <img  src="https://s3.amazonaws.com/artifacts-0.3/{{$checklistItem->artifactThumb}}">
+
+                    </a>
 
             @endif
    
