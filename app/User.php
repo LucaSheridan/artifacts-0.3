@@ -44,13 +44,23 @@ class User extends Authenticatable
         return $this->belongsToMany(Section::class);
     }
 
-     public function projects()
+     public function assignments()
     {
-        return $this->hasMany(Project::class);
+        return $this->hasMany(Assignment::class);
     }
 
+    public function artifacts()
+    {
+        return $this->hasMany(Artifact::class);
+    }
+    
      public function scopeTeacher($query)
     {
         return $query->hasRole('teacher');
+    }
+
+     public function scopeStudent($query)
+    {
+        return $query->hasRole('student');
     }
 }

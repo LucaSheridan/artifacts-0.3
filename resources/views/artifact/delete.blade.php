@@ -10,7 +10,7 @@
                 
                 <ul class="list-inline">                
                 <li>
-                <a class="btn btn-default" href="{{ action('ProjectController@show', $artifact->project_id) }}">Cancel</a>
+                <a class="btn btn-default" href="{{ action('AssignmentController@show', $artifact->assignment_id) }}">Cancel</a>
                 </li>
                  <li>
                 

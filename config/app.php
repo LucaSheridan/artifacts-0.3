@@ -166,6 +166,7 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Spatie\Backup\BackupServiceProvider::class,
 
         /*
          * Package Service Providers...

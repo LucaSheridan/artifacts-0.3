@@ -9,44 +9,40 @@
             <div class="panel-heading">
             
             <h3>{{$user->firstName}} {{$user->lastName}}</h3>
-            <h5>Art Portfolio <a href="mailto:{{$user->email}}">
-
-            <span class="glyphicon glyphicon-envelope"></span></a></h5>
-            
-
+            <h5>Student Portfolio</h5>
             
             </div>
             
             <div class="panel-body">
             
-                    @foreach ($user->projects as $project) 
-                    
+                    @foreach ($user->artifacts as $artifact) 
+
                     <div class="pull-left project-wrapper">
- 
-                    <a href="{{ action('ProjectController@show', $project->id)}}">
-                    
-                         @if ($project->primaryArtifactThumb)
-                    
-                         <img src ='{{ url($project->primaryArtifactThumb) }}'><br>
-                    
-                         @else
-                        
-                         <div class='project-placeholder'>
-                         <span class='project-placeholder-text'>In Progress</span>
-                         </div>
-                        
-                        @endif
-                    </a>
+                     
+                        <a href="{{ action('ArtifactController@show', $artifact->id)}}">                    
+
+                        <img class="img-responsive" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_thumb}}"></a>
 
                     <br/>
-                    <i>{{ $project->title}}</i><br/>
-                    {{ $project->medium}}<br/>
-                    {{ $project->dimensions}}<br/>
+                    <i>{{ $artifact->title}}</i><br/>
+                    {{ $artifact->medium}}<br/>
+                    {{ $artifact->dimensions_height}} x {{ $artifact->dimensions_width}}
+
+                    @if ($artifact->dimensions_depth)
+                
+                   x {{ $artifact->dimensions_depth }}
+                
+                   @else
+                   @endif
+                        
+                    {{ $artifact->dimensions_units }}
+                    
+                    <br/>
                     </div>
 
                     @endforeach
 
-                    
+            </div>                    
             </div>
 
             </div>

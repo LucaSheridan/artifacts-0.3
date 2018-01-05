@@ -7,7 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Component extends Model
 {
 
-	public function getDates()
+	 /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title','assignment_id','date_due'
+    ];
+    
+    public function getDates()
 	{
 		return ['created_at','updated_at','date_due'];
 	
@@ -18,4 +27,5 @@ class Component extends Model
     	return $this->belongsTo('App\Assignment');
 
     }
+
 }

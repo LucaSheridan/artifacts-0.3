@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Assignment;
+use App\Component;
+use App\Artifact;
 use App\Section;
 use App\User;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class SectionController extends Controller
@@ -18,7 +21,6 @@ class SectionController extends Controller
      */
     public function index()
     {
-
         $sections = Section::with('users')->get();
 
         return view('section.index')->with('sections', $sections);
@@ -31,10 +33,189 @@ class SectionController extends Controller
      */
     public function create()
     {
-
-         $sites = Auth::User()->sites()->pluck('name','id');  
+        $sites = Auth::User()->sites()->pluck('name','id');  
 
          return view('section.create')->with('sites', $sites);
+    }
+
+     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+
+        $this->validate($request, [
+        
+            'name' => 'required',
+            'label' => 'required',
+            'site' => 'required',
+            'teacher_id' => 'required',
+
+            ]);
+
+        $section = New Section;
+        $section->name = $request->input('name');
+        $section->label = $request->input('label');
+        $section->teacher_id = $request->input('teacher_id');
+        $section->code = $string = str_random(8);
+        $section->active = true;
+        $section->site()->associate($request->input('site'));
+        $section->save();
+        $section->users()->attach(Auth::User()->id);
+        $section->save();
+
+        flash('Section created successfully!', 'success');
+
+        return redirect()->action('HomeController@index');
+     }
+     
+     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Site  $site
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Section $section)
+    {
+        $teacher = User::find($section->teacher_id);
+        $assignments = Assignment::where('section_id', $section->id)->get();
+        $students = User::whereHas('roles', function ($query) { 
+        $query->where('name', 'like', 'student');
+            })->whereHas('sections', function ( $query ) use($section) {
+        $query->where('id', $section->id );
+        })->get();
+        
+        return view('section.show', compact('section', 'teacher','students', 'assignments'));
+    }
+
+    /**
+     * Display an individual student assignment
+     *
+     * @param  \App\Section $section
+     * @param  \App\Assignment $assignment
+     * @param  \App\User $student
+     * @return \Illuminate\Http\Response
+     */
+    public function StudentAssignmentProgressView(Section $section, Assignment $assignment, User $user)
+    {
+        
+        $assignmentChecklist = DB::table('components')->leftjoin('artifacts', function ($join) use ($assignment, $user) {
+
+            $join->on('components.id', '=', 'artifacts.component_id')
+                 ->where('artifacts.user_id', '=', $user->id); // This eliminates matches, not records
+
+                })
+
+                ->where('components.assignment_id', '=', $assignment->id)
+                ->orderBy('components.date_due', 'ASC')
+                ->select(
+                 'artifacts.id AS artifactID',
+                 'components.assignment_id AS assignmentID',
+                 'components.id AS componentID', 
+                 'components.title AS componentTitle',
+                 'components.date_due AS componentDateDue',
+                 'artifacts.artifact_thumb AS artifactThumb',
+                 'artifacts.artifact_path AS artifactPath',
+                 'artifacts.created_at AS artifactCreatedAt',
+                 'artifacts.is_published AS is_published')
+                 ->get();                         
+
+        return view('section.StudentAssignmentProgressView', 
+               compact('user', 'section', 'assignment', 'assignmentChecklist'));
+    }
+
+    /**
+     * Display grid of all published artifacts associated with this assignment.
+     *
+     * @param  \App\Site  $site
+     * @return \Illuminate\Http\Response
+     */
+    public function ViewClassAssignment(Section $section, Assignment $assignment)
+    {
+        
+        $students = User::with(['artifacts' => function ($query)  use($assignment) {
+        $query->where('is_published', '=', true)
+              ->where('assignment_id', '=', $assignment->id);
+        }])->whereHas('roles', function ($query) { 
+        $query->where('name', 'like', 'student');
+            })->whereHas('sections', function ( $query ) use($section) {
+        $query->where('id', $section->id );
+        })->get();
+
+        $section = Section::findOrFail($section->id);
+        $assignment = Assignment::findOrFail($assignment->id);
+
+        return view('section.ViewClassAssignment')->with(compact('incomplete','students','assignment', 'section'));
+     }
+
+    /**
+     * Show the form for editing the Section.
+     *
+     * @param  \App\Site  $site
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Section $section)
+    {
+        return view('section.edit')->with('section', $section);
+    }
+    
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Site  $site
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Section $section)
+    {
+        // create valiadator
+        $this->validate($request, [
+        'name' => 'required',
+        'label' => 'required',
+
+        ]);
+
+        // get form input data
+        $section->name = $request->input('name');
+        $section->label = $request->input('label');
+        $section->save();
+
+        flash('Section updated successfully!', 'success');
+
+        return redirect()->action('SectionController@index');
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Section  $section
+     * @return \Illuminate\Http\Response
+     */
+       public function delete(Section $section)
+
+    {
+       return view('section.delete')->with('section', $section);
+    }
+
+    
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Section  $section
+     * @return \Illuminate\Http\Response
+     */
+       public function destroy(Section $section)
+    {
+
+       $section->delete();
+
+       flash('Section deleted successfully!', 'danger');
+
+       return redirect()->action('SectionController@index');
     }
 
     // /**
@@ -55,158 +236,4 @@ class SectionController extends Controller
 
     //      return view('section.addstudents')->with('students', $students);
     // }
-
-    /**
-     * Show the form for adding an assignment to a section.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function createAssignment(Section $section)
-    {
-         return view('assignment.create')->with('section', $section);
-    }
-
-       /**
-     * Show the form for adding an assignment to a section.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function createAssignmentVue(Section $section)
-    {
-         return view('assignment.create_vue')->with('section', $section);
-    }
-
-
-
-     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // create valiadator
-
-        $this->validate($request, [
-        
-            'name' => 'required',
-            'label' => 'required',
-            'site' => 'required',
-            'teacher_id' => 'required',
-
-            ]);
-
-        $section = New Section;
-        $section->name = $request->input('name');
-        $section->label = $request->input('label');
-        $section->teacher_id = $request->input('teacher_id');
-        $section->code = $string = str_random(8);
-        
-        $section->site()->associate($request->input('site'));
-        $section->save();
-
-        $section->users()->attach(Auth::User()->id);
-        $section->save();
-
-        flash('Section created successfully!', 'success');
-
-        return redirect()->action('HomeController@index');
-
-    }
-
-     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Site  $site
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Section $section)
-    {
-        
-        $teacher = User::find($section->teacher_id);
-
-        $assignments = Assignment::where('section_id', $section->id)->get();
-
-        //dd($assignments);
-
-        $students = User::whereHas('roles', function ($query) { 
-        $query->where('name', 'like', 'student');
-            })->whereHas('sections', function ( $query ) use($section) {
-        $query->where('id', $section->id );
-        })->get();
-        
-        return view('section.show', compact('section','teacher','students', 'assignments'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Site  $site
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Section $section)
-    {
-        return view('section.edit')->with('section', $section);
-
-    }
-
-    
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Site  $site
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Section $section)
-    {
-        // create valiadator
-        $this->validate($request, [
-        'name' => 'required',
-        'label' => 'required',
-
-        ]);
-
-        // get form input data
-        
-        $section->name = $request->input('name');
-        $section->label = $request->input('label');
-
-        $section->save();
-
-        flash('Section updated successfully!', 'success');
-
-        return redirect()->action('SectionController@index');
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Section  $section
-     * @return \Illuminate\Http\Response
-     */
-    public function delete(Section $section)
-
-    {
-        return view('section.delete')->with('section', $section);
-    }
-
-    
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Section  $section
-     * @return \Illuminate\Http\Response
-     */
-      public function destroy(Section $section)
-    {
-
-        $section->delete();
-
-        flash('Section deleted successfully!', 'danger');
-
-        return redirect()->action('SectionController@index');
-    }
 }

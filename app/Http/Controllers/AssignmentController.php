@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Artifact;
 use App\Assignment;
 use Illuminate\Http\Request;
 use App\Component;
@@ -22,7 +23,6 @@ class AssignmentController extends Controller
     {
         
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -30,8 +30,9 @@ class AssignmentController extends Controller
      */
     public function create(Request $request, Section $section)
     {
-       return view('assignment.create');
+       return view('assignment.create')->with('section', $section);
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -45,12 +46,10 @@ class AssignmentController extends Controller
         $this->validate($request, [
         
         'title' => 'required',
-        //'description' => 'required',
-        'components.*' => 'required',
+        'description' => 'required',
         'section_id' => 'required',
 
         ]);
-
 
         //set and persist assignment information to database
 
@@ -59,54 +58,14 @@ class AssignmentController extends Controller
         $assignment->title = $request->input('title');
         $assignment->description = $request->input('description');
         $assignment->section_id = $request->input('section_id');
-        $assignment->date_due = $request->input('date_due');
         $assignment->active = false;
         $assignment->save();
 
-        $components = $request->input('components');
-
-        
-    // Really ugly solutin here that came about because I couldn't wrap
-    // my head around how to access assciative arrays. I set a loop
-    // counter in order to set the first component as the primary image.
-    // (That's the one the kids will see on their hoome/ portfolio page.)
-    // Eventually, some one is going to want to have more than one primary // image. 
-
-        // set counter
-
-            $i = -1;
-
-            foreach ($components['title'] as $component ){
-
-        // increment counter
-
-            $i++;
-
-             $newComponent = New Component;
-
-             $newComponent->title = $component;
-             $newComponent->assignment_id = $assignment->id;
-             $newComponent->date_due = $request->input('date_due');
-             
-             if ($i == 0 ) {
-
-                $newComponent->is_primary = true ;
-
-             }
-
-             else { 
-
-                $newComponent->is_primary = false;
-            
-             }
-
-             $newComponent->save();
-
-       }
+        //$assignment = Assignment::findOrFail($assignment->id)->with('components');
 
         flash('Assignment created successfully!', 'success');
 
-        return redirect()->action('SectionController@show', $assignment->section_id);
+        return view('assignment.show')->with('assignment', $assignment);
     }
 
     /**
@@ -119,67 +78,111 @@ class AssignmentController extends Controller
     {
 
         // get assignment with components, sorted by due date for column labels
-        //dd($assignment);
-
-        $user = $_GET["id"];
-
-        $assignment = Assignment::with(array('components' => function ($query) {
-            
-            $query->orderBy('date_due', 'asc');
-        }))       ->where('id', $assignment->id)->first();
         
-        //dd($section);
+        //$artifacts = Artifact::where('user_id', Auth::User()->id)->where('assignment_id', $assignment->id)->get();
 
-        $students = User::whereHas('sections', function ($query) use ($assignment){
-            $query->where('id', $assignment->section_id);
-        })
-        ->get();
+        //dd($artifacts);
 
+        $assignment = Assignment::with(['components' => function ($query) use ($assignment) {
+            $query->where('assignment_id', $assignment->id)->orderBy('date_due');
+            }])->findOrfail($assignment->id);
         
-        //dd($students);
+        //dd($assignment)->components();
 
-        $student_checklist = Project::with('user','artifacts')->where('assignment_id', $assignment->id)->get();
+        $checklist = DB::table('components')->leftjoin('artifacts', function ($join) use ($assignment) {
 
-        //dd($student_checklist);
+                        $join->on('components.id', '=', 'artifacts.component_id')
+                             ->where('artifacts.user_id', '=', Auth::User() ->id); // This eliminates matches, not records
+                        })
 
-        $checklist = DB::table('components') 
-            ->select('components.assignment_id AS assignmentID',
-                     'components.id AS componentID', 
-                     'components.title AS componentTitle',
-                     'components.date_due',
-                     'components.is_primary AS isPrimary',
-                     'artifacts.id AS artifactID',
-                     'artifacts.artifact_thumb AS artifactThumb',
-                     'artifacts.artifact_path AS artifactPath',
-                     'artifacts.component_id AS artifactComponentID',
-                     'artifacts.created_at',
-                     'artifacts.user_id AS userID',
-                     'users.firstName AS firstName',
-                     'users.lastName AS lastName')
-            ->leftjoin('artifacts', function ($join) use ($user){
+                        ->where('components.assignment_id', '=', $assignment->id)
 
-            $join->on('components.id', '=', 'artifacts.component_id') ;
-            $join->where('artifacts.user_id', '=', $user );
+                        ->orderBy('components.date_due', 'ASC')
+                        ->select(
+                         'artifacts.id AS artifactID',
+                         'components.assignment_id AS assignmentID',
+                         'components.id AS componentID', 
+                         'components.title AS componentTitle',
+                         'components.date_due AS componentDateDue',
+                         'artifacts.artifact_thumb AS artifactThumb',
+                         'artifacts.artifact_path AS artifactPath',
+                         'artifacts.is_published AS is_published',
+                         'artifacts.created_at AS artifactCreatedAt')->get();                         
+
+                         //dd($checklist);
+
             
-            })  
 
-             ->leftjoin('users', function ($join) use ($user){
 
-            $join->on('artifacts.user_id', '=', 'users.id');
-            
-            })  
-            
-            ->where(['components.assignment_id' => $assignment->id])
-            ->orderBy('date_due', 'asc')
-            ->get();
-
-            // dd($checklist);
 
         return view('assignment.show')->with([
                                  'assignment' => $assignment,
-                                 'students' => $students,
-                                 'checklist' => $checklist,
-                                 'student_checklist' => $student_checklist] );
+                                 //'artifacts' => $artifacts,
+                                 //'students' => $students,
+                                 'checklist' => $checklist
+                                 //'student_checklist' => $student_checklist
+                                 ] );
+
+
+    }
+
+     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Assignment  $assignment
+     * @return \Illuminate\Http\Response
+     */
+    public function showTeacherView(Assignment $assignment)
+    {
+
+        // get assignment with components, sorted by due date for column labels
+        
+        if (Auth::User()->hasRole('teacher'))
+
+            echo 'teacher';
+
+        else 
+
+            echo 'student';       
+        
+        //dd($users);
+
+        $assignment = Assignment::with(['components' => function ($query) use ($assignment) {
+            $query->where('assignment_id', $assignment->id)->orderBy('date_due');
+            }])->findOrfail($assignment->id);
+        
+        //dd($assignment)->components();
+
+        
+        $checklist = DB::table('components')->leftjoin('artifacts', function ($join) use ($assignment) {
+
+                        $join->on('components.id', '=', 'artifacts.component_id');            
+                        
+                        })
+
+                        ->where('components.assignment_id', '=', $assignment->id)
+                        ->orderBy('components.date_due', 'ASC')
+                        ->select(
+                         'artifacts.id AS artifactID',
+                         'components.assignment_id AS assignmentID',
+                         'components.id AS componentID', 
+                         'components.title AS componentTitle',
+                         'components.date_due AS componentDateDue',
+                         'artifacts.artifact_thumb AS artifactThumb',
+                         'artifacts.artifact_path AS artifactPath',
+                         'artifacts.created_at AS artifactCreatedAt')->get();                         
+
+                        dd($checklist);
+
+
+
+        return view('assignment.show')->with([
+                                 'assignment' => $assignment,
+                                 'artifacts' => $artifacts,
+                                 //'students' => $students,
+                                 'checklist' => $checklist
+                                 //'student_checklist' => $student_checklist
+                                 ] );
 
 
     }
@@ -192,8 +195,8 @@ class AssignmentController extends Controller
 
         //dd($projects);
 
-        return view('assignment.grid')->with(['projects' => $projects, 'assignment' => $assignment ]);
-
+        return view('assignment.grid')->with(['projects' => $projects, 
+                                    'assignment' => $assignment ]);
 
     }
 
@@ -205,9 +208,7 @@ class AssignmentController extends Controller
      */
     public function edit(Assignment $assignment)
     {
-        
         return view('assignment.edit')->with('assignment', $assignment);
-
     }
 
      /**
@@ -222,13 +223,13 @@ class AssignmentController extends Controller
         // create valiadator
         $this->validate($request, [
         'title' => 'required',
+        'description' => 'required'
         ]);
 
         // get form input data
         
         $assignment->title = $request->input('title');
         $assignment->description = $request->input('description');
-        $assignment->description = $request->input('date_due');
 
         $assignment->save();
 

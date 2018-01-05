@@ -19,6 +19,7 @@ class CreateSectionsTable extends Migration
             $table->string('label')->nullable();
             $table->string('site_id');
             $table->string('teacher_id');
+            $table->boolean('active');
             $table->string('code');
             $table->timestamps();
         });

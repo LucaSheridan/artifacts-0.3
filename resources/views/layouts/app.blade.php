@@ -12,44 +12,52 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-    <!-- Scripts -->
+    <link href="{{ asset('css/pikaday.css') }}" rel="stylesheet">
+  
+      <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
 
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
+<div id="app">
 
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/home') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
-                </div>
+<nav class="navbar navbar-default navbar-static-top">
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
+<div class="container">
 
-                     <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                       
+<div class="navbar-header">
+
+        <!-- Collapsed Hamburger -->
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+            <span class="sr-only">Toggle Navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+
+        <!-- Branding Image -->
+        <a class="navbar-brand" href="{{ url('/home') }}">
+            {{ config('app.name', 'Laravel') }}
+        </a>
+
+</div>
+
+        <div class="collapse navbar-collapse" id="app-navbar-collapse">
+
+            <!-- Left Side Of Navbar -->
+            <ul class="nav navbar-nav">&nbsp;
+            </ul>
+
+             <!-- Right Side Of Navbar -->
+            <ul class="nav navbar-nav navbar-right">
+            
+            <!-- Authentication Links -->
+               
                     @if (Auth::guest())
                             <li><a href="{{ route('login') }}">Login</a></li>
                             
@@ -93,18 +101,18 @@
 
         <!-- Flash Messages -->
 
-        @if (session()->has('flash_notification.message'))
+    @if (session()->has('flash_notification.message'))
 
-        <div class="container">
-            <div class="alert alert-{{ session('flash_notification.level') }}">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <div class="container">
+        <div class="alert alert-{{ session('flash_notification.level') }}">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 
-        {!! session('flash_notification.message') !!}
+    {!! session('flash_notification.message') !!}
 
-            </div>
         </div>
+    </div>
 
-        @endif
+    @endif
 
         <!-- Content -->
 
@@ -119,13 +127,24 @@
 </div>
 
 
-        <!-- Scripts -->
+    <!-- Scripts -->
 
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/pikaday.js') }}"></script>
+    
     <script>
         $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
     </script>
+
+    <script>
+    var picker = new Pikaday({ field: $('#datepicker')[0] });
+    </script>
+    
     <script src="https://unpkg.com/vue@2.1.10/dist/vue.js"></script>
+  
+
+
+
 
 </body>
 </html>

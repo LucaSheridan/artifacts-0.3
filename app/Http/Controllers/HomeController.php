@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Project;
-use App\Component;
+use App\Artifact;
+use App\Section;
 use Auth;
 
 class HomeController extends Controller
 {
     /**
      * Create a new controller instance.
-     *
+     `*
      * @return void
      */
     public function __construct()
@@ -26,15 +26,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // $projects = Project::with('artifacts','assignment')
-        //                         ->where('user_id', Auth::User()->id)
-        //                         ->orderBy('created_at', 'desc')->get();
+        
+        $artifacts = Artifact::where('user_id', Auth::User()->id)
+                            ->where('is_published', 1)
+                            ->get();
 
-        $projects = Project::with('artifacts','assignment.components')
-                                   ->where('user_id', Auth::User()->id)
-                                   ->orderBy('created_at', 'desc')->get();
-        //dd($projects);
-
-        return view('home', array('projects' => $projects));
+        return view('home', array('artifacts' => $artifacts));
     }
+
+    
 }

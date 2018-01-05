@@ -23,7 +23,9 @@
             @foreach ($components as $component)
             <tr>
             <td>
-            {{ $component->title}}<a>
+            
+            <a href="{{ action('ComponentController@show', $component->id)}}">{{ $component->title}}</a>
+
             </td>
             <td>
             {{ $component->assignment_id }}

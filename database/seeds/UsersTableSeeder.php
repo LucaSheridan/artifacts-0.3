@@ -21,6 +21,12 @@ class UsersTableSeeder extends Seeder
             'email' => 'lucas_sheridan@me.com',
             'password' => bcrypt('2ucySh3ridan')]);
 
+       DB::table('users')->insert([
+            'firstName' => 'Stephanie',
+            'lastName' => 'Tramontozzi',
+            'email' => 'steph@bsge.org',
+            'password' => bcrypt('secret')]);
+
       DB::table('roles')->insert([
             'id' => 1,
             'name' => 'student',
@@ -43,5 +49,14 @@ class UsersTableSeeder extends Seeder
       DB::table('site_user')->insert([
             'site_id' => 1,
             'user_id' => 1]);
+
+       DB::table('role_user')->insert([
+            'user_id' => 2,
+            'role_id' => 2]);
+
+       DB::table('site_user')->insert([
+            'site_id' => 1,
+            'user_id' => 2]);
+
     }
 }

@@ -17,7 +17,6 @@ class CreateComponentsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->integer('assignment_id');
-            $table->boolean('is_primary');
             $table->timestamp('date_due');
             $table->timestamps();
         });

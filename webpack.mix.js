@@ -11,5 +11,7 @@ const { mix } = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+mix.js('resources/assets/js/app.js', 'public/js/app.js')
+   .copy('node_modules/pikaday/pikaday.js', 'public/js/pikaday.js')
+   .sass('resources/assets/sass/app.scss', 'public/css')
+   .styles('resources/assets/js/Pikaday-master/css/pikaday.css', 'public/css/pikaday.css');

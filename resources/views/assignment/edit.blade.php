@@ -53,56 +53,21 @@
                 </div>
             </div>
 
-        <!-- Component List -->   
-        
-       
-
-        <!-- Components -->
-
-        <div class="form-group{{ $errors->has('components') ? ' has-error' : '' }}">
-
-            <label class="col-md-4 control-label">Artifact</label>
-
-        <div class="col-md-6">
-      
-         @foreach ( $assignment->components as $component)
-
-            <div  class="input-group">
-
-            <input name="components[]" class="form-control" type="text" value="{{$component->title}}">
-
-            <span class="input-group-btn">
-     
-                 <a class='btn btn-danger' href='{{action('ComponentController@delete', $component->id)}}'>delete</a>
-
-            </span>
-
-            </div>
-    
-                 @if ($errors->has('components'))
-
-                     <span class="help-block">
-                        <strong>{{ $errors->first('components') }}</strong>
-                     </span>
-                     
-                 @endif
-        
-
-        @endforeach
-
-        </div> 
-        </div>
-
         <!-- Submit Button -->
 
         <div class="form-group">
             <div class="col-md-6 col-md-offset-4">
                 <button type="submit" class="btn btn-primary">
-                 Update
+                 Update Assignment
                 </button>
             </div>
         </div>
+
+        <a class='btn btn-danger' href='{{action('AssignmentController@delete', $assignment->id)}}'>Delete Assignment</a>
        
 </form>
+
+</div>
+</div>
 
 @endsection

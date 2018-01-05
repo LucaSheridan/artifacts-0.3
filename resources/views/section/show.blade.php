@@ -6,20 +6,11 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                
-            <div class="panel-heading">{{$section->name}}
-            <span class="pull-right">
-            <a href="mailto:{{$teacher->email}}">
-            {{$teacher->firstName}} {{$teacher->lastName}}</a></span><br/>
+            <div class="panel-heading">{{$section->name}}<span class='pull-right'>Registration code: {{$section->code}}</span>
+            
             </div>
 
             <div class="panel-body">
-
-            <!-- <p>Teacher: {{$teacher->lastName}}<br/>
-               School: {{$section->site->name}}<br/> 
-               Contact: {{$teacher->email}}<br/>
-               Registration Code: {{$section->code}}
-            </p>
- -->
                 
             <div class="row">
                 
@@ -27,7 +18,7 @@
 
             <div class="col-sm-3">
 
-            <h4>Students</h4>
+            <h4>Roster</h4>
 
                 @if ($students->count() == 0)
                 
@@ -57,17 +48,20 @@
                 @if ($assignments->count())
     
                     @foreach ($assignments as $assignment)
-                   
-                    <!-- {{ $loop->iteration }} -->                           
-                    
-                    {{ $assignment->date_due }} | <a href='{{action('AssignmentController@grid', $assignment->id)}}'>{{ $assignment->title }}</a><br/>
+             
+                    {{ $assignment->title }} | 
+                    <a href='{{ action('AssignmentController@show', $assignment->id) }} '>Edit</a> | 
+                    <a href='{{ action('SectionController@ViewClassAssignment', ([$section->id, $assignment->id ])) }} '>View</a>
+
+                    <br/>
                                                 
                     @endforeach
 
                 @else
+                <p>No Assignments have been created yet.</p>
                 @endif
                 <br/>
-                <a class='btn btn-primary' href='{{action('SectionController@createAssignment', $section->id) }}'>Create New Assignment</a>
+                <a class='btn btn-primary' href='{{action('AssignmentController@create', $section->id) }}'>Create New Assignment</a>
 
 
 

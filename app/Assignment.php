@@ -15,11 +15,6 @@ class Assignment extends Model
         'title', 'section_id',
     ];
 
-    public function projects()
-    {
-            return $this->hasMany('App\Project');
-    }
-
      public function components()
     {
             return $this->hasMany('App\Component');
@@ -28,6 +23,11 @@ class Assignment extends Model
      public function section()
     {
             return $this->belongsTo('App\Section');
+    }
+
+     public function artifacts()
+    {
+            return $this->hasMany('App\Artifact');
     }
 
 }

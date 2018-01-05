@@ -50,7 +50,17 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $user = User::with('projects')->findOrFail($user->id);
+        //$user = User::with('artifacts')->findOrFail($user->id);
+
+        $user = User::with(['artifacts' => function ($query) {
+            $query->where('is_published', '=', true);
+        }])->findOrFail($user->id);
+
+        //dd($user);
+
+        // $artifacts = Artifact::where('user_id', Auth::User()->id)
+        //                     ->where('is_published', 1)
+        //                     ->get();
 
         //$section = Section::where('user_id', $user->id)->first();
 

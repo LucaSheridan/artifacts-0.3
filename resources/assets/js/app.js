@@ -13,29 +13,31 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example');
+ 
 
-var app  = new Vue({
-  el: "#app",
-  
-  data: {
-    
-    rows: [
-      {title: "Final Artwork", isPrimary: "1"},
-    ],
-    
-  },
-  
-  methods:{
-    addRow: function(){
-      
-      this.rows.push({title:"", isPrimary: "0"});
-    },
+// Vue.component('example');
 
-    removeRow: function(row){
+// var app  = new Vue({
+//   el: "#app",
+  
+//   data: {
+    
+//     rows: [
+//       {title: "Final Artwork", isPrimary: "1"},
+//     ],
+    
+//   },
+  
+//   methods:{
+//     addRow: function(){
       
-      let index = this.rows.indexOf(row)
-			      this.rows.splice(index, 1);
-    }
-  }
-});
+//       this.rows.push({title:"", isPrimary: "0"});
+//     },
+
+//     removeRow: function(row){
+      
+//       let index = this.rows.indexOf(row)
+// 			      this.rows.splice(index, 1);
+//     }
+//   }
+// });
