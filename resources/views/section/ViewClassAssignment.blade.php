@@ -24,7 +24,7 @@
     <div class="col-md-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-            Roster
+            <h4>Roster ({{ count($roster) }})</h4> 
             </div> 
             
             <div class="panel-body">

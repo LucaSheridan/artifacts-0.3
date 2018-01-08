@@ -67,8 +67,6 @@ Route::post('/test', 'ArtifactController@S3upload');
 	Route::get('/user/{user}/delete', ['middleware' => 'auth', 'uses' => 'UserController@delete']);
 	Route::delete('/user/{user}', ['middleware' => 'auth', 'uses' => 'UserController@destroy']);
 
-
-
 // Section Routes
 	
 	Route::get('/section', ['middleware' => 'auth', 'uses' => 'SectionController@index']);

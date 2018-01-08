@@ -19,7 +19,7 @@
 
             <div class="col-sm-3">
 
-            <h4>Roster</h4>
+            <h4>Roster ({{ count($roster) }})</h4>
 
                 @if ($roster->count() == 0)
                 
