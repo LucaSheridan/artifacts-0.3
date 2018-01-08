@@ -33,7 +33,7 @@
 
     @if ($artifact->is_published)
 
-		    <b>Title:</b> {{ $artifact->title }}<br/>
+		    <b>Title:</b> <i>{{ $artifact->title }}</i><br/>
         <b>Medium:</b> {{ $artifact->medium }}<br/>
         <b>Dimensions:</b> {{ $artifact->dimensions_height }} x {{ $artifact->dimensions_width }}
       
