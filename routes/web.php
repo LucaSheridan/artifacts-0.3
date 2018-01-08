@@ -17,7 +17,7 @@ Route::get('/semantic', function () {
 });
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 
 // Test Amazon S3 Upload
