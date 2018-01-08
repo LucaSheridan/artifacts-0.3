@@ -5,13 +5,13 @@
     <div class="row">
         <div class="col-md-10">
             <div class="panel panel-default">
-                <div class="panel-heading">Edit Artifact</div>
+                <div class="panel-heading">Publish Artifact</div>
                 <div class="panel-body">
 
 
          <!-- Begin Form --> 
 
-        <form class="form-horizontal" role="form" method="POST" action="{{ action('ArtifactController@update', $artifact->id) }}" enctype="multipart/form-data">
+        <form class="form-horizontal" role="form" method="POST" action="{{ action('ArtifactController@publish', $artifact->id) }}" enctype="multipart/form-data">
 
             {!! csrf_field() !!}
 
@@ -137,7 +137,7 @@
 
              <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                                 
-                {!! Form::label('description', 'Description', array('class' => 'col-md-2 control-label')) !!}
+                {!! Form::label('description', 'Gallery Text', array('class' => 'col-md-2 control-label')) !!}
 
                 <div class="col-md-8">
 
@@ -157,7 +157,7 @@
         <div class="form-group">
             <div class="col-md-6 col-md-offset-4">
                 <button type="submit" class="btn btn-primary">
-                 Update Project
+                 Add Artifact to My Portfolio
                 </button>
             </div>
         </div>

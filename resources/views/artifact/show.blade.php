@@ -28,14 +28,12 @@
 
 	    	@endif
 
-        <hr/>
-
-        {{ $artifact->description }}
-
 
 		<hr/>
 
-		<b>Title:</b> {{ $artifact->title }}<br/>
+    @if ($artifact->is_published)
+
+		    <b>Title:</b> {{ $artifact->title }}<br/>
         <b>Medium:</b> {{ $artifact->medium }}<br/>
         <b>Dimensions:</b> {{ $artifact->dimensions_height }} x {{ $artifact->dimensions_width }}
       
@@ -48,28 +46,35 @@
 
         @endif
 
-        			{{ $artifact->dimensions_units }}
-		<br/>
+        			{{ $artifact->dimensions_units }}<br/><br/>
 
-       
+        <b>Gallery Text:</b> {{ $artifact->description }}<br>
+
+      
+        <hr/>
 
 
-		<br/><br>
-      	
-      	@if ($artifact->is_published)
 
       	<a class="btn btn-primary" href='{{ action('ArtifactController@unpublish', $artifact->id) }}'>Unpublish</a><br/>
       	
       	@else
 
-      	<a class="btn btn-primary" href='{{ action('ArtifactController@publish', $artifact->id) }}'>Publish</a><br/>
+        <a class="btn btn-primary" href='{{ action('ArtifactController@edit', $artifact->id) }}'>Publish</a><br/>
+<br/>
 
       	@endif
 
-		<a class="btn btn-primary" href='{{ action('ArtifactController@edit', $artifact->id) }}'>Edit</a><br/>
-      	
+        <hr/>
+
+		 <ul class="list-inline">                
+                <li>
+                  <a class="btn btn-primary" href='{{ action('ArtifactController@edit', $artifact->id) }}'>Edit</a><br/>
+      	         </li>
+                 <li>
 
 		<a class="btn btn-danger" href='{{ action('ArtifactController@delete', $artifact->id) }}'>Delete</a><br/>
+      </li>
+      </ul>
       	</div>
 
     </div>

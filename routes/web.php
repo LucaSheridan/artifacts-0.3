@@ -118,9 +118,7 @@ Route::post('/test', 'ArtifactController@S3upload');
 	Route::get('/component/{component}/delete', ['middleware' => 'auth', 'uses' => 'ComponentController@delete']);
 	Route::delete('/component/{component}', ['middleware' => 'auth', 'uses' => 'ComponentController@destroy']);
 
-
-
-// Artifact Routes
+	// Artifact Routes
 
 Route::resource('artifact', 'ArtifactController');
 //Route::get('/artifact/create', 'ArtifactController@create');
@@ -130,6 +128,6 @@ Route::resource('artifact', 'ArtifactController');
 Route::get('/artifact/{artifact}/delete', 'ArtifactController@delete');
 Route::get('/artifact/{artifact}/rotate', 'ArtifactController@rotate');
 
-Route::get('/artifact/{artifact}/publish', 'ArtifactController@publish');
+Route::patch('/artifact/{artifact}/publish', 'ArtifactController@publish');
 Route::get('/artifact/{artifact}/unpublish', 'ArtifactController@unpublish');
 

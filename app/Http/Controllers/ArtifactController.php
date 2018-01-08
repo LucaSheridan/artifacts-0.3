@@ -150,13 +150,13 @@ class ArtifactController extends Controller
             $artifact->is_visible = true;
             $artifact->artifact_path = $imagePath;
             $artifact->artifact_thumb = $thumbPath;
-            $artifact->title = 'untitled';
-            $artifact->medium = 'unspecified';
-            $artifact->description = 'Add your comments and reflections here';
-            $artifact->dimensions_height = 'unspecified';
-            $artifact->dimensions_width = 'unspecified';
+            $artifact->title = 'Untitled';
+            $artifact->medium = '';
+            $artifact->description = '';
+            $artifact->dimensions_height = '';
+            $artifact->dimensions_width = '';
             $artifact->dimensions_depth = null;
-            $artifact->dimensions_units = 'inches';
+            $artifact->dimensions_units = 'cm';
             $artifact->save();
             
             flash('An artifact has been successfully added to this assignment!', 'success');
@@ -195,19 +195,41 @@ class ArtifactController extends Controller
      * @param  \App\Artifact  $artifact
      * @return \Illuminate\Http\Response
      */
-    public function publish (Artifact $artifact)
+    public function publish (Request $request, Artifact $artifact)
     {
+        
+         // create valiadator
+        $this->validate($request, [
+        'title' => 'required',
+        'medium' => 'required',
+        'dimensions_height' => 'required',
+        'dimensions_width' => 'required',
+        //'dimensions_depth' => 'required',
+        'dimensions_units' => 'required',
+        'description' => 'required'
+
+        ]);
         
         $artifact = Artifact::findOrFail($artifact->id);
 
+        // get form input data
+        $artifact->title = $request->input('title');
+        $artifact->medium = $request->input('medium');
+        $artifact->dimensions_units = $request->input('dimensions_units');
+        $artifact->dimensions_height = $request->input('dimensions_height');
+        $artifact->dimensions_width = $request->input('dimensions_width');
+        $artifact->dimensions_depth = $request->input('dimensions_depth');
+        $artifact->description = $request->input('description');
+
         $artifact->is_published = true;
         $artifact->is_visible = true;
+
         $artifact->save();
 
         $artifacts = Artifact::where('is_published', 1)
                              ->where('user_id', Auth::User()->id)->get();    
 
-        //flash('An artifact has been successfully added to your portfolio!', 'success');
+        //flash('An artifact has been successfully published to your portfolio!', 'success');
 
         return view('home')->with('artifacts', $artifacts);
     }
