@@ -17,19 +17,19 @@
 
                 <div class="panel-heading">Sections</div>
                 <div class="panel-body">
-                @foreach ($site->sections as $section) 
                 
-                <a href="{{route('section.show', $section->id )}}">{{$section->name}} | {{$section->label}}</a> | {{$section->code}}<br/>
 
-                    <!-- @foreach ($section->users as $user)
+                @if (!$site->sections)
 
-                        @if ($user->hasRole('teacher'))
-                            {{ $user->firstname}}
-                        @endif
+                no sections
 
-                    @endforeach -->
+                @else 
 
-                @endforeach
+                {{ $site->sections }}
+
+                @endif
+
+
                 </div>
             </div>
 
@@ -37,15 +37,27 @@
 
                 <div class="panel-heading">Teachers</div>
                 <div class="panel-body">
-                @foreach ($site->users as $user) 
-               
-                        @if ($user->hasRole('teacher'))
-                            
-                            <a href="{{route('user.show', $user->id )}}">{{$user->firstName}} {{$user->lastName}}</a><br/>
+                
+                @if (!$site->users)
 
-                        @endif
+                no users
 
-                @endforeach
+                @else 
+
+                    @foreach ($site->users as $user) 
+                   
+                            @if ($user->hasRole('teacher'))
+                                
+                                <a href="{{route('user.show', $user->id )}}">{{$user->firstName}} {{$user->lastName}}</a><br/>
+
+                            @endif
+
+                    @endforeach
+
+                @endif
+
+
+                
                 </div>
             </div>
             <div class="panel panel-default">

@@ -21,7 +21,7 @@ class SectionController extends Controller
      */
     public function index()
     {
-        $sections = Section::with('users')->get();
+        $sections = Section::with('users','site')->get();
 
         return view('section.index')->with('sections', $sections);
     }
@@ -88,7 +88,7 @@ class SectionController extends Controller
         $query->where('id', $section->id );
         })->orderBy('lastName','asc')->get();
         
-        return view('section.show', compact('section', 'teacher','roster', 'assignments'));
+        return view('section.show', compact('section','teacher','roster', 'assignments'));
     }
 
     /**

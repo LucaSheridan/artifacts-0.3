@@ -50,9 +50,9 @@
             
             @foreach ($section->users as $user)
             
-            @unless ( $user->hasRole('student') )
+            @if ( $user->hasRole('teacher') )
             {{ $user->firstName }} {{ $user->lastName }}
-            @endunless
+            @endif
 
             @endforeach            
             

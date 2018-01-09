@@ -55,7 +55,7 @@ class ArtifactController extends Controller
         // create valiadator
         $this->validate($request, [
         
-            'file' => 'required',
+            'file' => 'required|image',
             'user_id' => 'required',
             'assignment_id' => 'required',
             'component_id' => 'required',
