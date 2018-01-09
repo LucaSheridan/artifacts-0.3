@@ -117,6 +117,16 @@
         <input type="hidden" name="assignment_id" value="{{$checklistItem->assignmentID}}">
         <input type="hidden" name="component_id" value="{{$checklistItem->componentID}}">
         <button type="submit" class="btn btn-primary">Upload File</button>
+
+        <!-- File Uplaod Errors-->
+
+        @if ($errors->has('file'))
+        
+            <span class="help-block">
+            <strong>{{ $errors->first('file') }}</strong>
+            </span>
+        
+        @endif
                                         
         </form>
 

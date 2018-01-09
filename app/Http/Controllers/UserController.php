@@ -22,32 +22,12 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    
     public function show(User $user)
     {
         //$user = User::with('artifacts')->findOrFail($user->id);
@@ -56,21 +36,7 @@ class UserController extends Controller
             $query->where('is_published', '=', true);
         }])->findOrFail($user->id);
 
-        //dd($user);
-
-        // $artifacts = Artifact::where('user_id', Auth::User()->id)
-        //                     ->where('is_published', 1)
-        //                     ->get();
-
-        //$section = Section::where('user_id', $user->id)->first();
-
-        //$assignments = Assignment::where('section_id', $section)->get();
-
-        //dd($section);
-        //dd($assignments);
-
         return view('user.show')->with('user', $user);
-
     }
 
     /**
@@ -79,6 +45,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    
     public function edit(User $user)
     {
         return view('user.edit')->with('user', $user);
@@ -97,14 +64,12 @@ class UserController extends Controller
         $this->validate($request, [
         'firstName' => 'required|max:255',
         'lastName' => 'required|max:255',
-        //'email'=>'required|email|unique:users,email,'.$user->id,
-        'email'=>'unique:users,email,'.$user->id,
+        'email'=>'required|unique:users,email,'.$user->id,
 
         ]);
 
         // get form input data and persist to database
         $user = User::findOrfail($user->id);
-
         $user->firstName = $request->input('firstName');
         $user->lastName = $request->input('lastName');
         $user->email = $request->input('email');
@@ -112,7 +77,6 @@ class UserController extends Controller
         
         return redirect()->action('UserController@index');
     }
-
 
     /**
      * Remove the specified resource from storage.
