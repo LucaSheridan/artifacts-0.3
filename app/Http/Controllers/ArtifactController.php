@@ -326,6 +326,26 @@ class ArtifactController extends Controller
 
         return redirect()->action('HomeController@index');
     }
+
+        /**
+     * Rotate the specified resource.
+     *
+     * @param  \App\Artifact  $artifact
+     * @return \Illuminate\Http\Response
+     */
+    public function rotate(Artifact $artifact)
+    {
+
+        $artifact = Artifact::findOrFail($artifact->id);
+
+        // create a new Image/Intervention instance
+        $image = Image::make($request->file('file'))->orientate();
+
+
+        flash('Artifact roatated 90 CW!', 'success');
+
+        return redirect()->action('HomeController@index');
+    }
     
      // public function S3upload(Request $request)
    

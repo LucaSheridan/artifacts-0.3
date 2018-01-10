@@ -127,6 +127,43 @@ class SectionController extends Controller
                compact('user', 'section', 'assignment', 'assignmentChecklist'));
     }
 
+
+    /**
+     * Display an individual student assignment
+     *
+     * @param  \App\Section $section
+     * @param  \App\Assignment $assignment
+     * @param  \App\User $student
+     * @return \Illuminate\Http\Response
+     */
+    public function StudentAssignmentDetailView(Section $section, Assignment $assignment, User $user)
+    {
+        
+        $assignmentChecklist = DB::table('components')->leftjoin('artifacts', function ($join) use ($assignment, $user) {
+
+            $join->on('components.id', '=', 'artifacts.component_id')
+                 ->where('artifacts.user_id', '=', $user->id); // This eliminates matches, not records
+
+                })
+
+                ->where('components.assignment_id', '=', $assignment->id)
+                ->orderBy('components.date_due', 'ASC')
+                ->select(
+                 'artifacts.id AS artifactID',
+                 'components.assignment_id AS assignmentID',
+                 'components.id AS componentID', 
+                 'components.title AS componentTitle',
+                 'components.date_due AS componentDateDue',
+                 'artifacts.artifact_thumb AS artifactThumb',
+                 'artifacts.artifact_path AS artifactPath',
+                 'artifacts.created_at AS artifactCreatedAt',
+                 'artifacts.is_published AS is_published')
+                 ->get();                         
+
+        return view('section.StudentAssignmentDetailView', 
+               compact('user', 'section', 'assignment', 'assignmentChecklist'));
+    }
+
     /**
      * Display grid of all published artifacts associated with this assignment.
      *

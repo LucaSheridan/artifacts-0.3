@@ -51,8 +51,9 @@
         <div class="col-md-9">
         <div class="panel panel-default">
             
-            <div class="panel-heading">
-            {{$assignment->title}} | Component Checklist
+           <div class="panel-heading">
+           <b>{{$assignment->title}}</b>
+           <span class='pull-right'>Progress View | <a href="{{ action('SectionController@StudentAssignmentDetailView', ['$section' => $section->id, '$assignment' => $assignment->id, '$student' => $user->id])}}">Detail View</a></span>
             </div> 
             
             <div class="panel-body">

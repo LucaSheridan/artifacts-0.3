@@ -81,6 +81,8 @@ Route::post('/test', 'ArtifactController@S3upload');
 	Route::get('/section/{section}/{assignment}/', ['middleware' => 'auth', 'uses' => 'SectionController@ViewClassAssignment']);
 
 	Route::get('/section/{section}/{assignment}/{user}', ['middleware' => 'auth', 'uses' => 'SectionController@StudentAssignmentProgressView']);
+
+	Route::get('/section/{section}/{assignment}/{user}/detail', ['middleware' => 'auth', 'uses' => 'SectionController@StudentAssignmentDetailView']);
 	
 	Route::get('/section/{section}/{student}', ['middleware' => 'auth', 'uses' => 'SectionController@ViewStudentMultipleAssignments']);
 
