@@ -102,7 +102,7 @@ class ArtifactController extends Controller
                     $image->resize(null, 1000, function ($constraint) { 
                     $constraint->aspectRatio();
                     $constraint->upsize();
-                    })->encode('jpg', 75);
+                    })->interlace()->encode('jpg', 85);
                     // Save image to Amazon S3
                     $s3->put($imagePath, $image->__toString(), 'public');
 
@@ -111,7 +111,7 @@ class ArtifactController extends Controller
                     $constraint->aspectRatio();
                     $constraint->upsize();
                     // Crop and encode thumbnail as jpg
-                    })->crop(200, 200)->encode('jpg', 75);
+                    })->crop(200, 200)->interlace()->encode('jpg', 85);
                     // Save thumbnail to Amazon S3
                     $s3->put($thumbPath, $image->__toString(), 'public');
                 }
@@ -123,7 +123,7 @@ class ArtifactController extends Controller
                     $image->resize(1000, null, function ($constraint) { 
                     $constraint->aspectRatio();
                     $constraint->upsize();
-                    })->encode('jpg', 75);
+                    })->interlace()->encode('jpg', 85);
                     // Save image to Amazon S3
                     $s3->put($imagePath, $image->__toString(), 'public');
 
@@ -132,7 +132,7 @@ class ArtifactController extends Controller
                     $constraint->aspectRatio();
                     $constraint->upsize();
                     // Crop and encode thumbnail as jpg
-                    })->crop(200, 200)->encode('jpg', 75);
+                    })->crop(200, 200)->interlace()->encode('jpg', 85);
                     // Save thumbnail to Amazon S3
                     $s3->put($thumbPath, $image->__toString(), 'public');
                 }
@@ -206,7 +206,7 @@ class ArtifactController extends Controller
         'dimensions_width' => 'required',
         //'dimensions_depth' => 'required',
         'dimensions_units' => 'required',
-        'description' => 'required|max:250'
+        'description' => 'required|max:500'
 
         ]);
         
@@ -327,25 +327,46 @@ class ArtifactController extends Controller
         return redirect()->action('HomeController@index');
     }
 
-        /**
-     * Rotate the specified resource.
-     *
-     * @param  \App\Artifact  $artifact
-     * @return \Illuminate\Http\Response
-     */
-    public function rotate(Artifact $artifact)
-    {
+    // /**
+    //  * Rotate the specified resource.
+    //  *
+    //  * @param  \App\Artifact  $artifact
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function rotate(Artifact $artifact)
+    // {
 
-        $artifact = Artifact::findOrFail($artifact->id);
+    //     //get artifact from database
 
-        // create a new Image/Intervention instance
-        $image = Image::make($request->file('file'))->orientate();
+    //     $artifact = Artifact::findOrFail($artifact->id);
+
+    //     // get artifact to rotate from Amazon S3
+
+    //     $image = Storage::disk('s3')->url($artifact->artifact_path);
+
+    //     // dd($image);
 
 
-        flash('Artifact roatated 90 CW!', 'success');
+    //     // create a new Image/Intervention instance
+    //     $image = Image::make($image);
 
-        return redirect()->action('HomeController@index');
-    }
+    //     $image->rotate('-90');
+
+    //     //dd($image);
+
+    //     // set storage
+    //     $s3 = \Storage::disk('s3');
+
+    //     // Save image to Amazon S3
+    //     $s3->put($artifact->artifact_path, $image->__toString(), 'public');
+
+
+
+
+    //     flash('Artifact rotated 90 CW!', 'success');
+
+    //     return redirect()->action('HomeController@index');
+    // }
     
      // public function S3upload(Request $request)
    
