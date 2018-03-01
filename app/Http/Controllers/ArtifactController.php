@@ -276,7 +276,7 @@ class ArtifactController extends Controller
         'dimensions_width' => 'required',
         //'dimensions_depth' => 'required',
         'dimensions_units' => 'required',
-        'description' => 'required|max:250'
+        'description' => 'required|max:500'
 
         ]);
 
