@@ -91,7 +91,7 @@
             
             <br/>
             </a>
-
+            {{ $artifact->description }} 
         </div>
 
     @endforeach
