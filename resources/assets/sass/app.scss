@@ -21,9 +21,8 @@
     margin: 5px;
     padding: 5px;
     border: 0px solid #CCC;
-    white-space: nowrap;
-    overflow: hidden;
-}
+    background-color: #FFF;
+    }
 
 .project-placeholder {
     
@@ -52,8 +51,8 @@
     min-height: 100%;
     font-size: 100px;
     text-align: right;
-    filter: alpha(opacity=100);
-    opacity: 0;
+    filter: alpha(opacity=0);
+    opacity: .0;
     outline: none;
     background: white;
     cursor: inherit;
@@ -66,36 +65,41 @@
     border: none;
 }
 
+// typanus.net
 
-th.rotate {
+/*.inputfile {
     
-    height: 150px;
-    white-space: nowrap;
+    width: 0.1px;
+    height:0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
 }
 
-th.rotate > div {
-    
-    transform:
+.inputfile + label {
 
-        translate(8px, 50px)
-        rotate(315deg);
-    width: 45px;
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: black;
+    display: inline-block;
 
 }
 
-th.rotate > div > span {
-    
-    border-top: 0px solid #CCC;
-    border-bottom: 0px solid #CCC;
-    border-left: 0px solid #CCC;
-    border-right: 0px solid #CCC;
-    padding: 6px 0px 6px 10px;
-    margin: 0px;
-}
-
-td.grid {margin: 0px; border: 1px solid #CCC;  text-align:center;}
+.inputfile:focus + label,
+.inputfile + label:hover {
+   background-color: red; 
+}*/
 
 .footer {text-align: center;}
+
+@media print {
+  a[href]:after {
+    content: none !important;
+  }
+}
+
 
 
 
