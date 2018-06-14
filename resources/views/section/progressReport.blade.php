@@ -41,6 +41,7 @@
         {{-- Table Columns --}}
 
                     <tr>
+                        <th scope="col">Artifact</th>                        
                         <th scope="col">Component</th>                        
                         <th scope="col">Due Date</th>
                         <th scope="col">Status</th>
@@ -50,6 +51,19 @@
 
                     <tr>
                         
+                        {{-- Artifact--}}
+
+                        <td>
+
+                            @if ($checklist_item->artifact_thumb)
+                            <a href="{{ action('ArtifactController@show', $checklist_item->artifact_id)}}">
+                            <img class="img-responsive artifact-thumbnail" src="https://s3.amazonaws.com/artifacts-0.3/{{$checklist_item->artifact_path}}"></a>
+                            @else
+                            pending
+                            @endif
+
+                        </td>
+
                         {{-- Component Title--}}            
             
                         <td>
@@ -118,6 +132,19 @@
             {{-- Other Components of an Assignment --}}
 
                      <tr>
+
+            {{-- Artifact--}}
+
+                        <td>
+
+                            @if ($checklist_item->artifact_thumb)
+                            <a href="{{ action('ArtifactController@show', $checklist_item->artifact_id)}}">
+                            <img class="img-responsive artifact-thumbnail" src="https://s3.amazonaws.com/artifacts-0.3/{{$checklist_item->artifact_path}}"></a>
+                            @else
+                            pending
+                            @endif
+
+                        </td>
            
               {{-- Component Title--}}            
             
