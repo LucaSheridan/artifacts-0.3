@@ -42,9 +42,8 @@
 
                     <tr>
                         <th scope="col">Component</th>                        
+                        <th scope="col">Due Date</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Due</th>
-                        <th scope="col">Completed</th>
                     </tr>
 
         {{-- First Component of an Assignment --}}
@@ -64,6 +63,12 @@
                             {{ $checklist_item->component_title }}
                             @endif
 
+                        </td>
+
+                        {{-- Due Date --}}
+
+                        <td>
+                            {{ Carbon\Carbon::parse($checklist_item->component_due)->format('n/j ') }}
                         </td>
                        
                         {{-- Status--}}   
@@ -104,15 +109,6 @@
                                 
                         </td>
 
-                {{-- Status --}}
-                        <td>
-                            {{ Carbon\Carbon::parse($checklist_item->component_due)->format('n/j ') }}
-                        </td>
-                        <td>
-                            {{ Carbon\Carbon::parse($checklist_item->artifact_created)->format('n/j ') }}
-                        </td>
-                    </tr>
-
                     @php
                         $current_assignment = $checklist_item->assignment_id;
                     @endphp
@@ -136,6 +132,12 @@
                             {{ $checklist_item->component_title }}
                             @endif
 
+                        </td>
+
+            {{-- Due Date --}}
+
+                        <td>
+                            {{ Carbon\Carbon::parse($checklist_item->component_due)->format('n/j ') }}
                         </td>
             
             {{-- Status--}}   
@@ -176,14 +178,6 @@
                                 
                         </td>
 
-                {{-- Status --}}
-                        
-                        <td>
-                            {{ Carbon\Carbon::parse($checklist_item->component_due)->format('n/j ') }}
-                        </td>
-                        <td>
-                            {{ Carbon\Carbon::parse($checklist_item->artifact_created)->format('n/j ') }}
-                        </td>
                     </tr>
 
                 @endif
