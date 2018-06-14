@@ -17,13 +17,42 @@
                         <div class="col-md-12">
 
                             <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#assignments">Assignments</a></li>
-                            <li><a data-toggle="tab" href="#students">Students ({{ count($roster) }})</a></li>
+
+                            <li class="active"><a data-toggle="tab" href="#students">Students ({{ count($roster) }})</a></li>
+                            <li><a data-toggle="tab" href="#assignments">Assignments</a></li>
+                           
                             </ul>
 
                             <div class="tab-content">
                 
-                                <div id="assignments" class="tab-pane fade in active clearfix">
+                                {{-- Begin Roster --}}
+
+                                <div id="students" class="tab-pane fade in active clearfix">
+                                
+                                    @if ($roster->count() == 0)
+                                    
+                                    <p>There are currently no students enrolled in this section.</p>
+
+                                    @else
+
+                                        @foreach ($roster as $rosterspot)
+
+                                        <div class="pull-left project-wrapper">
+
+                                        <div class="well">
+                                              <a href="{{ action('SectionController@progressReport', ['section' => $section->id, 'user' => $rosterspot->id])}}">{{ $rosterspot->firstName}} {{ $rosterspot->lastName}}
+                                                </a></div></div>
+
+                                                @endforeach
+
+                                    @endif
+
+                                                            
+                                </div>
+
+                                {{-- Begin Assignments --}}
+
+                                <div id="assignments" class="tab-pane fade  clearfix">
                 
                                     @if ($assignments->count())
             
@@ -52,33 +81,6 @@
 
                                 </div>
 
-                                <div id="students" class="tab-pane fade clearfix">
-                                
-                                    @if ($roster->count() == 0)
-                                    
-                                    <p>There are currently no students enrolled in this section.</p>
-
-                                    @else
-
-                                        @foreach ($roster as $rosterspot)
-
-                                                <div class="pull-left project-wrapper">
-                                                <div class="well">
-                                                 
-                                                
-                                                <a href="{{ action('SectionController@progressReport', ['section' => $section->id, 'user' => $rosterspot->id])}}">{{ $rosterspot->firstName}}
-                                                </a>
-                                                <br/>
-
-                                                </div>
-                                                </div>
-
-                                                @endforeach
-
-                                    @endif
-
-                                                            
-                                </div>
 
                             </div>
           
