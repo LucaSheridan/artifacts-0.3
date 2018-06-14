@@ -4,75 +4,88 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+            
             <div class="panel panel-default">
                
-            <div class="panel-heading">
-            {{$section->label}}<span class='pull-right'>Registration code: {{$section->code}}</span>
+                <div class="panel-heading">
+                {{$section->label}}<span class='pull-right'>Registration code: {{$section->code}}</span>
+                </div>
+
+                <div class="panel-body">
+                
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#assignments">Assignments</a></li>
+                            <li><a data-toggle="tab" href="#students">Students ({{ count($roster) }})</a></li>
+                            </ul>
+
+                            <div class="tab-content">
+                
+                                <div id="assignments" class="tab-pane fade in active clearfix">
+                
+                                    @if ($assignments->count())
             
-            </div>
+                                    @foreach ($assignments as $assignment)
+                     
+                                        <div class="pull-left project-wrapper">
+                                        <div class="well">
 
-            <div class="panel-body">
-                
-            <div class="row">
-                
-            <!-- Student List -->
+                                        <a href='{{ action('SectionController@ViewClassAssignment', ([$section->id, $assignment->id ])) }} '>{{ $assignment->title }}</a> | 
+                                        <a href='{{ action('AssignmentController@show', $assignment->id) }} '>Edit</a> 
+                                        
 
-            <div class="col-sm-3">
+                                        </div>
+                                        </div>
+                                                                    
+                                        @endforeach
 
-            <h4>Roster ({{ count($roster) }})</h4>
+                                    @else
+                                    
+                                    <p>No Assignments have been created yet.</p>
+                                    
+                                    @endif
+                                    
+                                
+                                    <a class='btn btn-primary' href='{{action('AssignmentController@create', $section->id) }}'>Create New Assignment</a>
 
-                @if ($roster->count() == 0)
-                
-                <p>There are currently no students enrolled in this section.</p>
+                                </div>
 
-                @else
+                                <div id="students" class="tab-pane fade clearfix">
+                                
+                                    @if ($roster->count() == 0)
+                                    
+                                    <p>There are currently no students enrolled in this section.</p>
 
-            @foreach ($roster as $rosterspot)
-           
-            <!-- {{ $loop->iteration }} -->
+                                    @else
 
-            <a href="{{ action('UserController@show', $rosterspot->id) }}">{{ $rosterspot->firstName}} {{ $rosterspot->lastName}}</a><br/>
-            
-            @endforeach
+                                        @foreach ($roster as $rosterspot)
 
-            @endif
-
-            </div>
-
-            <!-- Assignment List -->
-
-            <div class="col-sm-9">
-
-            <h4>Assignments</h4>
-
-                
-                @if ($assignments->count())
-    
-                    @foreach ($assignments as $assignment)
-             
-                    {{ $assignment->title }} | 
-                    <a href='{{ action('AssignmentController@show', $assignment->id) }} '>Edit</a> | 
-                    <a href='{{ action('SectionController@ViewClassAssignment', ([$section->id, $assignment->id ])) }} '>View</a>
-
-                    <br/>
+                                                <div class="pull-left project-wrapper">
+                                                <div class="well">
+                                                 
                                                 
-                    @endforeach
+                                                <a href="{{ action('SectionController@progressReport', ['section' => $section->id, 'user' => $rosterspot->id])}}">{{ $rosterspot->firstName}}
+                                                </a>
+                                                <br/>
 
-                @else
-                <p>No Assignments have been created yet.</p>
-                @endif
-                <br/>
-                <a class='btn btn-primary' href='{{action('AssignmentController@create', $section->id) }}'>Create New Assignment</a>
+                                                </div>
+                                                </div>
 
+                                                @endforeach
 
+                                    @endif
 
+                                                            
+                                </div>
 
-            </div>
-            </div>
-            </div>
-            </div>
-            </div>
-
+                            </div>
+          
+                        </div>
+                    </div>
+                </div>
+            </div>         
         </div>
     </div>
 </div>

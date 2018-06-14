@@ -56,6 +56,11 @@ Route::post('/test', 'ArtifactController@S3upload');
 	Route::get('/site/{site}/delete', ['middleware' => 'auth', 'uses' => 'SiteController@delete']);
 	Route::delete('/site/{site}', ['middleware' => 'auth', 'uses' => 'SiteController@destroy']);
 
+// Collection Routes
+
+	Route::get('/collection', ['middleware' => 'auth', 'uses' => 'CollectionController@index']);
+	Route::get('/collection/{collection}', ['middleware' => 'auth', 'uses' => 'CollectionController@show']);
+
 // User Routes
 
 	Route::get('/user', ['middleware' => 'auth', 'uses' => 'UserController@index']);
@@ -78,25 +83,34 @@ Route::post('/test', 'ArtifactController@S3upload');
 	Route::get('/section/{section}/delete', ['middleware' => 'auth', 'uses' => 'SectionController@delete']);
 	Route::delete('/section/{section}', ['middleware' => 'auth', 'uses' => 'SectionController@destroy']);
 
-	Route::get('/section/{section}/{assignment}/', ['middleware' => 'auth', 'uses' => 'SectionController@ViewClassAssignment']);
+		// Teacher View - Class Assignmentcreate
+		Route::get('/section/{section}/assignment/{assignment}/', ['middleware' => 'auth', 'uses' => 'SectionController@ViewClassAssignment']);
 
-	Route::get('/section/{section}/{assignment}/{user}', ['middleware' => 'auth', 'uses' => 'SectionController@StudentAssignmentProgressView']);
+		// Teacher View - Class Assignment (Grid?)
+		Route::get('/section/{section}/assignment/{assignment}/grid', ['middleware' => 'auth', 'uses' => 'SectionController@ViewClassAssignmentGrid']);
 
-	Route::get('/section/{section}/{assignment}/{user}/detail', ['middleware' => 'auth', 'uses' => 'SectionController@StudentAssignmentDetailView']);
+
+		// Teacher View - Individual Progress on Class Assignment
+		Route::get('/section/{section}/assignment/{assignment}/user/{user}', ['middleware' => 'auth', 'uses' => '	SectionController@StudentAssignmentProgressView']);
+
+		// // Teacher View - Class Completion of Individual Component 
+		// Route::get('/section/{section}/{assignment}/{user}/detail', ['middleware' => 'auth', 'uses' => 'SectionController@StudentAssignmentDetailView']);
 	
-	Route::get('/section/{section}/{student}', ['middleware' => 'auth', 'uses' => 'SectionController@ViewStudentMultipleAssignments']);
 
-		
+		Route::get('/section/{section}/{user}', ['middleware' => 'auth', 'uses' => 'SectionController@progressReport']);
 
+	
+		// View Class Completion of Component 
 
-	// Should probably be in Assignment Controller
+		Route::get('/section/{section}/assignment/{assignment}/component/{component}', ['middleware' => 'auth', 'uses' => 'SectionController@AssignmentComponent']);
+
+// Should probably be in Assignment Controller
 	
 	// Depracated
 	//Route::get('/section/{section}/createAssignment', 'SectionController@createAssignment');
 	
 	//Route::get('/section/{section}/addStudents', 'SectionController@addStudents');
 	//Route::post('/section/{section}/addStudents', 'SectionController@storeStudents');
-
 	
 // Assignment Routes
 

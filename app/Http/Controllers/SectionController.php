@@ -14,6 +14,53 @@ use Illuminate\Support\Facades\DB;
 
 class SectionController extends Controller
 {
+    
+    public function progressReport(Section $section, User $user)
+    
+    {
+         
+        // get this section assignments and set to an array
+        $assignments = Assignment::where('section_id', $section->id)
+                                 ->where('active', true)
+                                 ->pluck('id')->toArray();
+
+
+        //dd($assignments);
+
+
+            $checklist = Artifact::with('assignment')
+
+            ->rightjoin('components', function ($join) use ($user, $assignments) {
+
+            $join->on('components.id', '=', 'artifacts.component_id')
+                
+                 ->where('artifacts.user_id', '=', $user->id);
+                // This eliminates matches, not records
+
+                })
+
+                ->whereIn('components.assignment_id', $assignments)
+                ->orderBy('components.id', 'asc')
+               
+                ->select(
+                 'artifacts.id AS artifact_id',
+                 'components.assignment_id AS assignment_id',
+                 'components.id AS component_id', 
+                 'components.title AS component_title',
+                 'components.date_due AS component_due',
+                 'artifacts.artifact_thumb AS artifact_thumb',
+                 'artifacts.artifact_path AS artifact_path',
+                 'artifacts.created_at AS artifact_created')
+                 //'artifacts.is_published AS is_published')
+                 ->get();
+
+                 //dd($assignmentChecklist);                      
+
+        return view('section.progressReport')
+               ->with(compact('assignments','checklist','user'));
+    
+    }
+
       /**
      * Display a listing of the resource.
      *
@@ -194,6 +241,55 @@ class SectionController extends Controller
         return view('section.ViewClassAssignment')->with(compact('roster','incomplete','students','assignment', 'section'));
      }
 
+         /**
+     * Display grid of all published artifacts associated with this assignment.
+     *
+     * @param  \App\Site  $site
+     * @return \Illuminate\Http\Response
+     */
+    public function ViewClassAssignmentGrid(Section $section, Assignment $assignment)
+    {
+        
+        $students = User::with(['artifacts' => function ($query)  use($assignment) {
+        
+                            $query
+                                  ->where('is_published', '=', true)
+                                  ->where('assignment_id', '=', $assignment->id)
+                                  ->orderBy('component_id.date','asc');
+                            }])
+
+                        ->whereHas('roles', function ($query) { 
+        
+                            $query->where('name', 'like', 'student');
+                            })
+
+                        ->whereHas('sections', function ( $query ) use($section) {
+        
+                            $query->where('id', $section->id );
+                            })
+
+                        ->orderBy('lastName','asc')->get();
+        
+        //dd($roster);
+
+        // $students = User::with(['artifacts' => function ($query)  use($assignment) {
+        // $query->where('is_published', '=', true)
+        //       ->where('assignment_id', '=', $assignment->id);
+        // }])->whereHas('roles', function ($query) { 
+        // $query->where('name', 'like', 'student');
+        //     })->whereHas('sections', function ( $query ) use($section) {
+        // $query->where('id', $section->id );
+        // })->get();
+
+        // $section = Section::findOrFail($section->id);
+        // $assignment = Assignment::findOrFail($assignment->id);
+
+        //
+        // return view('section.ViewClassAssignmentGrid')->with(compact('roster','incomplete','students','assignment', 'section'));
+
+        return view('section.ViewClassAssignmentGrid')->with(compact('students','assignment', 'section'));
+     }
+
     /**
      * Show the form for editing the Section.
      *
@@ -260,6 +356,52 @@ class SectionController extends Controller
 
        return redirect()->action('SectionController@index');
     }
+
+    /**
+     * Display grid of all published artifacts associated with this assignment.
+     *
+     * @param  \App\Site  $site
+     * @return \Illuminate\Http\Response
+     */
+    public function StudentXray(Section $section, User $user)
+    {
+        
+        $assignments = Assignment::where('section_id', $section->id)->get();
+
+        ($assignments);
+
+        return view('section.StudentXray')->with(compact('assignments', 'section', 'user'));
+     }
+
+     public function AssignmentComponent(Section $section, Assignment $assignment, Component $component)
+    {
+        
+        // $section = Input::get('section_selection');
+        // $assignment = Input::get('assignment_selection');
+        // $component = Input::get('component_selection');
+
+        $sections =  Auth::User()->sections()->get()->pluck('label','id');
+
+        $assignments = Assignment::where('section_id', $section->id)->get()->pluck('title','id');
+
+        $components = Component::where('assignment_id', $assignment->id)->get()->pluck('title','id');
+    
+        $students = User::with(['artifacts' => function ($query) use($component) {
+        $query->where('component_id', '=', $component->id);
+        }])->whereHas('roles', function ($query) { 
+        $query->where('name', 'like', 'student');
+            })->whereHas('sections', function ( $query ) use($section) {
+        $query->where('id', $section->id );
+        })->get()->sortBy('lastName');
+
+        //dd($students);
+
+        return view('section.assignment.component.show')
+               ->with(compact('sections', 'section', 'assignments', 'assignment', 'components', 'component', 'students'));
+     }
+
+
+
 
     // /**
     //  * Show the form for adding students to a section.
