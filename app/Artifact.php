@@ -16,6 +16,14 @@ class Artifact extends Model
          return $this->belongsTo('App\User');
     }
 
+    public function getFullNameAttribute() 
+
+    {
+    
+    return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
+    
+    }
+
    public function assignment()
     
     {
@@ -33,4 +41,14 @@ class Artifact extends Model
     {
          return $this->belongsTo('App\User');
     }
+
+      public function collections()
+    
+    {
+         return $this->belongstoMany('App\Collection')->withPivot('position');
+    }
+
+    
 }
+
+

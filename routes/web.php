@@ -97,6 +97,7 @@ Route::post('/test', 'ArtifactController@S3upload');
 		// Route::get('/section/{section}/{assignment}/{user}/detail', ['middleware' => 'auth', 'uses' => 'SectionController@StudentAssignmentDetailView']);
 	
 
+		// Progress Report
 		Route::get('/section/{section}/{user}', ['middleware' => 'auth', 'uses' => 'SectionController@progressReport']);
 
 	

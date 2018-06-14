@@ -46,7 +46,7 @@ class AssignmentController extends Controller
         $this->validate($request, [
         
         'title' => 'required',
-        'description' => 'required',
+        // 'description' => 'required',
         'section_id' => 'required',
 
         ]);
@@ -56,9 +56,9 @@ class AssignmentController extends Controller
         $assignment = New Assignment;
         
         $assignment->title = $request->input('title');
-        $assignment->description = $request->input('description');
+        //$assignment->description = $request->input('description');
         $assignment->section_id = $request->input('section_id');
-        $assignment->active = false;
+        $assignment->active = true;
         $assignment->save();
 
         //$assignment = Assignment::findOrFail($assignment->id)->with('components');
@@ -230,7 +230,6 @@ class AssignmentController extends Controller
         
         $assignment->title = $request->input('title');
         $assignment->description = $request->input('description');
-
         $assignment->save();
 
         flash('Assignment updated successfully!', 'success');

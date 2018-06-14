@@ -15,29 +15,34 @@ require('./bootstrap');
 
  
 
-// Vue.component('example');
+Vue.component('example');
 
-// var app  = new Vue({
-//   el: "#app",
+var app  = new Vue({
+  el: "#app",
   
-//   data: {
+data: {
     
-//     rows: [
-//       {title: "Final Artwork", isPrimary: "1"},
-//     ],
-    
-//   },
-  
-//   methods:{
-//     addRow: function(){
-      
-//       this.rows.push({title:"", isPrimary: "0"});
-//     },
+	rows: [
 
-//     removeRow: function(row){
+		{title: "Final Artwork", isPrimary: "1"},
+	
+		  ],
+    
+	  },
+  
+methods:{
+
+	addRow: function(){
       
-//       let index = this.rows.indexOf(row)
-// 			      this.rows.splice(index, 1);
-//     }
-//   }
-// });
+	this.rows.push({title:"", isPrimary: "0"});
+	},
+
+	removeRow: function(row){
+      
+	let index = this.rows.indexOf(row)
+	this.rows.splice(index, 1);
+
+	}
+}
+
+});

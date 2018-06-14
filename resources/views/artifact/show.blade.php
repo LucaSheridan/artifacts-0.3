@@ -74,6 +74,10 @@
 
 		<a class="btn btn-danger" href='{{ action('ArtifactController@delete', $artifact->id) }}'>Delete</a><br/>
       </li>
+   <!--    <li>
+    <a class="btn btn-success" href='{{ action('ArtifactController@rotate', $artifact->id) }}'>Rotate</a><br/>
+      </li>
+ -->
       </ul>
       	</div>
 

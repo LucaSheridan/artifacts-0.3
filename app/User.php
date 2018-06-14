@@ -53,7 +53,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Artifact::class);
     }
-    
+
+    public function collections()
+    {
+        return $this->hasMany(Collection::class);
+    }
+
      public function scopeTeacher($query)
     {
         return $query->hasRole('teacher');
