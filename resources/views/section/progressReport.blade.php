@@ -57,7 +57,7 @@
 
                             @if ($checklist_item->artifact_thumb)
                             <a href="{{ action('ArtifactController@show', $checklist_item->artifact_id)}}">
-                            <img class="img-responsive artifact-thumbnail" src="https://s3.amazonaws.com/artifacts-0.3/{{$checklist_item->artifact_path}}"></a>
+                            <img class="artifact-thumbnail" src="https://s3.amazonaws.com/artifacts-0.3/{{$checklist_item->artifact_path}}"></a>
                             @else
                             pending
                             @endif
@@ -116,10 +116,7 @@
 
                                     {{-- End Status Presentation Logic --}}
 
-
-
                 @endif
-
                                 
                         </td>
 
@@ -139,7 +136,7 @@
 
                             @if ($checklist_item->artifact_thumb)
                             <a href="{{ action('ArtifactController@show', $checklist_item->artifact_id)}}">
-                            <img class="img-responsive artifact-thumbnail" src="https://s3.amazonaws.com/artifacts-0.3/{{$checklist_item->artifact_path}}"></a>
+                            <img class="artifact-thumbnail" src="https://s3.amazonaws.com/artifacts-0.3/{{$checklist_item->artifact_path}}"></a>
                             @else
                             pending
                             @endif
