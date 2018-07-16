@@ -55,7 +55,7 @@
             
          <div class="pull-left project-wrapper">
  
-            <a href="{{ action('ArtifactController@show', $artifact->id)}}">
+            <div class="well"><a href="{{ action('ArtifactController@show', $artifact->id)}}">
             
             <img src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_thumb}}"></a>
 
@@ -80,6 +80,7 @@
 
             </a>
             {{ $artifact->description }}
+        </div>
 
         </div>
 

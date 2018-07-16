@@ -13,41 +13,34 @@
                     @foreach ($user->artifacts as $artifact) 
 
                     <div class="pull-left project-wrapper">
-                     
-                    <a href="{{ action('ArtifactController@show', $artifact->id)}}">                    
+ 
+            <div class="well"><a href="{{ action('ArtifactController@show', $artifact->id)}}">
+            
+            <img src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_thumb}}"></a>
 
-                        <div class="reveal-dim reveal-dim-white">
-                    
-                            <img class="reveal-show" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_thumb}}">
-                
-                        <div class="reveal-hide reveal-content">
-                    
-                        <div class="reveal-center">
-                        
-                            <span>
-                    
-                            <i> {{ $artifact->title}}</i><br/>
-                                {{ $artifact->medium}}<br/>
-                                {{ $artifact->dimensions_height}} x {{ $artifact->dimensions_width}}
+            <br/>
+            <br/>
+        
+            <i>{{ $artifact->title }}</i></a><br/>
+            {{ $artifact->medium }}<br/>
+            {{ $artifact->dimensions_height }} x 
+            {{ $artifact->dimensions_width }} 
 
-                                @if ($artifact->dimensions_depth)
-                
-                                x {{ $artifact->dimensions_depth }}
-                
-                                @else
-                                @endif
-                        
-                                {{ $artifact->dimensions_units }}
-                    
-                            </span>
-                        </div>          
-                        
-                        </div>
-                        </div>
+            @if ($artifact->dimensions_depth)
+        
+                x {{ $artifact->dimensions_depth }}
+        
+            @else
+            @endif
 
-                        </a>
+                  {{ $artifact->dimensions_units }}<br/>
+            
+            <br/>
 
-                    </div>
+            </a>
+        </div>
+
+        </div>
 
                     @endforeach
 
