@@ -13,6 +13,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/pikaday.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/smt-bootstrap.css') }}" rel="stylesheet">
   
       <!-- Scripts -->
     <script>
@@ -20,6 +21,64 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+
+    <style>
+    html, body {
+      height: 100%;
+    }
+    #actions {
+      margin: 2em 0;
+    }
+
+
+    /* Mimic table appearance */
+    div.table {
+      display: table;
+    }
+    div.table .file-row {
+      display: table-row;
+    }
+    div.table .file-row > div {
+      display: table-cell;
+      vertical-align: top;
+      border-top: 1px solid #ddd;
+      padding: 8px;
+    }
+    div.table .file-row:nth-child(odd) {
+      background: #f9f9f9;
+    }
+
+
+
+    /* The total progress gets shown by event listeners */
+    #total-progress {
+      opacity: 0;
+      transition: opacity 0.3s linear;
+    }
+
+    /* Hide the progress bar when finished */
+    #previews .file-row.dz-success .progress {
+      opacity: 0;
+      transition: opacity 0.3s linear;
+    }
+
+    /* Hide the delete button initially */
+    #previews .file-row .delete {
+      display: none;
+    }
+
+    /* Hide the start and cancel buttons and show the delete button */
+
+    #previews .file-row.dz-success .start,
+    #previews .file-row.dz-success .cancel {
+      display: none;
+    }
+    #previews .file-row.dz-success .delete {
+      display: block;
+    }
+
+
+  </style>
 
 </head>
 <body>
@@ -118,7 +177,7 @@
 
         @yield('content')    
 
-             <div class="container">
+            <div class="container">
             <div class="row">
             <div class="col-md-12">
             @include('layouts.partials.footer')
@@ -131,6 +190,7 @@
 
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/pikaday.js') }}"></script>
+    <script src="{{ asset('js/dropzone.js') }}"></script>
     
     <script>
         $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
@@ -141,7 +201,7 @@
     </script>
     
     <script src="https://unpkg.com/vue@2.1.10/dist/vue.js"></script>
-  
+   
 
 
 

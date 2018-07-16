@@ -121,8 +121,8 @@ class ComponentController extends Controller
         
         $this->validate($request, [
         
-        'title' => 'required',
-        'date_due' => 'required',
+        //'title' => 'required',
+        //'date_due' => 'required',
         ]);
 
         //dd($request->input('title'));

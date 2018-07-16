@@ -35,20 +35,7 @@
         {{ $assignment->title}}<br/>
         </a>
 
-          
-        <!-- Component List Block -->
-
-        <div class="collapse" id="toggleAssignment{{$assignment->id}}">
-        <div class="card card-block">
-               
-               @foreach ($assignment->components as $component)
-
-                    {{ $component->title }} | {{ $component->date_due->format('n/j')}}<br/>
-
-               @endforeach 
-
-        </div>
-        </div>
+        
 
     @endforeach
     <br/>
@@ -63,14 +50,14 @@
 <h4>PORTFOLIO</h4>
                     
 <p>Here is a portfolio of projects you have submitted as complete.</p>
-
+  
     @foreach ($artifacts as $artifact) 
             
-        <div class="pull-left project-wrapper">
-
+         <div class="pull-left project-wrapper">
+ 
             <a href="{{ action('ArtifactController@show', $artifact->id)}}">
             
-                <img src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_thumb}}"></a>
+            <img src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_thumb}}"></a>
 
             <br/>
             <br/>
@@ -90,11 +77,15 @@
                   {{ $artifact->dimensions_units }}<br/>
             
             <br/>
+
             </a>
-            {{ $artifact->description }} 
+            {{ $artifact->description }}
+
         </div>
 
     @endforeach
+
+    </div> 
 
 </div>
 

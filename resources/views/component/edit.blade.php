@@ -41,8 +41,9 @@
 
        <!--  <input id="datepicker" type="text" class="form-control" name="date_due" value="{{ Carbon\Carbon::parse($component->date_due)->setTimezone('America/New_York')->format('n/j/Y') }}"> -->
 
-        {!! Form::text('date_due', Carbon\Carbon::parse($component->date_due)->setTimezone('America/New_York')->format('n/j/Y') , ['id' => 'datepicker', 'class' => 'form-control']) !!}</div>
+       {!! Form::text('date_due', Carbon\Carbon::parse($component->date_due)->setTimezone('America/New_York')->format('n/j/Y') , ['id' => 'datepicker', 'class' => 'form-control']) !!}</div>
 
+       <div id="datepicker"></div>
 
                                 @if ($errors->has('date_due'))
                                     <span class="help-block">

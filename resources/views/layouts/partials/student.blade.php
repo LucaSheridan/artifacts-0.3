@@ -31,6 +31,8 @@
             
         <div class="pull-left project-wrapper">
 
+                        <i>{{ $artifact->component }}</i><br/>
+
             <a href="{{ action('ArtifactController@show', $artifact->id)}}">
             
                 <img class="img-responsive" src ='{{ url($artifact->artifact_thumb) }}'><br>
@@ -39,7 +41,7 @@
 
             <br/>
         
-            <i>{{ $artifact->title }}</i><br/>
+            <i>{{ $artifact->title }}!!</i><br/>
             {{ $artifact->medium }}</a><br/>
             {{ $artifact->dimensions_height }} x 
             {{ $artifact->dimensions_width }} {{ $artifact->dimensions_units }}<br/>

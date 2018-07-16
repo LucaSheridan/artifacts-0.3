@@ -45,7 +45,7 @@
 
     <!-- Description -->
 
-    <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
+    <!-- <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                                     
             <label class="col-md-4 control-label">Description</label>
 
@@ -62,7 +62,7 @@
             @endif
             
             </div>
-      </div>
+      </div> -->
         
 <div class="form-group">
 

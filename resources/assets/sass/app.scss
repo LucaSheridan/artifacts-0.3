@@ -10,33 +10,65 @@
 
 .artifact-thumbnail {
 	
-	height: 75px;
-	width: 75px;
+	height: 100px;
+	width: 100px;
 }
 
-.project-wrapper {
+.component-wrapper {
     
+    position: relative;
     display: block;
-    width: 215px;
+    font-size: 1em;
+    text-align: left;
+    width: 120px;
     margin: 5px;
     padding: 5px;
-    border: 0px solid #CCC;
-    background-color: #FFF;
+    border: 0px solid #FFF;
+    background-color: #CCC;
+    float:left;
     }
 
-.project-placeholder {
+.component-owner {
     
-    height: 200px;
-    width: 200px;
-    border: dashed 2px;
+    text-align: left;
+    padding: 5px;
+    border: 0px solid #FFF;
+    background-color: #CCC;
+    color: #333;
+    }
+
+.component-display img { 
+
+    border: solid #FFF 1px;
+    margin: 5px;
+    width: auto;
+    
+    }
+
+.component-missing {
+    
+    height: 100px;
+    width: 100px;
+    margin: 5px;
+    border: solid 1px;
+    text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    }
+
+.component-number-badge {
+    position: absolute;
+    text-align: center;
+    z-index: 10;
+    color: #FFF;
+    padding: 3px;
+    margin: 5px;
+   
+    background-color: #333;
 }
 
-.project-placeholder-text {
-    overflow-wrap: normal;
-}
 
 .btn-file {
     position: relative;
@@ -99,6 +131,7 @@
     content: none !important;
   }
 }
+
 
 
 

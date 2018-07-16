@@ -2,32 +2,30 @@
 
 <!-- Begin Assignment Description -->
 
-<div class="col-lg-12 panel">
-
-<h1><a href='{{action('SectionController@show', $assignment->section->id )}}'>{{ $assignment->section->name}}</a> | {{ $assignment->title}}</h1>
-<hr>
-
-<p><b>Descripton:</b><br/>
-{{ $assignment->description}}</p>
-<!-- Edit and Delete Buttons -->
-
-    <a class='btn btn-primary' href='{{action('AssignmentController@edit', $assignment->id)}}'>Edit Assignment</a>
-    <br/><br/>
-
+<div class="panel panel-default">
+               
+<div class="panel-heading">
+<a href='{{action('SectionController@show', $assignment->section->id )}}'>{{ $assignment->section->label}}</a> | 
+{{ $assignment->title}}
+<span class="pull-right"> <a href='{{action('AssignmentController@edit', $assignment->id)}}'>Edit</a></span>
 </div>
 
-<!-- Begin Components Table -->
-
 <div class="col-lg-12 panel">
 
+<br><p><b>Project Description:</b> {{ $assignment->description}}</p>
 
-<p><b>Components:</b></p>
+<br><p><b>Project Timetable:</b>
+
+<br/>
+
+
+<!-- Begin Components Table -->
 
 <table class="table">
 
      <tr>
    
-    <td><b>Title</b></td>
+    <td><b>Component</b></td>
     <td><b>Due Date</b></td>
     <td>
    </td>
@@ -43,7 +41,7 @@
     
     <!-- Component Title -->
 
-    <td>{{ $component->title }}</td>
+    <td><a href='{{action('SectionController@AssignmentComponent', ['section' => $assignment->section->id, 'assignment' => $component->assignment_id, 'component' => $component->id])}}'>{{ $component->title }}</a></td>
     
     <!-- Due Date -->
 
@@ -55,20 +53,24 @@
     </td>
 
     <td>
-    	<a class='btn btn-primary' href='{{action('ComponentController@edit', $component->id)}}'>edit</a>
-		<a class='btn btn-danger' href='{{action('ComponentController@delete', $component->id)}}'>delete</a>
+    	<div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><span class="caret"></span></button>
 
+            <ul class="dropdown-menu">
+                <li><a href='{{action('ComponentController@edit', $component->id)}}'>edit</a></li>
+		        <li><a href='{{action('ComponentController@delete', $component->id)}}'>delete</a></li>
+            </ul>
+        </div>
     </td>
 
-    </tr>
+    </tr>    <!-- Add Component Button -->
+
+
     @endforeach
     </table>
+        <a class='btn btn-primary' href='{{action('ComponentController@create', $assignment->id)}}'>Add a Component</a>
 
-
-    <!-- Add Component Button -->
-
-    <a class='btn btn-primary' href='{{action('ComponentController@create', $assignment->id)}}'>Add a Component</a>
-
+    </div>
 
     <br/><br/>
 

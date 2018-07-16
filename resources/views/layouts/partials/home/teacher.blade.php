@@ -5,7 +5,7 @@
 <h4>Classes</h4>
                 
                 <!-- <ul class="nav nav-tabs">
- -->                <ul>
+ -->                <ul class="list-inline">
 
                     @foreach ( Auth::User()->sections as $section) 
                     

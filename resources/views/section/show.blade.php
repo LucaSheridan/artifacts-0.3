@@ -8,7 +8,13 @@
             <div class="panel panel-default">
                
                 <div class="panel-heading">
-                {{$section->label}}<span class='pull-right'>Registration code: {{$section->code}}</span>
+                {{$section->label}}
+                <span class='pull-right'>Registration code: {{$section->code}}</span><br/>
+                
+                <span class='pull-right'><a href="{{ action('SectionController@classProgressReport', ['section' => $section->id, 'users' => $section->students ])}}">Heat Map</a></span>
+                
+
+                </span>
                 </div>
 
                 <div class="panel-body">
@@ -38,10 +44,14 @@
                                         @foreach ($roster as $rosterspot)
 
                                         <div class="pull-left project-wrapper">
+                                        
+                                              <b>{{ $rosterspot->firstName}} {{ $rosterspot->lastName}}</b> 
 
-                                        <div class="well">
-                                              <a href="{{ action('SectionController@progressReport', ['section' => $section->id, 'user' => $rosterspot->id])}}">{{ $rosterspot->firstName}} {{ $rosterspot->lastName}}
-                                                </a></div></div>
+                                              <a href="{{ action('UserController@show', $rosterspot->id)}}">Portfolio</a> | 
+
+                                              <a href="{{ action('SectionController@progressReport', ['section' => $section->id, 'user' => $rosterspot->id])}}">Progress Report</a>
+
+                                        </div><br/>
 
                                                 @endforeach
 

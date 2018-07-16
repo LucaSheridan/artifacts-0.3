@@ -21,6 +21,9 @@
              <td>
             Students
             </td>
+             <td>
+            Classes
+            </td>
             <td>Delete
             </td>
             <td>Edit
@@ -65,8 +68,12 @@
                 @endforeach
 
                 {{ $i }}
-                
                 @php ($i = 0)
+
+            </td>    
+            <td>
+
+                {{ count($site->sections)}}
 
              </td>
              <td>

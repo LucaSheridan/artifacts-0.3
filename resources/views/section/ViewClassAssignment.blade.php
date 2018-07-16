@@ -4,24 +4,8 @@
 
 <div class="container">
     
-    <div class="row">
-        
-        <div class="col-md-12">
 
-        <div class="panel panel-default">
-        <div class="panel-heading">
-
-         <h2>{{ $section->name }} | {{ $assignment->title }}</h2>
-        <h4>Class Assignment View</h4>
-
-        </div>
-        </div>
-        </div>
-        </div>
-
-    <div class="row">
-
-    <div class="col-md-3">
+<div class="col-md-3">
         <div class="panel panel-default">
             <div class="panel-heading">
             <h4>Roster ({{ count($roster) }})</h4> 
@@ -31,8 +15,9 @@
 
             @foreach ($roster as $rosterspot)
 
+            
+                 <a href="{{ action('SectionController@StudentAssignmentProgressView', ['$section' => $section->id, '$assignment' => $assignment->id, '$student' => $rosterspot->id])}}">
 
-                <a href="{{ action('SectionController@StudentAssignmentProgressView', ['$section' => $section->id, '$assignment' => $assignment->id, '$student' => $rosterspot->id])}}">
                 {{$rosterspot->firstName}} {{$rosterspot->lastName}}</a><br/>
 
             @endforeach
@@ -43,12 +28,21 @@
 
     <div class="col-md-9">
             <div class="panel panel-default">
+            
             <div class="panel-heading">
-            Completed Projects            
-            </div>  
+
+            <a href="{{ action('SectionController@show', $section->id ) }}">{{ $section->label }}</a> |
+            <a href="{{ action('SectionController@ViewClassAssignment', ['section' => $section->id,'assignment' => $assignment->id])}}">
+
+            {{ $assignment->title }}</a>
+            </div>
+
+
 
             <div class="panel-body">
             
+            <p>Completed Projects</p>            
+
             @foreach ($students as $student)
 
             @foreach ($student->artifacts as $artifact)
@@ -56,7 +50,6 @@
         
                 <div class="pull-left project-wrapper">
 
-                <a href="{{ action('SectionController@StudentAssignmentProgressView', ['$section' => $section->id, '$assignment' => $assignment->id, '$student' => $student->id])}}">
                 {{$student->firstName}} {{$student->lastName}}</a><br/>
 
 

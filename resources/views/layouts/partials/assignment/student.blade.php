@@ -11,8 +11,9 @@
                 <td><b>Due Date</b></td>
                 <td><b>Status</b></td>
                 <td><b>Published</b></td>    
-                <td></td>    
-    </tr> 
+                <td></td>
+<!--                 <td><b>dropzone.js</b></td>    
+ -->    </tr> 
 
     @foreach ($checklist as $checklistItem)
     
@@ -116,8 +117,10 @@
         <input type="hidden" name="user_id" value="{{ Auth::User()->id }}">
         <input type="hidden" name="assignment_id" value="{{$checklistItem->assignmentID}}">
         <input type="hidden" name="component_id" value="{{$checklistItem->componentID}}">
-        <button type="submit" class="btn btn-primary">Upload File</button>
-
+        
+       <button type="submit" class="btn btn-primary">Upload
+       </button>
+    
         <!-- File Uplaod Errors-->
 
         @if ($errors->has('file'))
@@ -132,8 +135,11 @@
 
     </td>
 
+
 </tr>
 
 @endforeach
 
 </table>
+
+

@@ -12,5 +12,8 @@
             <li>
             <a href="{{action('SectionController@index')}}">View Sections</a>
             </li>
+            <li>
+            <a href="{{action('CollectionController@index')}}">View Collections</a>
+            </li>
         </ul>
 </div>

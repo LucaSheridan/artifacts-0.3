@@ -6,26 +6,30 @@
         <div class="col-md-8 col-md-offset-2">
             
             <div class="panel panel-default">
-               
+                
                 <div class="panel-heading">{{$site->name}}</div>
                 <div class="panel-body">
-                This is where comprehensive information about {{$site->name}} will be included. It will probably take the form of a tabbed table that gives information about the number of teachers, students, sections, assignments and exhibitions that are associated with this site.
+                This is where comprehensive information about {{$site->name}} will be included. It will probably take the form of a tabbed table that gives information about the number of teachers, students, classes, assignments and exhibitions that are associated with this site.
                 </div>
             </div>
             
             <div class="panel panel-default">
 
-                <div class="panel-heading">Sections</div>
+                <div class="panel-heading">Classes</div>
                 <div class="panel-body">
                 
 
                 @if (!$site->sections)
 
-                no sections
+                no classes
 
                 @else 
 
-                {{ $site->sections }}
+                    @foreach ($site->sections as $section)
+
+                    <a href="{{action('SectionController@show', $section->id)}}">{{ $section->label }} | {{ count($section->users) }} users</a><br/>
+
+                    @endforeach
 
                 @endif
 
@@ -48,7 +52,7 @@
                    
                             @if ($user->hasRole('teacher'))
                                 
-                                <a href="{{route('user.show', $user->id )}}">{{$user->firstName}} {{$user->lastName}}</a><br/>
+                                <a href="{{action('UserController@show', $user->id )}}">{{$user->firstName}} {{$user->lastName}}</a><br/>
 
                             @endif
 
@@ -68,7 +72,7 @@
                
                         @if ($user->hasRole('student'))
                             
-                            {{$user->firstName}} {{$user->lastName}} 
+                            <a href="{{action('UserController@show', $user->id )}}">{{$user->firstName}} {{$user->lastName}}</a><br/>
 
                         @endif
 

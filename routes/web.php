@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/semantic', function () {
-  
-    return view('semantic');
-});
 
 Route::get('/', function () {
     return view('auth/login');
@@ -83,27 +79,34 @@ Route::post('/test', 'ArtifactController@S3upload');
 	Route::get('/section/{section}/delete', ['middleware' => 'auth', 'uses' => 'SectionController@delete']);
 	Route::delete('/section/{section}', ['middleware' => 'auth', 'uses' => 'SectionController@destroy']);
 
-		// Teacher View - Class Assignmentcreate
-		Route::get('/section/{section}/assignment/{assignment}/', ['middleware' => 'auth', 'uses' => 'SectionController@ViewClassAssignment']);
-
-		// Teacher View - Class Assignment (Grid?)
-		Route::get('/section/{section}/assignment/{assignment}/grid', ['middleware' => 'auth', 'uses' => 'SectionController@ViewClassAssignmentGrid']);
-
-
-		// Teacher View - Individual Progress on Class Assignment
-		Route::get('/section/{section}/assignment/{assignment}/user/{user}', ['middleware' => 'auth', 'uses' => '	SectionController@StudentAssignmentProgressView']);
-
-		// // Teacher View - Class Completion of Individual Component 
-		// Route::get('/section/{section}/{assignment}/{user}/detail', ['middleware' => 'auth', 'uses' => 'SectionController@StudentAssignmentDetailView']);
+// Teacher View - Class Assignment
 	
+	Route::get('/section/{section}/assignment/{assignment}/', ['middleware' => 'auth', 'uses' => 'SectionController@ViewClassAssignment']);
 
-		// Progress Report
-		Route::get('/section/{section}/{user}', ['middleware' => 'auth', 'uses' => 'SectionController@progressReport']);
-
+// Teacher View - Class Assignment (Grid?)
 	
-		// View Class Completion of Component 
+	//Route::get('/section/{section}/assignment/{assignment}/grid', ['middleware' => 'auth', 'uses' => 'SectionController@ViewClassAssignmentGrid']);
 
-		Route::get('/section/{section}/assignment/{assignment}/component/{component}', ['middleware' => 'auth', 'uses' => 'SectionController@AssignmentComponent']);
+
+// Single Student View - Single Assignment Progress
+
+			// general
+		Route::get('/section/{section}/assignment/{assignment}/user/{user}', ['middleware' => 'auth', 'uses' => 'SectionController@StudentAssignmentProgressView']);
+
+			// detail view
+		Route::get('/section/{section}/{assignment}/{user}/detail', ['middleware' => 'auth', 'uses' => 'SectionController@StudentAssignmentDetailView']);
+	
+// Progress Report - Single Student View - All Assignments
+Route::get('/section/{section}/user/{user}/progress', ['middleware' => 'auth', 'uses' => 'SectionController@progressReport']);
+// Progress Report - Class View - All Assignments
+Route::get('/section/{section}/progress', ['middleware' => 'auth', 'uses' => 'SectionController@classProgressReport']);
+
+// Whole Class View - Completion of Component 
+
+Route::get('/section/{section}/assignment/{assignment}/component/{component}', ['middleware' => 'auth', 'uses' => 'SectionController@AssignmentComponent']);
+
+
+
 
 // Should probably be in Assignment Controller
 	
@@ -147,4 +150,6 @@ Route::get('/artifact/{artifact}/rotate', 'ArtifactController@rotate');
 
 Route::patch('/artifact/{artifact}/publish', 'ArtifactController@publish');
 Route::get('/artifact/{artifact}/unpublish', 'ArtifactController@unpublish');
+
+
 

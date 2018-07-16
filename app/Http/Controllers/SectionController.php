@@ -15,6 +15,62 @@ use Illuminate\Support\Facades\DB;
 class SectionController extends Controller
 {
     
+    public function classProgressReport(Section $section)
+    
+    {
+         
+        // get this section assignments and set to an array
+        $assignments = Assignment::where('section_id', $section->id)
+                                 ->where('active', true)
+                                 ->pluck('id')->toArray();
+        //dd($assignments);
+        
+        $roster = User::whereHas('roles', function ($query) { 
+            $query->where('name', 'like', 'student');
+                })->whereHas('sections', function ( $query ) use($section) {
+            $query->where('id', $section->id );
+            })->orderBy('lastName','asc')->get()
+            ->pluck('id')->toArray();
+        
+        //dd($roster);
+
+       foreach ($roster as $rosterspot) {
+    
+            $checklist = Artifact::with('assignment','user')
+
+            ->rightjoin('components', function ($join) use ($rosterspot, $assignments) {
+
+            $join->on('components.id', '=', 'artifacts.component_id')
+                
+                 ->where('artifacts.user_id', '=', $rosterspot);
+                // This eliminates matches, not records
+
+                })
+
+                ->whereIn('components.assignment_id', $assignments)
+                ->orderBy('components.id', 'asc')
+               
+                ->select(
+                 'artifacts.user_id AS user_id',
+                 'artifacts.id AS artifact_id',
+                 'components.assignment_id AS assignment_id',
+                 'components.id AS component_id', 
+                 'components.title AS component_title',
+                 'components.date_due AS component_due',
+                 'artifacts.artifact_thumb AS artifact_thumb',
+                 'artifacts.artifact_path AS artifact_path',
+                 'artifacts.created_at AS artifact_created')
+                 //'artifacts.is_published AS is_published')
+                 ->get();
+
+                 dd($checklist);                      
+
+                }
+
+        return view('section.classProgressReport')
+               ->with(compact('assignments','checklist','$roster'));
+    
+    }
     public function progressReport(Section $section, User $user)
     
     {
@@ -24,9 +80,7 @@ class SectionController extends Controller
                                  ->where('active', true)
                                  ->pluck('id')->toArray();
 
-
         //dd($assignments);
-
 
             $checklist = Artifact::with('assignment')
 
@@ -66,6 +120,7 @@ class SectionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function index()
     {
         $sections = Section::with('users','site')->get();
@@ -138,41 +193,7 @@ class SectionController extends Controller
         return view('section.show', compact('section','teacher','roster', 'assignments'));
     }
 
-    /**
-     * Display an individual student assignment
-     *
-     * @param  \App\Section $section
-     * @param  \App\Assignment $assignment
-     * @param  \App\User $student
-     * @return \Illuminate\Http\Response
-     */
-    public function StudentAssignmentProgressView(Section $section, Assignment $assignment, User $user)
-    {
-        
-        $assignmentChecklist = DB::table('components')->leftjoin('artifacts', function ($join) use ($assignment, $user) {
-
-            $join->on('components.id', '=', 'artifacts.component_id')
-                 ->where('artifacts.user_id', '=', $user->id); // This eliminates matches, not records
-
-                })
-
-                ->where('components.assignment_id', '=', $assignment->id)
-                ->orderBy('components.date_due', 'ASC')
-                ->select(
-                 'artifacts.id AS artifactID',
-                 'components.assignment_id AS assignmentID',
-                 'components.id AS componentID', 
-                 'components.title AS componentTitle',
-                 'components.date_due AS componentDateDue',
-                 'artifacts.artifact_thumb AS artifactThumb',
-                 'artifacts.artifact_path AS artifactPath',
-                 'artifacts.created_at AS artifactCreatedAt',
-                 'artifacts.is_published AS is_published')
-                 ->get();                         
-
-        return view('section.StudentAssignmentProgressView', 
-               compact('user', 'section', 'assignment', 'assignmentChecklist'));
-    }
+    
 
 
     /**
@@ -421,4 +442,44 @@ class SectionController extends Controller
 
     //      return view('section.addstudents')->with('students', $students);
     // }
+
+      /**
+     * Display an individual student assignment
+     *
+     * @param  \App\Section $section
+     * @param  \App\Assignment $assignment
+     * @param  \App\User $student
+     * @return \Illuminate\Http\Response
+     */
+    public function StudentAssignmentProgressView(Section $section, Assignment $assignment, User $user)
+    {
+        
+        $assignmentChecklist = DB::table('components')->leftjoin('artifacts', function ($join) use ($assignment, $user) {
+
+            $join->on('components.id', '=', 'artifacts.component_id')
+                 ->where('artifacts.user_id', '=', $user->id); // This eliminates matches, not records
+
+                })
+
+                ->where('components.assignment_id', '=', $assignment->id)
+                ->orderBy('components.date_due', 'ASC')
+                ->select(
+                 'artifacts.id AS artifactID',
+                 'components.assignment_id AS assignmentID',
+                 'components.id AS componentID', 
+                 'components.title AS componentTitle',
+                 'components.date_due AS componentDateDue',
+                 'artifacts.artifact_thumb AS artifactThumb',
+                 'artifacts.artifact_path AS artifactPath',
+                 'artifacts.created_at AS artifactCreatedAt',
+                 'artifacts.is_published AS is_published')
+                 ->get();                         
+
+        return view('section.StudentAssignmentProgressView', 
+               compact('user', 'section', 'assignment', 'assignmentChecklist'));
+    }
+
+    /////
+    /////
+    
 }
