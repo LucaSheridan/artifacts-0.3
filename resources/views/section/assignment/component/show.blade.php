@@ -46,7 +46,7 @@
                         <div class="component-wrapper">
 
                             <div class="component-owner">
-                                {{ $student->firstName}}
+                                {{ $student->firstName}}<br/>
                                 {{ $student->lastName }}
                             </div>
 
