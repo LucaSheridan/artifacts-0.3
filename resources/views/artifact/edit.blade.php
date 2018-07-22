@@ -5,7 +5,19 @@
     <div class="row">
         <div class="col-md-10">
             <div class="panel panel-default">
-                <div class="panel-heading">Publish Artifact</div>
+                <div class="panel-heading">
+
+                @if ($artifact->is_published)
+
+                Edit Artifact
+
+                @else 
+
+                Publish Artifact
+
+                @endif
+
+                    <span class="pull-right"><a class="btn btn-danger" href='{{ action('ArtifactController@delete', $artifact->id) }}'>Delete</a></span></div>
                 <div class="panel-body">
 
 
@@ -157,7 +169,17 @@
         <div class="form-group">
             <div class="col-md-6 col-md-offset-4">
                 <button type="submit" class="btn btn-primary">
-                 Add Artifact to My Portfolio
+                 
+                @if ($artifact->is_published)
+
+                    Save Changes
+
+                @else 
+
+                     Add Artifact to My Portfolio
+
+                @endif
+
                 </button>
             </div>
         </div>

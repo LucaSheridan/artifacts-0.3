@@ -14,7 +14,7 @@
 
 <br><p><b>Project Description:</b> {{ $assignment->description}}</p>
 
-<br><p><b>Project Timetable:</b>
+<br><p><b>Project Components:</b>
 
 <br/>
 
@@ -22,18 +22,6 @@
 <!-- Begin Components Table -->
 
 <table class="table">
-
-     <tr>
-   
-    <td><b>Component</b></td>
-    <td><b>Due Date</b></td>
-    <td>
-   </td>
-
-
-    </td>    
-
-    </tr> 
 
     @foreach ($assignment->components as $component)
   
@@ -47,7 +35,7 @@
 
     <td>
     
-    {{ Carbon\Carbon::parse($component->date_due)->setTimezone('America/New_York')->format('D n/j') }}
+    Due {{ Carbon\Carbon::parse($component->date_due)->setTimezone('America/New_York')->format('D n/j') }}
 
    
     </td>

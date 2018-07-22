@@ -4,7 +4,7 @@
 
 	<hr/>
 
-		<div class="footer">Artifacts 0.6 &#169 2017 Lucas Sheridan</div>
+		<div class="footer">Artifacts is a Lucas Sheridan project</div>
 	
 	</div>
 </div>

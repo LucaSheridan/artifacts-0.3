@@ -11,8 +11,8 @@
                 {{$section->label}}
                 <span class='pull-right'>Registration code: {{$section->code}}</span><br/>
                 
-                <span class='pull-right'><a href="{{ action('SectionController@classProgressReport', ['section' => $section->id, 'users' => $section->students ])}}">Heat Map</a></span>
-                
+               <!--  <span class='pull-right'><a href="{{ action('SectionController@classProgressReport', ['section' => $section->id, 'users' => $section->students ])}}">Heat Map</a></span>
+                 -->
 
                 </span>
                 </div>
@@ -20,65 +20,58 @@
                 <div class="panel-body">
                 
                     <div class="row">
+                        
                         <div class="col-md-12">
 
-                            <ul class="nav nav-tabs">
+                            <div class="col-md-6">
 
-                            <li class="active"><a data-toggle="tab" href="#students">Students ({{ count($roster) }})</a></li>
-                            <li><a data-toggle="tab" href="#assignments">Assignments</a></li>
-                           
-                            </ul>
+                                <h3>Students ({{ count($roster) }})</h3>
 
-                            <div class="tab-content">
-                
-                                {{-- Begin Roster --}}
+                                 {{-- Begin Roster --}}
 
-                                <div id="students" class="tab-pane fade in active clearfix">
-                                
-                                    @if ($roster->count() == 0)
+                                @if ($roster->count() == 0)
                                     
                                     <p>There are currently no students enrolled in this section.</p>
 
                                     @else
 
                                         @foreach ($roster as $rosterspot)
-
-                                        <div class="pull-left project-wrapper">
                                         
-                                              <b>{{ $rosterspot->firstName}} {{ $rosterspot->lastName}}</b> 
+                                              <a href="{{ action('SectionController@progressReport', ['section' => $section->id, 'user' => $rosterspot->id])}}">{{ $rosterspot->firstName}} {{ $rosterspot->lastName}}</a>
 
-                                              <a href="{{ action('UserController@show', $rosterspot->id)}}">Portfolio</a> | 
-
-                                              <a href="{{ action('SectionController@progressReport', ['section' => $section->id, 'user' => $rosterspot->id])}}">Progress Report</a>
-
-                                        </div><br/>
+                                                <br/>
 
                                                 @endforeach
 
                                     @endif
-
-                                                            
+                                                               
                                 </div>
+
+                            <div class="col-md-6">
+
+                            <h3>Assignments</h3>
+                           
 
                                 {{-- Begin Assignments --}}
 
-                                <div id="assignments" class="tab-pane fade  clearfix">
-                
-                                    @if ($assignments->count())
+                                @if ($assignments->count())
             
                                     @foreach ($assignments as $assignment)
-                     
-                                        <div class="pull-left project-wrapper">
-                                        <div class="well">
 
-                                        <a href='{{ action('SectionController@ViewClassAssignment', ([$section->id, $assignment->id ])) }} '>{{ $assignment->title }}</a> | 
-                                        <a href='{{ action('AssignmentController@show', $assignment->id) }} '>Edit</a> 
-                                        
+                                        {{ $assignment->title }} <a href='{{ action('SectionController@ViewClassAssignment', ([$section->id, $assignment->id ])) }}'>Gallery</a> | 
+                                        <a href='{{ action('AssignmentController@show', $assignment->id) }} '>Edit</a><br/>
 
-                                        </div>
-                                        </div>
-                                                                    
+                                        @foreach  ($assignment->components as $component) 
+
+                                            - <a href='{{action('SectionController@AssignmentComponent', ['section' => $assignment->section->id, 'assignment' => $component->assignment_id, 'component' => $component->id])}}'>{{ $component->title }}</a><br/>
+
                                         @endforeach
+
+                                        <a href='{{ action('AssignmentController@show', $assignment->id) }} '>Progress</a><br/> 
+
+                                                                     
+                                        @endforeach
+                                        <br/>
 
                                     @else
                                     
@@ -90,6 +83,7 @@
                                     <a class='btn btn-primary' href='{{action('AssignmentController@create', $section->id) }}'>Create New Assignment</a>
 
                                 </div>
+                            </div>
 
 
                             </div>

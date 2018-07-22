@@ -16,7 +16,9 @@
 
         @foreach ( Auth::User()->sections as $section) 
 
-        {{$section->name}}<br/>
+        <br/>
+        {{ $section->students}}
+        <br/>
                         
         @foreach ($section->assignments as $assignment)
 

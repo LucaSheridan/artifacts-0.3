@@ -13,6 +13,29 @@
 		<div class="col-md-4 col-lg-4">
 
 		<b>Artist:</b> {{ $artifact->user->firstName }} {{ $artifact->user->lastName }}<br/>
+
+    @if ($artifact->is_published)
+
+        <b>Title:</b> <i>{{ $artifact->title }}</i><br/>
+        <b>Medium:</b> {{ $artifact->medium }}<br/>
+        <b>Dimensions:</b> {{ $artifact->dimensions_height }} x {{ $artifact->dimensions_width }}
+      
+          @if ($artifact->dimensions_depth)
+        
+            x {{ $artifact->dimensions_depth }}
+        
+          @else
+
+
+        @endif
+
+              {{ $artifact->dimensions_units }}<br/><br/>
+
+        <b>Gallery Text:</b> {{ $artifact->description }}<br>
+
+      
+        <hr/>
+        
     <b>Assignment:</b> {{ $artifact->assignment->title }}<br/>
 		<b>Component:</b> {{ $artifact->component->title }}<br/>
 
@@ -20,66 +43,35 @@
 
 	        @if ($artifact->is_published)
 
-	    	Published
+	    	Published to Portfolio
 	    	
 	    	@else
 
 	    	Unpublished
 
 	    	@endif
+        
+        <br/><br/>
 
+        <a class="btn btn-primary" href='{{ action('ArtifactController@edit', $artifact->id) }}'>Edit</a>
 
 		<hr/>
 
-    @if ($artifact->is_published)
-
-		    <b>Title:</b> <i>{{ $artifact->title }}</i><br/>
-        <b>Medium:</b> {{ $artifact->medium }}<br/>
-        <b>Dimensions:</b> {{ $artifact->dimensions_height }} x {{ $artifact->dimensions_width }}
-      
-        	@if ($artifact->dimensions_depth)
-        
-        		x {{ $artifact->dimensions_depth }}
-        
-        	@else
-
-
-        @endif
-
-        			{{ $artifact->dimensions_units }}<br/><br/>
-
-        <b>Gallery Text:</b> {{ $artifact->description }}<br>
-
-      
-        <hr/>
+    
 
 
 
-      	<a class="btn btn-primary" href='{{ action('ArtifactController@unpublish', $artifact->id) }}'>Unpublish</a><br/>
+      	<a class="btn btn-warning" href='{{ action('ArtifactController@unpublish', $artifact->id) }}'>Remove this from my portfolio</a><br/>
       	
       	@else
 
-        <a class="btn btn-primary" href='{{ action('ArtifactController@edit', $artifact->id) }}'>Publish</a><br/>
-<br/>
+        <a class="btn btn-primary" href='{{ action('ArtifactController@edit', $artifact->id) }}'>Add this to my portfolio</a><br/>
 
       	@endif
 
-        <hr/>
+        <hr/>        
 
-		 <ul class="list-inline">                
-                <li>
-                  <a class="btn btn-primary" href='{{ action('ArtifactController@edit', $artifact->id) }}'>Edit</a><br/>
-      	         </li>
-                 <li>
-
-		<a class="btn btn-danger" href='{{ action('ArtifactController@delete', $artifact->id) }}'>Delete</a><br/>
-      </li>
-   <!--    <li>
-    <a class="btn btn-success" href='{{ action('ArtifactController@rotate', $artifact->id) }}'>Rotate</a><br/>
-      </li>
- -->
-      </ul>
-      	</div>
+	    	</div>
 
     </div>
 </div>
