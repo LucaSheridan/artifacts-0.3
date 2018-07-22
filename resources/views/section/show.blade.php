@@ -66,9 +66,6 @@
                                             - <a href='{{action('SectionController@AssignmentComponent', ['section' => $assignment->section->id, 'assignment' => $component->assignment_id, 'component' => $component->id])}}'>{{ $component->title }}</a><br/>
 
                                         @endforeach
-
-                                        <a href='{{ action('AssignmentController@show', $assignment->id) }} '>Progress</a><br/> 
-
                                                                      
                                         @endforeach
                                         <br/>
