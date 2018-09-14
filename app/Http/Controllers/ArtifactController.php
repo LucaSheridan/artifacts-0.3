@@ -99,7 +99,7 @@ class ArtifactController extends Controller
 
                 { 
                     // Initial resize to 1000 pixels
-                    $image->resize(null, 1000, function ($constraint) { 
+                    $image->resize(null, 1600, function ($constraint) { 
                     $constraint->aspectRatio();
                     $constraint->upsize();
                     })->interlace()->encode('jpg', 85);
@@ -120,7 +120,7 @@ class ArtifactController extends Controller
                 
                 {    
                     // Initial resize to 1000 pixels
-                    $image->resize(1000, null, function ($constraint) { 
+                    $image->resize(1600, null, function ($constraint) { 
                     $constraint->aspectRatio();
                     $constraint->upsize();
                     })->interlace()->encode('jpg', 85);
@@ -161,7 +161,9 @@ class ArtifactController extends Controller
             
             flash('An artifact has been successfully added to this assignment!', 'success');
 
-            return redirect()->action('AssignmentController@show', $assignment_id);
+            // return redirect()->action('AssignmentController@show', $assignment_id);
+
+            return redirect()->action('ArtifactController@show', $artifact->id);
         }
 
 
@@ -206,8 +208,8 @@ class ArtifactController extends Controller
         'dimensions_width' => 'required',
         //'dimensions_depth' => 'required',
         'dimensions_units' => 'required',
-        // 'description' => 'required|max:500'
-        'description' => 'max:500'
+        'description' => 'required|max:500'
+        //'description' => 'max:500'
 
         ]);
         
