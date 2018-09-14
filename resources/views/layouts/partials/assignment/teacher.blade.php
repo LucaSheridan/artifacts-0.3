@@ -1,25 +1,54 @@
 <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            
+                    <div class="row">
+                        
+                        <div class="col-md-12">
 
-<!-- Begin Assignment Description -->
+                            <div class="col-md-6">
 
-<div class="panel panel-default">
-               
-<div class="panel-heading">
-<a href='{{action('SectionController@show', $assignment->section->id )}}'>{{ $assignment->section->label}}</a> | 
-{{ $assignment->title}}
-<span class="pull-right"> <a href='{{action('AssignmentController@edit', $assignment->id)}}'>Edit</a></span>
-</div>
+                                
+                            <!-- HEADING -->
+                            
+                            <h3>Assignment Summary</h3><br/>
+                            
+                            <!-- BEGIN PANEL -->
+                            
+                             <div class="panel panel-default">
 
-<div class="col-lg-12 panel">
+                            
+                            <div class="panel-heading">
 
-<br><p><b>Project Description:</b> {{ $assignment->description}}</p>
+                            <b>Project Title:</b> {{ $assignment->title}}
+                             <span class="pull-right"> <a href='{{action('AssignmentController@edit', $assignment->id)}}'>Edit</a></span>
 
-<br><p><b>Project Components:</b>
+                            </div>
+<div class="panel-body"><p><b>Description:</b> {{ $assignment->description}}</p>
 
-<br/>
 
+</div></div></div>
 
-<!-- Begin Components Table -->
+                            <div class="col-md-6">
+
+                            <h3>Assignment Components</h3><br/>
+                        
+                                        
+ <!-- BEGIN PANEL -->
+ <div class="panel panel-default">
+    
+    <!-- HEADING -->
+    <div class="panel-heading">
+    
+    Components 
+
+    <a class='pull-right' href='{{action('ComponentController@create', $assignment->id)}}'>Add a Component</a>
+
+    </div>
+
+    <div class="body">
+
+    <!-- Begin Components Table -->
 
 <table class="table">
 
@@ -40,29 +69,46 @@
    
     </td>
 
+
     <td>
-    	<div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><span class="caret"></span></button>
-
-            <ul class="dropdown-menu">
-                <li><a href='{{action('ComponentController@edit', $component->id)}}'>edit</a></li>
-		        <li><a href='{{action('ComponentController@delete', $component->id)}}'>delete</a></li>
-            </ul>
-        </div>
-    </td>
-
+                <a href='{{action('ComponentController@edit', $component->id)}}'>Edit</a> | 
+                <a href='{{action('ComponentController@delete', $component->id)}}'>Delete</a>
+    
     </tr>    <!-- Add Component Button -->
 
 
     @endforeach
     </table>
-        <a class='btn btn-primary' href='{{action('ComponentController@create', $assignment->id)}}'>Add a Component</a>
-
+    
     </div>
 
-    <br/><br/>
+      <!-- End Panel -->
 
+
+                                  
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+                                    
+                                
+                        
+
+                                </div>
+                            </div>
+
+
+                            </div>
+          
+                        </div>
+                    </div>
+                </div>
+            </div>         
+        </div>
     </div>
+</div>
+
+
+</div>
 
     </div>
 
