@@ -183,7 +183,7 @@ class SectionController extends Controller
     public function show(Section $section)
     {
         $teacher = User::find($section->teacher_id);
-        $assignments = Assignment::where('section_id', $section->id)->get();
+        $assignments = Assignment::where('section_id', $section->id)->orderBy('id','desc')->get();
         $roster = User::whereHas('roles', function ($query) { 
         $query->where('name', 'like', 'student');
             })->whereHas('sections', function ( $query ) use($section) {
@@ -478,6 +478,18 @@ class SectionController extends Controller
         return view('section.StudentAssignmentProgressView', 
                compact('user', 'section', 'assignment', 'assignmentChecklist'));
     }
+
+    /**
+     * Join Section
+     *
+     * @param  \App\Section  $section
+     * @return \Illuminate\Http\Response
+     */
+    public function showJoinSectionForm()
+    {
+        
+        return view('section.joinSectionForm');
+     }
 
     /////
     /////
