@@ -48,7 +48,16 @@
 
                                         @foreach ($roster as $rosterspot)
                                         
-                                              <a href="{{ action('SectionController@progressReport', ['section' => $section->id, 'user' => $rosterspot->id])}}">{{ $rosterspot->firstName}} {{ $rosterspot->lastName}}</a>
+                                             {{ $rosterspot->firstName}} {{ $rosterspot->lastName}}
+
+                                        <span class="pull-right">
+
+                                        <a href="{{ action('SectionController@progressReport', ['section' => $section->id, 'user' => $rosterspot->id])}}">Progress</a> | 
+
+
+                                        <a href="{{ action('UserController@show', $rosterspot->id) }}">Portfolio</a>
+                                        
+                                        </span>
 
                                                 <br/>
 
