@@ -11,12 +11,20 @@
 
                     @foreach ( Auth::User()->sections as $section) 
                     
-                    <li>
                         
-                        <a class="btn btn-default" href='{{ action('SectionController@show', $section->id) }}'>{{ $section->label}}</a>
-                    
-                
+                       @if ( $section->active )
+
+                    <li>
+                        <a class="btn btn-default" href='{{ action('SectionController@show', $section->id) }}'>{{ $section->label}}</a>                    
                     </li>
+
+                    @else
+                   <!--  
+                    <li>
+                        <a class="btn btn-disabled" href='{{ action('SectionController@show', $section->id) }}'>{{ $section->label}}</a>                    
+                    </li>     -->                
+                    @endif
+                   
 
                     @endforeach
                 
