@@ -92,7 +92,7 @@ class AssignmentController extends Controller
         $checklist = DB::table('components')->leftjoin('artifacts', function ($join) use ($assignment) {
 
                         $join->on('components.id', '=', 'artifacts.component_id')
-                             ->where('artifacts.user_id', '=', Auth::User() ->id); // This eliminates matches, not records
+                             ->where('artifacts.user_id', '=', Auth::User()->id); // This eliminates matches, not records
                         })
 
                         ->where('components.assignment_id', '=', $assignment->id)
