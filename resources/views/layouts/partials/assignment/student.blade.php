@@ -1,7 +1,5 @@
-<h1><a href="{{ action('HomeController@index')}}">{{$assignment->section->name }}</a>
-| {{ $assignment->title}}</h1><br/>
+<h1><a href="{{ action('HomeController@index')}}">{{$assignment->section->name }}</a> | {{ $assignment->title}} component list</h1><br/>
 
-<h4>Artifact Checklist:</h4>
 
     <table class="table">
 
@@ -10,9 +8,8 @@
                 <td><b>Component</b></td>
                 <td><b>Due Date</b></td>
                 <td><b>Status</b></td>
-                <td><b>Published</b></td>    
-<!--                 <td><b>dropzone.js</b></td>    
- -->    </tr> 
+                <td></td>
+    </tr> 
 
     @foreach ($checklist as $checklistItem)
     
@@ -26,38 +23,7 @@
 
                     <div>
                     
-                    <form  role="form" method="POST" action="{{ url('/artifact') }}" enctype="multipart/form-data">
-                        
-        {!! csrf_field() !!}
-
-        <span class="btn btn-default btn-file">Select File
-        <input type="file" class="form-control" name="file" value="{{ old('file') }}"/></span>
-
-        {!! Form::hidden('component', $checklistItem->componentID ) !!}
-                   
-        <input type="hidden" name="user_id" value="{{ Auth::User()->id }}">
-        <input type="hidden" name="assignment_id" value="{{$checklistItem->assignmentID}}">
-        <input type="hidden" name="component_id" value="{{$checklistItem->componentID}}">
-        
-       <button type="submit" class="btn btn-primary">Upload
-       </button>
-
-
-       
-
-    
-        <!-- File Uplaod Errors-->
-
-        @if ($errors->has('file'))
-        
-            <span class="help-block">
-            <strong>{{ $errors->first('file') }}</strong>
-            </span>
-        
-        @endif
-                                        
-        </form>
-
+                    No Artifact
 
                     </div>
 
@@ -68,7 +34,7 @@
                     <img class="artifact-thumbnail" src="https://s3.amazonaws.com/artifacts-0.3/{{$checklistItem->artifactThumb}}"></a><br>
 
 
-            @endif
+                 @endif
    
     </td>
     
@@ -118,27 +84,60 @@
 
     <!-- Published Status -->
 
-    <td>
+ <!--    <td>
 
                 @if ($checklistItem->is_published)
 
                 <span class="label label-success">
-                <span class="glyphicon glyphicon-ok"></span> Published</span>
 
                 @else
 
                 @endif
 
                 
-    </td>
+    </td> -->
     
     <!-- Browse/Upload/Edit/Delete -->
 
     <td>
 
-        <a class="btn btn-primary" href='{{ action('ArtifactController@show', $checklistItem->artifactID) }}'>View</a>
-       <a class="btn btn-danger" href='{{ action('ArtifactController@delete', $checklistItem->artifactID) }}'>Delete</a>
+    @if ($checklistItem->artifactID)
 
+     <a class="btn btn-default" href='{{ action('ArtifactController@show', $checklistItem->artifactID) }}'>View</a>
+    <a class="btn btn-danger" href='{{ action('ArtifactController@delete', $checklistItem->artifactID) }}'>Delete</a>
+    
+    @else
+
+     <form  role="form" method="POST" action="{{ url('/artifact') }}" enctype="multipart/form-data">
+                        
+        {!! csrf_field() !!}
+
+        <span class="btn btn-default btn-file">Select File
+        <input type="file" class="btn btn-default" name="file" value="{{ old('file') }}"/></span>
+
+        {!! Form::hidden('component', $checklistItem->componentID ) !!}
+                   
+        <input type="hidden" name="user_id" value="{{ Auth::User()->id }}">
+        <input type="hidden" name="assignment_id" value="{{$checklistItem->assignmentID}}">
+        <input type="hidden" name="component_id" value="{{$checklistItem->componentID}}">
+        
+       <button type="submit" class="btn btn-success">Upload
+       </button>
+
+    
+        <!-- File Uplaod Errors-->
+
+        @if ($errors->has('file'))
+        
+            <span class="help-block">
+            <strong>{{ $errors->first('file') }}</strong>
+            </span>
+        
+        @endif
+                                        
+        </form>
+
+    @endif
 
     </td>
 
