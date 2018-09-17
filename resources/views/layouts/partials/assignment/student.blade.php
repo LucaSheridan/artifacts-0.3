@@ -11,7 +11,6 @@
                 <td><b>Due Date</b></td>
                 <td><b>Status</b></td>
                 <td><b>Published</b></td>    
-                <td></td>
 <!--                 <td><b>dropzone.js</b></td>    
  -->    </tr> 
 
@@ -26,7 +25,40 @@
             @if (!$checklistItem->artifactID)
 
                     <div>
-                    No artifact
+                    
+                    <form  role="form" method="POST" action="{{ url('/artifact') }}" enctype="multipart/form-data">
+                        
+        {!! csrf_field() !!}
+
+        <span class="btn btn-default btn-file">Select File
+        <input type="file" class="form-control" name="file" value="{{ old('file') }}"/></span>
+
+        {!! Form::hidden('component', $checklistItem->componentID ) !!}
+                   
+        <input type="hidden" name="user_id" value="{{ Auth::User()->id }}">
+        <input type="hidden" name="assignment_id" value="{{$checklistItem->assignmentID}}">
+        <input type="hidden" name="component_id" value="{{$checklistItem->componentID}}">
+        
+       <button type="submit" class="btn btn-primary">Upload
+       </button>
+
+
+       
+
+    
+        <!-- File Uplaod Errors-->
+
+        @if ($errors->has('file'))
+        
+            <span class="help-block">
+            <strong>{{ $errors->first('file') }}</strong>
+            </span>
+        
+        @endif
+                                        
+        </form>
+
+
                     </div>
 
                     @else
@@ -104,34 +136,9 @@
 
     <td>
 
-      
-        <form  role="form" method="POST" action="{{ url('/artifact') }}" enctype="multipart/form-data">
-                        
-        {!! csrf_field() !!}
+        <a class="btn btn-primary" href='{{ action('ArtifactController@show', $checklistItem->artifactID) }}'>View</a>
+       <a class="btn btn-danger" href='{{ action('ArtifactController@delete', $checklistItem->artifactID) }}'>Delete</a>
 
-        <span class="btn btn-default btn-file">Select File
-        <input type="file" class="form-control" name="file" value="{{ old('file') }}"/></span>
-
-        {!! Form::hidden('component', $checklistItem->componentID ) !!}
-                   
-        <input type="hidden" name="user_id" value="{{ Auth::User()->id }}">
-        <input type="hidden" name="assignment_id" value="{{$checklistItem->assignmentID}}">
-        <input type="hidden" name="component_id" value="{{$checklistItem->componentID}}">
-        
-       <button type="submit" class="btn btn-primary">Upload
-       </button>
-    
-        <!-- File Uplaod Errors-->
-
-        @if ($errors->has('file'))
-        
-            <span class="help-block">
-            <strong>{{ $errors->first('file') }}</strong>
-            </span>
-        
-        @endif
-                                        
-        </form>
 
     </td>
 

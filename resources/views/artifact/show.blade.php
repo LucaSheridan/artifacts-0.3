@@ -65,7 +65,7 @@
       	
       	@else
 
-        <a class="btn btn-primary" href='{{ action('ArtifactController@edit', $artifact->id) }}'>Add this to my portfolio</a><br/>
+       <br/> <a class="btn btn-primary" href='{{ action('ArtifactController@edit', $artifact->id) }}'>Add this to my portfolio</a><br/>
 
       	@endif
 
