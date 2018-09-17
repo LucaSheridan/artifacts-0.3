@@ -14,6 +14,23 @@
 
 		<b>Artist:</b> {{ $artifact->user->firstName }} {{ $artifact->user->lastName }}<br/>
 
+    <b>Assignment:</b> {{ $artifact->assignment->title }}<br/>
+    <b>Component:</b> {{ $artifact->component->title }}<br/>
+
+    <b>Status:</b> 
+
+          @if ($artifact->is_published)
+
+        Published to Portfolio
+        
+        @else
+
+        Unpublished
+
+        @endif
+
+    <br/>
+
     @if ($artifact->is_published)
 
         <b>Title:</b> <i>{{ $artifact->title }}</i><br/>
@@ -36,20 +53,7 @@
       
         <hr/>
         
-    <b>Assignment:</b> {{ $artifact->assignment->title }}<br/>
-		<b>Component:</b> {{ $artifact->component->title }}<br/>
-
-		<b>Status:</b> 
-
-	        @if ($artifact->is_published)
-
-	    	Published to Portfolio
-	    	
-	    	@else
-
-	    	Unpublished
-
-	    	@endif
+    
         
         <br/><br/>
 

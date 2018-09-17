@@ -161,9 +161,8 @@ class ArtifactController extends Controller
             
             flash('An artifact has been successfully added to this assignment!', 'success');
 
-            // return redirect()->action('AssignmentController@show', $assignment_id);
+            return redirect()->action('AssignmentController@show', $artifact->assignment_id);
 
-            return redirect()->action('ArtifactController@show', $artifact->id);
         }
 
 
