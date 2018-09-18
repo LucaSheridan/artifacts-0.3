@@ -318,15 +318,20 @@ class ArtifactController extends Controller
      */
     public function destroy(Artifact $artifact)
     {
+        
+        // //set assignment id for redirect
+        // $artifact_id = $artifact->assignment_id;
+
         // Delete image files from storage
         File::delete($artifact->artifact_thumb);
         File::delete($artifact->artifact_path);
+
 
         $artifact->delete();
 
         flash('Artifact deleted successfully!', 'danger');
 
-        return redirect()->action('HomeController@index');
+        return redirect()->action('AssignmentController@show', $artifact->assignment_id);
     }
 
     // /**
