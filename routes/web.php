@@ -11,10 +11,20 @@
 |
 */
 
-
 Route::get('/', function () {
     return view('auth/login');
 });
+
+Route::get('/addClass', function () {
+    return view('auth/login');
+});
+
+
+// Enroll student in a new Section
+
+Route::get('/enroll', ['middleware' => 'auth', 'uses' => 'EnrollmentController@show']);
+Route::post('/enroll', ['middleware' => 'auth', 'uses' => 'EnrollmentController@store'])->name('addClass');
+
 
 // Test Amazon S3 Upload
 
@@ -38,7 +48,7 @@ Route::post('/test', 'ArtifactController@S3upload');
 
 // Home Routes
 
-	Route::get('/home', ['middleware' =>'auth', 'uses' => 'HomeController@index']);
+	Route::get('/home', ['middleware' =>'auth', 'uses' => 'HomeController@index'])->name('home');
 
 
 // Site Routes

@@ -2,48 +2,43 @@
 <div class="container">
     
     <div class="panel col-12">
-    <h3 class="text-center">{{ strtoupper(Auth::User()->firstName.' '.Auth::User()->lastName) }}</h3>
+    <h3 class="text-center mt-2">{{ strtoupper(Auth::User()->firstName.' '.Auth::User()->lastName) }}</h3>
     </div>
 
 <div class="col-md-3 col-lg-3">
 
-<h4>ASSIGNMENTS</h4>
 
 
-        <p>
+
+<!--         <p>
         Click on links to upload images.
-        </p>
+        </p><br/>
+ -->
+        <!-- Loop Classes -->
 
-        @foreach ( Auth::User()->sections as $section) 
+        <h4>Classes</h4>
 
-        <br/>
-        {{ $section->students}}
-        <br/>
-                        
-        @foreach ($section->assignments as $assignment)
-
-        <!-- Toggle Components -->
-
+        @foreach (Auth::User()->sections as $section) 
         
-        <a data-toggle="collapse" href="#toggleAssignment{{$assignment->id}}" aria-expanded="false" aria-controls="toggleAssignment{{$assignment->id}}">
-        
-        <span class="glyphicon glyphicon-triangle-right"></span>
+        <br/><h5>{{$section->name}}</h5>                
+     
+           @foreach ($section->assignments as $assignment)
 
-        </a>
-           
-        <!-- Link to Assignment Process Page -->
+            <!-- Toggle Components -->
 
-        <a href="{{ action('AssignmentController@show', $assignment->id )}}">
-        {{ $assignment->title}}<br/>
-        </a>
+    
+            <!-- Link to Assignment Process Page -->
 
-        
+            <a href="{{ action('AssignmentController@show', $assignment->id )}}">
+            {{ $assignment->title}}<br/>
+            </a>
 
-    @endforeach
-    <br/>
+           @endforeach
                                                      
-    @endforeach
+        @endforeach
 
+<br/>
+<a href="{{ url('/enroll')}}">Join another class</a><br/>
 
 </div>
 
@@ -51,20 +46,35 @@
 
 <h4>PORTFOLIO</h4>
                     
-<p>Here is a portfolio of projects you have submitted as complete.</p>
+<p>Completed and published projects.</p>
   
-    @foreach ($artifacts as $artifact) 
+            <div class="flex flex-wrap bg-grey-lighter mt-4">
+                            
+            @foreach ($artifacts as $artifact) 
+
+            <div class="flex-col items-center justify-around w-1/2 sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 
+            bg-white text-grey-darker text-md items-center justify-around">
+           
+                <a href="{{ action('ArtifactController@show', $artifact->id)}}">
+                <img class="block max-w-full m-4 h-auto p-2" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_thumb}}"></a>
             
-         <div class="pull-left project-wrapper">
- 
-            <div class="well"><a href="{{ action('ArtifactController@show', $artifact->id)}}">
+
+            
+<!--        <div class="sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/4 text-grey-darker text-center bg-grey-light px-4 py-2 m-2">
+ -->            
+            
+
+<!--          <div class="pull-left project-wrapper">
+ --> <!-- 
+            <div class="well"> -->
+
+            <!-- <a href="{{ action('ArtifactController@show', $artifact->id)}}">
             
             <img src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_thumb}}"></a>
+ -->        
+           <div class="leading-tight p-2">
 
-            <br/>
-            <br/>
-        
-            <i>{{ $artifact->title }}</i></a><br/>
+            <i>{{ $artifact->title }}</i><br/>
             {{ $artifact->medium }}<br/>
             {{ $artifact->dimensions_height }} x 
             {{ $artifact->dimensions_width }} 
@@ -76,18 +86,16 @@
             @else
             @endif
 
-                  {{ $artifact->dimensions_units }}<br/>
+                  {{ $artifact->dimensions_units }}
             
-            <br/>
+            </div>
 
-            </a>
-            {{ $artifact->description }}
-        </div>
+ 
 
         </div>
 
     @endforeach
-
+</div>
     </div> 
 
 </div>
