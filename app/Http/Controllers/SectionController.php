@@ -345,7 +345,7 @@ class SectionController extends Controller
 
         flash('Section updated successfully!', 'success');
 
-        return redirect()->action('SectionController@index');
+        return redirect()->action('SectionController@show', $section->id);
     }
 
 

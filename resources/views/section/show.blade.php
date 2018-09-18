@@ -9,7 +9,9 @@
                
                 <div class="panel-heading">
                 {{$section->label}}
-                <span class='pull-right'>Registration code: {{$section->code}}</span><br/>
+
+                <span class="pull-right"> <a href='{{action('SectionController@edit', $section->id )}}'>Edit</a></span>
+                
                 
                <!--  HEAT MAP 
                <span class='pull-right'><a href="{{ action('SectionController@classProgressReport', ['section' => $section->id, 'users' => $section->students ])}}">Heat Map</a></span>
@@ -65,7 +67,11 @@
 
                                     @endif
                                                                
-                                </div></div></div>
+                                </div>
+
+                                    <div class="panel-body">Class Enrollment Code: {{$section->code}}</div>
+
+                                </div></div>
 
                             <div class="col-md-6">
 
@@ -89,10 +95,7 @@
           
           {{ $assignment->title }}</a> | 
 
-          <a href='{{ action('SectionController@ViewClassAssignment', ([$section->id, $assignment->id ])) }}'>Gallery</a> | 
-  
-          <a href='{{ action('AssignmentController@edit', $assignment->id) }} '>Edit</a>
-
+          <a href='{{ action('SectionController@ViewClassAssignment', ([$section->id, $assignment->id ])) }}'>Gallery</a>
     </div>
     
     <!-- DESCRIPTION -->
@@ -123,21 +126,13 @@
                                                                      
                                         @endforeach
 
-
-                                        <br/>
-
                                     @else
                                     
                                     <p>No Assignments have been created yet.</p>
                                     
                                     @endif  
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-                                    
-                                
-                                    <a class='btn btn-primary' href='{{action('AssignmentController@create', $section->id) }}'>Create New Assignment</a>
+                                    <a class='btn btn-primary pull-right' href='{{action('AssignmentController@create', $section->id) }}'>Create New Assignment</a>
 
                                 </div>
                             </div>

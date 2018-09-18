@@ -56,7 +56,7 @@ class ComponentController extends Controller
     public function edit(Component $component)
     {
 
-        //$component = Component::findOrfail($component);
+        $component = Component::findOrfail($component->id);
 
         //dd($component);
 
@@ -76,7 +76,8 @@ class ComponentController extends Controller
         
         'title' => 'required',
         'assignment_id' => 'required',
-        'date_due' => 'required|date',
+        'date_due' => 'date_format:"m-d-y"|required',
+
         ]);
         
         //create a new component instance
@@ -89,8 +90,9 @@ class ComponentController extends Controller
         $component->assignment_id = $request->input('assignment_id');
         
         //set component date due
-        $date_due = Carbon::parse($request->input('date_due'));
-        
+
+        $date_due = Carbon::createFromFormat('m-d-y', $request->input('date_due'));
+
         //set component time due
         $date_due->hour = 23;
         $date_due->minute = 59;
@@ -121,29 +123,34 @@ class ComponentController extends Controller
         
         $this->validate($request, [
         
-        //'title' => 'required',
-        //'date_due' => 'required',
+        'title' => 'required',
+        'date_due' => 'date_format:"m-d-y"|required',
         ]);
 
         //dd($request->input('title'));
         //dd($request->input('date_due'));
 
-        //set component date due
-        $date_due = Carbon::createFromFormat('D M d Y', $request->input('date_due'), 'America/New_York');
-        // old date 'n/j/Y'
+       //set component date due
+        //$date_due = Carbon::parse($request->input('date_due'));
 
+        $date_due = Carbon::createFromFormat('m-d-y', $request->input('date_due'), 'America/New_York');
+
+        //dd($date_due);
+        
         //set component time due
         $date_due->hour = 23;
         $date_due->minute = 59;
         $date_due->second = 59;
 
-        //$date_due->toDateTimeString(); 
-        
+        $date_due->toDateTimeString(); 
         $date_due->setTimezone('UTC');
+
+        $component->date_due = $date_due;
+        $component->save();
 
         $component->title = $request->input('title');
         $component->date_due = $date_due;
-        
+
         $component->save();
 
         $assignment = Assignment::findOrFail($component->assignment_id);

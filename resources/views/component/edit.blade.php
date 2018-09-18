@@ -39,11 +39,12 @@
 
                             <div class="col-md-6">
 
-       <!--  <input id="datepicker" type="text" class="form-control" name="date_due" value="{{ Carbon\Carbon::parse($component->date_due)->setTimezone('America/New_York')->format('n/j/Y') }}"> -->
+       <input id="datepicker" type="text" class="form-control" name="date_due" value="{{ Carbon\Carbon::parse($component->date_due)->setTimezone('America/New_York')->format('m-d-y') }}">
 
-       {!! Form::text('date_due', Carbon\Carbon::parse($component->date_due)->setTimezone('America/New_York')->format('n/j/Y') , ['id' => 'datepicker', 'class' => 'form-control']) !!}</div>
 
-       <div id="datepicker"></div>
+
+     <!--  {!! Form::text('date_due', Carbon\Carbon::parse($component->date_due)->setTimezone('America/New_York')->format('n-j-Y') , ['id' => 'datepicker', 'class' => 'form-control']) !!}</div> -->
+     <div id="datepicker"></div>
 
                                 @if ($errors->has('date_due'))
                                     <span class="help-block">
@@ -54,12 +55,16 @@
                         </div>
 
         <div class="form-group">
+
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
                                  Update Component
                                 </button>
                             </div>
                         </div>
+
+        <input type="hidden" name="component" value="{{ $component->id }}">
+
                     </form>
    
 </form>
