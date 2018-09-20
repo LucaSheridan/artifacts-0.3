@@ -352,28 +352,35 @@ class ArtifactController extends Controller
         //get artifact from database
         $artifact = Artifact::findOrFail($artifact->id);
 
-        // get artifact to rotate from Amazon S3
-        $originalImage = Storage::disk('s3')->url($artifact->artifact_path);
+        // Set storage paths
+        $rotatedImagePath = $artifact->artifact_path;
+        $rotatedThumbPath = $artifact->artifact_thumb;
+        
+        // get artifacts to rotate from Amazon S3
+        // $originalImage = Storage::disk('s3')->url($artifact->artifact_path);
+        // $originalThumb = Storage::disk('s3')->url($artifact->artifact_thumb);
 
-        // Set storage path
-        $newImagePath = Storage::disk('s3')->url($artifact->artifact_path);
+        // create new Image/Intervention instances
+        $rotatedImage = Image::make(Storage::disk('s3')->url($artifact->artifact_path));
+        $rotatedThumb = Image::make(Storage::disk('s3')->url($artifact->artifact_thumb));
 
-        // create a new Image/Intervention instance
-        $newImage = Image::make($originalImage);
+        // instatiate and encode
+        
 
-        //dd($image);
+        $rotatedImage->rotate('90')->encode();
+        $rotatedThumb->rotate('90')->encode();
 
-        $newImage->rotate('90');
-
-        return $newImage->response();
+        // return $newImage->response();
         
         // Set Storage path
         $s3 = \Storage::disk('s3');
 
         // Save image to Amazon S3
-        $s3->put($newImagePath, $newImage->__toString(), 'public');
+        $s3->put($rotatedImagePath, $rotatedImage->__toString(), 'public');
+        $s3->put($rotatedThumbPath, $rotatedThumb->__toString(), 'public');
 
-        //flash('Artifact rotated 90 CW!', 'success');
+
+        flash('Artifact rotated!', 'success');
 
         return redirect()->action('ArtifactController@show', $artifact->id);
     }
