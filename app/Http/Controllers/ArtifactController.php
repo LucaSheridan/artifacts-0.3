@@ -69,13 +69,19 @@ class ArtifactController extends Controller
             // get file input data as object
             $image = $request->file('file');
 
+/////////// get real path to file in temp directory
+            $realPath = $request->file('file')->getRealPath();
+      
             // set image and thumbnail filenames
             $fileName = time();
             $imageFileName = $fileName.'.'. $image->getClientOriginalExtension();
             $thumbFileName = $fileName.'.thumb.'. $image->getClientOriginalExtension();
 
-            // create a new Image/Intervention instance
-            $image = Image::make($request->file('file'))->orientate();
+            // // create a new Image/Intervention instance
+            // $image = Image::make($image)->orientate();
+
+/////////// create a new Image/Intervention instance from file system
+            $image = Image::make($realPath)->orientate();
 
             // set storage
             $s3 = \Storage::disk('s3');
@@ -334,46 +340,43 @@ class ArtifactController extends Controller
         return redirect()->action('AssignmentController@show', $artifact->assignment_id);
     }
 
-    // /**
-    //  * Rotate the specified resource.
-    //  *
-    //  * @param  \App\Artifact  $artifact
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function rotate(Artifact $artifact)
-    // {
+    /**
+     * Rotate the specified resource.
+     *
+     * @param  \App\Artifact  $artifact
+     * @return \Illuminate\Http\Response
+     */
+    public function rotate(Artifact $artifact)
+    {
 
-    //     //get artifact from database
+        //get artifact from database
+        $artifact = Artifact::findOrFail($artifact->id);
 
-    //     $artifact = Artifact::findOrFail($artifact->id);
+        // get artifact to rotate from Amazon S3
+        $originalImage = Storage::disk('s3')->url($artifact->artifact_path);
 
-    //     // get artifact to rotate from Amazon S3
+        // Set storage path
+        $newImagePath = Storage::disk('s3')->url($artifact->artifact_path);
 
-    //     $image = Storage::disk('s3')->url($artifact->artifact_path);
+        // create a new Image/Intervention instance
+        $newImage = Image::make($originalImage);
 
-    //     // dd($image);
+        //dd($image);
 
+        $newImage->rotate('90');
 
-    //     // create a new Image/Intervention instance
-    //     $image = Image::make($image);
+        return $newImage->response();
+        
+        // Set Storage path
+        $s3 = \Storage::disk('s3');
 
-    //     $image->rotate('-90');
+        // Save image to Amazon S3
+        $s3->put($newImagePath, $newImage->__toString(), 'public');
 
-    //     //dd($image);
+        //flash('Artifact rotated 90 CW!', 'success');
 
-    //     // set storage
-    //     $s3 = \Storage::disk('s3');
-
-    //     // Save image to Amazon S3
-    //     $s3->put($artifact->artifact_path, $image->__toString(), 'public');
-
-
-
-
-    //     flash('Artifact rotated 90 CW!', 'success');
-
-    //     return redirect()->action('HomeController@index');
-    // }
+        return redirect()->action('ArtifactController@show', $artifact->id);
+    }
     
      // public function S3upload(Request $request)
    
