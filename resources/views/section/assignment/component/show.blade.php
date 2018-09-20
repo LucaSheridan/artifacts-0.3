@@ -46,8 +46,10 @@
                         <div class="component-wrapper">
 
                             <div class="component-owner">
+                                
+                                 <a href="{{ action('SectionController@StudentAssignmentProgressView', [ 'user' => $student->id , 'section' => $section->id , 'assignment' => $assignment->id ] )}}">
                                 {{ $student->firstName}}<br/>
-                                {{ $student->lastName }}
+                                {{ $student->lastName }}</a>
                             </div>
 
                             <div class="component-display">
