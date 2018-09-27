@@ -29,8 +29,6 @@
     #actions {
       margin: 2em 0;
     }
-
-
     /* Mimic table appearance */
     div.table {
       display: table;
@@ -47,28 +45,21 @@
     div.table .file-row:nth-child(odd) {
       background: #f9f9f9;
     }
-
-
-
     /* The total progress gets shown by event listeners */
     #total-progress {
       opacity: 0;
       transition: opacity 0.3s linear;
     }
-
     /* Hide the progress bar when finished */
     #previews .file-row.dz-success .progress {
       opacity: 0;
       transition: opacity 0.3s linear;
     }
-
     /* Hide the delete button initially */
     #previews .file-row .delete {
       display: none;
     }
-
     /* Hide the start and cancel buttons and show the delete button */
-
     #previews .file-row.dz-success .start,
     #previews .file-row.dz-success .cancel {
       display: none;
@@ -76,8 +67,6 @@
     #previews .file-row.dz-success .delete {
       display: block;
     }
-
-
   </style>
 
 </head>
@@ -139,6 +128,20 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+                                    
+                                        
+                                        @if ( Auth::User()->hasRole('student'))
+
+                                        <li>
+
+                                        <a href="{{ url('/enroll')}}">Join another class</a>
+
+                                        </li>
+                                        @else
+                                        @endif
+
+                                    
+
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();

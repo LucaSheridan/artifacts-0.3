@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         
-	     <div class="col-xs-5 col-sm-6 col-md-8 col-lg-9">
+	     <div class="col-sm-6 col-md-8 col-lg-9">
 
             <a href="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}"><img class="img-responsive" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}"></a><br>
 
@@ -61,15 +61,17 @@
 
 		    <hr/>
 
-        <a class="btn btn-warning" href='{{ action('ArtifactController@unpublish', $artifact->id) }}'>Remove this from my portfolio</a><br/>
+        <a class="btn btn-warning" href='{{ action('ArtifactController@unpublish', $artifact->id) }}'>Remove this from my portfolio</a>
       	
       	@else
 
-        <br/> <a class="btn btn-primary" href='{{ action('ArtifactController@edit', $artifact->id) }}'>Add this to my portfolio</a><br/>
+        <br/> <a class="btn btn-primary m-1" href='{{ action('ArtifactController@edit', $artifact->id) }}'>Add this to my portfolio</a>
 
       	@endif
 
-        <a class="btn btn-primary" href='{{ action('ArtifactController@rotate', $artifact->id) }}'>Rotate Image</a>
+        <a class="btn btn-primary m-1" href='{{ action('ArtifactController@rotate', [ 'id' => $artifact->id, 'degrees' => '90' ]) }}'>Rotate counterclockwise</a>
+
+        <a class="btn btn-primary m-1" href='{{ action('ArtifactController@rotate', [ 'id' => $artifact->id, 'degrees' => '-90' ]) }}'>Rotate clockwise</a>
 
         <hr/>        
 

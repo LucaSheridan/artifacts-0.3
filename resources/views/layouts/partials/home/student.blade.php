@@ -16,20 +16,21 @@
  -->
         <!-- Loop Classes -->
 
-    <div class="dropdown">
+    <h4>ASSIGNMENTS</h4>
+    
+<!--     <div class="dropdown">
     
     
     <div class=" dropdown-toggle" type="button" data-toggle="dropdown">
-    <h4>CLASSES
     <span style="color:#CCC" class="glyphicon glyphicon-cog"></span>
-    </div></h4>
-    
+    </div>
+
     <ul class="dropdown-menu">
       <li><a href="{{ url('/enroll')}}">Join another class</a></li>
     </ul>
   
     </div>
-
+ -->
         @foreach (Auth::User()->sections as $section) 
         
         <br><h5 style="text-decoration:underline">{{$section->name}}</h5>                
