@@ -50,7 +50,7 @@
 
                                         @foreach ($roster as $rosterspot)
                                         
-                                             {{ $rosterspot->firstName}} {{ $rosterspot->lastName}}
+                                             {{ $rosterspot->firstName}} {{ $rosterspot->lastName}} ({{count( $rosterspot->artifacts)}})
 
                                         <span class="pull-right">
 
@@ -91,11 +91,17 @@
     
     <!-- HEADING -->
     <div class="panel-heading">
-        <a href="{{ action('AssignmentController@show', $assignment->id) }}">
           
-          {{ $assignment->title }}</a> | 
+    {{ $assignment->title }}
 
-          <a href='{{ action('SectionController@ViewClassAssignment', ([$section->id, $assignment->id ])) }}'>Gallery</a>
+    <!-- <a href='{{ action('SectionController@ViewClassAssignment', ([$section->id, $assignment->id ])) }}'>Gallery</a> -->    
+
+
+    <div class="pull-right">
+        <a href="{{ action('AssignmentController@show', $assignment->id) }}">
+          Edit
+        </a> 
+    </div>
     </div>
     
     <!-- DESCRIPTION -->
