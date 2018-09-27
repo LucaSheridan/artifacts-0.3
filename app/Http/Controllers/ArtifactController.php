@@ -36,10 +36,10 @@ class ArtifactController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-    public function create(Request $request)
+    public function create(Request $request, Component $component)
    
         {
-        return view('artifact.create');
+        return view('artifact.create')->with('component', $component);
         }
 
     /**
@@ -346,7 +346,7 @@ class ArtifactController extends Controller
      * @param  \App\Artifact  $artifact
      * @return \Illuminate\Http\Response
      */
-    public function rotate(Artifact $artifact)
+    public function rotate(Artifact $artifact, $degrees)
     {
 
         //get artifact from database
@@ -367,8 +367,8 @@ class ArtifactController extends Controller
         // instatiate and encode
         
 
-        $rotatedImage->rotate('90')->encode();
-        $rotatedThumb->rotate('90')->encode();
+        $rotatedImage->rotate($degrees)->encode();
+        $rotatedThumb->rotate($degrees)->encode();
 
         // return $newImage->response();
         
@@ -380,7 +380,7 @@ class ArtifactController extends Controller
         $s3->put($rotatedThumbPath, $rotatedThumb->__toString(), 'public');
 
 
-        flash('Artifact rotated!', 'success');
+        flash('Artifact rotated 90 degrees counter clockwise!', 'success');
 
         return redirect()->action('ArtifactController@show', $artifact->id);
     }

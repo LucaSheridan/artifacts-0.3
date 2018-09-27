@@ -65,7 +65,10 @@ Route::post('/test', 'ArtifactController@S3upload');
 // Collection Routes
 
 	Route::get('/collection', ['middleware' => 'auth', 'uses' => 'CollectionController@index']);
+	Route::get('/collection/create', ['middleware' => 'auth', 'uses' => 'CollectionController@create']);
 	Route::get('/collection/{collection}', ['middleware' => 'auth', 'uses' => 'CollectionController@show']);
+	Route::post('/collection', ['middleware' => 'auth', 'uses' => 'CollectionController@store']);
+
 
 // User Routes
 
@@ -151,12 +154,12 @@ Route::get('/section/{section}/assignment/{assignment}/component/{component}', [
 	// Artifact Routes
 
 Route::resource('artifact', 'ArtifactController');
-//Route::get('/artifact/create', 'ArtifactController@create');
+Route::get('/artifact/create/{component}', 'ArtifactController@create');
 //Route::get('/artifact/{artifact}/linkToAssignment/{assignment}', 'ArtifactController@linkToAssignment');
 //Route::get('/artifact/{artifact}/attachToAssignment', 'ArtifactController@attachToAssignment');
 //Route::post('/artifact', 'ArtifactController@store');
 Route::get('/artifact/{artifact}/delete', 'ArtifactController@delete');
-Route::get('/artifact/{artifact}/rotate', 'ArtifactController@rotate');
+Route::get('/artifact/{artifact}/rotate/{degrees}', 'ArtifactController@rotate');
 
 Route::patch('/artifact/{artifact}/publish', 'ArtifactController@publish');
 Route::get('/artifact/{artifact}/unpublish', 'ArtifactController@unpublish');

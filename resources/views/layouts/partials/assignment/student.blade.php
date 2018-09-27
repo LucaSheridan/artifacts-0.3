@@ -104,6 +104,9 @@
     @if ($checklistItem->artifactID)
 
      <a class="btn btn-default" href='{{ action('ArtifactController@show', $checklistItem->artifactID) }}'>View</a>
+    
+     <a class="btn btn-success" href='{{ action('ArtifactController@create', $checklistItem->componentID) }}'>Add</a>
+
     <a class="btn btn-danger" href='{{ action('ArtifactController@delete', $checklistItem->artifactID) }}'>Delete</a>
     
     @else
@@ -121,10 +124,9 @@
         <input type="hidden" name="assignment_id" value="{{$checklistItem->assignmentID}}">
         <input type="hidden" name="component_id" value="{{$checklistItem->componentID}}">
         
-       <button type="submit" class="btn btn-success">Upload
+       <button id="upload" type="submit" class="btn btn-success">Upload
        </button>
 
-    
         <!-- File Uplaod Errors-->
 
         @if ($errors->has('file'))
@@ -147,5 +149,7 @@
 @endforeach
 
 </table>
+
+
 
 
