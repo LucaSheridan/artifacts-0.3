@@ -20,11 +20,9 @@
     
     
     <div class=" dropdown-toggle" type="button" data-toggle="dropdown">
-    <h4>Classes
+    <h4>CLASSES
     <span style="color:#CCC" class="glyphicon glyphicon-cog"></span>
-    </div>
-    
-    </h4>
+    </div></h4>
     
     <ul class="dropdown-menu">
       <li><a href="{{ url('/enroll')}}">Join another class</a></li>
@@ -34,7 +32,7 @@
 
         @foreach (Auth::User()->sections as $section) 
         
-        <br/><h5>{{$section->name}}</h5>                
+        <br><h5 style="text-decoration:underline">{{$section->name}}</h5>                
      
            @foreach ($section->assignments as $assignment)
 
@@ -50,6 +48,7 @@
            @endforeach
                                                      
         @endforeach
+        <br/>
 
 </div>
 

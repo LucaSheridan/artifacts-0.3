@@ -4,7 +4,7 @@
 
 	<hr/>
 
-		<div class="footer">Artifacts is 	&copy; a Lucas Sheridan</div>
+		<div class="footer">Artifacts is &copy; Lucas Sheridan</div>
 	
 	</div>
 </div>
