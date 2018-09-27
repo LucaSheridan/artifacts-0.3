@@ -8,13 +8,6 @@
     <h3 class="text-center m-6"> {{strtoupper($user->firstName)}} {{strtoupper($user->lastName)}}</h3>
 
             <h4 class="text-center">PORTFOLIO
-
-            @if ( Auth::User()->hasRole('teacher') || ( Auth::User()->hasRole('admin')))
-
-                 | PROCESS
-
-            @else
-            @endif
             </h4>
 
            <div class="panel-body">
