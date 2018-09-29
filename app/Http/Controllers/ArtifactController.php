@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Image;
 
+// testing extension($path) for image rotate
+use Illuminate\Filesystem\Filesystem;
+
 
 class ArtifactController extends Controller
 {
@@ -81,6 +84,7 @@ class ArtifactController extends Controller
             // $image = Image::make($image)->orientate();
 
 /////////// create a new Image/Intervention instance from file system
+            
             $image = Image::make($realPath)->orientate();
 
             // set storage
@@ -122,7 +126,7 @@ class ArtifactController extends Controller
                     $s3->put($thumbPath, $image->__toString(), 'public');
                 }
 
-            else 
+                else 
                 
                 {    
                     // Initial resize to 1000 pixels
@@ -170,7 +174,6 @@ class ArtifactController extends Controller
             return redirect()->action('AssignmentController@show', $artifact->assignment_id);
 
         }
-
 
     /**
      * Display the specified resource.
@@ -325,23 +328,27 @@ class ArtifactController extends Controller
     public function destroy(Artifact $artifact)
     {
         
-        // //set assignment id for redirect
-        // $artifact_id = $artifact->assignment_id;
-
-        // Delete image files from storage
+    
+    // Delete image files from storage
+        
         File::delete($artifact->artifact_thumb);
         File::delete($artifact->artifact_path);
-
-
+    
+    // Delete artifact record from database
+        
         $artifact->delete();
+
+    // Set confirmation message
 
         flash('Artifact deleted successfully!', 'danger');
 
-        return redirect()->action('AssignmentController@show', $artifact->assignment_id);
+    // Redirect to Assignent
+
+    return redirect()->action('AssignmentController@show', $artifact->assignment_id);
     }
 
     /**
-     * Rotate the specified resource.
+     * Rotate the specified artifact.
      *
      * @param  \App\Artifact  $artifact
      * @return \Illuminate\Http\Response
@@ -349,156 +356,59 @@ class ArtifactController extends Controller
     public function rotate(Artifact $artifact, $degrees)
     {
 
-        //get artifact from database
-        $artifact = Artifact::findOrFail($artifact->id);
+    // get artifact from database
 
-        // Set storage paths
-        $rotatedImagePath = $artifact->artifact_path;
-        $rotatedThumbPath = $artifact->artifact_thumb;
-        
-        // get artifacts to rotate from Amazon S3
-        // $originalImage = Storage::disk('s3')->url($artifact->artifact_path);
-        // $originalThumb = Storage::disk('s3')->url($artifact->artifact_thumb);
+            $artifact = Artifact::findOrFail($artifact->id);
 
-        // create new Image/Intervention instances
-        $rotatedImage = Image::make(Storage::disk('s3')->url($artifact->artifact_path));
-        $rotatedThumb = Image::make(Storage::disk('s3')->url($artifact->artifact_thumb));
+    //get file extension from database
 
-        // instatiate and encode
-        
+            $originalExtension = str_after($artifact->artifact_path,'.');
+                        
+    // create new Image/Intervention instances
 
-        $rotatedImage->rotate($degrees)->encode();
-        $rotatedThumb->rotate($degrees)->encode();
+            $rotatedImage = Image::make(Storage::disk('s3')->url($artifact->artifact_path));
+            $rotatedThumb = Image::make(Storage::disk('s3')->url($artifact->artifact_thumb));
+            
+    // Rotate by degree and re-encode.
+            
+            $rotatedImage->rotate($degrees)->encode();
+            $rotatedThumb->rotate($degrees)->encode();
+            //return $rotatedImage->response();
 
-        // return $newImage->response();
-        
-        // Set Storage path
-        $s3 = \Storage::disk('s3');
+    // set image and thumbnail filenames
+           
+            $fileName = time();
+            $rotatedImagePath = 'uploads/'.$fileName.'.'. $originalExtension;
+            $rotatedThumbPath = 'uploads/'.$fileName.'.thumb.'.$originalExtension;
 
-        // Save image to Amazon S3
-        $s3->put($rotatedImagePath, $rotatedImage->__toString(), 'public');
-        $s3->put($rotatedThumbPath, $rotatedThumb->__toString(), 'public');
+    // Set Storage path
+     
+            $s3 = \Storage::disk('s3');
 
+    // Save image to storage
+            
+             $s3->put($rotatedImagePath, $rotatedImage->__toString(), 'public');
+             $s3->put($rotatedThumbPath, $rotatedThumb->__toString(), 'public');
 
-        flash('Artifact rotated 90 degrees counter clockwise!', 'success');
+    //save old storage paths for deletion
 
-        return redirect()->action('ArtifactController@show', $artifact->id);
+             $old_artifact_path = $artifact->artifact_path;
+             $old_thumb_path = $artifact->artifact_thumb;
+
+    //save new storage paths to database
+
+            $artifact->artifact_path = $rotatedImagePath;
+            $artifact->artifact_thumb = $rotatedThumbPath;
+            $artifact->save();
+
+    // Delete old image files from storage
+            
+            File::delete($old_thumb_path);
+            File::delete($old_artifact_path);
+
+            flash('Image rotated', 'success');
+
+            return redirect()->action('ArtifactController@show', $artifact->id);
     }
-    
-     // public function S3upload(Request $request)
-   
-     //    {
-
-     //    // create valiadator
-     //    $this->validate($request, [
-        
-     //        'file' => 'required',
-     //        'user_id' => 'required',
-     //        'assignment_id' => 'required',
-     //        'component_id' => 'required',
-     //        ]);
-
-     //        // get form input data
-     //        $user_id = $request->input('user_id');
-     //        $assignment_id = $request->input('assignment_id');
-     //        $component_id = $request->input('component_id');
-
-     //        // get file input data as object
-     //        $image = $request->file('file');
-
-     //        // set image and thumbnail filenames
-     //        $fileName = time();
-     //        $imageFileName = $fileName.'.'. $image->getClientOriginalExtension();
-     //        $thumbFileName = $fileName.'.thumb.'. $image->getClientOriginalExtension();
-
-     //        // create a new Image/Intervention instance
-     //        $image = Image::make($request->file('file'))->orientate();
-
-     //        // set storage
-     //        $s3 = \Storage::disk('s3');
-
-     //        // set paths
-     //        $imagePath = 'uploads/' . $imageFileName;
-     //        $thumbPath = 'uploads/' . $thumbFileName;
-            
-     //        // apply image transformations
-
-     //            //check for portrait or landscape orientation
-     //            $width = $image->width();
-     //            $height = $image->height();
-
-     //            if ($height >= $width) { $orientation = "portrait"; }
-     //            else { $orientation = "landscape"; }
-
-     //            //resize logic based on image orientation
-            
-     //            if ($orientation == 'portrait')
-
-     //            { 
-     //                // Initial resize to 1000 pixels
-     //                $image->resize(null, 1000, function ($constraint) { 
-     //                $constraint->aspectRatio();
-     //                $constraint->upsize();
-     //                })->encode('jpg', 75);
-     //                // Save image to Amazon S3
-     //                $s3->put($imagePath, $image->__toString(), 'public');
-
-     //                // Resize to 200 pixels for thumnail generation
-     //                $image->resize(200, null, function ($constraint) { 
-     //                $constraint->aspectRatio();
-     //                $constraint->upsize();
-     //                // Crop and encode thumbnail as jpg
-     //                })->crop(200, 200)->encode('jpg', 75);
-     //                // Save thumbnail to Amazon S3
-     //                $s3->put($thumbPath, $image->__toString(), 'public');
-     //            }
-
-     //        else 
-                
-     //            {    
-     //                // Initial resize to 1000 pixels
-     //                $image->resize(1000, null, function ($constraint) { 
-     //                $constraint->aspectRatio();
-     //                $constraint->upsize();
-     //                })->encode('jpg', 75);
-     //                // Save image to Amazon S3
-     //                $s3->put($imagePath, $image->__toString(), 'public');
-
-     //                // Resize to 200 pixels for thumnail generation
-     //                $image->resize(null, 200, function ($constraint) { 
-     //                $constraint->aspectRatio();
-     //                $constraint->upsize();
-     //                // Crop and encode thumbnail as jpg
-     //                })->crop(200, 200)->encode('jpg', 75);
-     //                // Save thumbnail to Amazon S3
-     //                $s3->put($thumbPath, $image->__toString(), 'public');
-     //            }
-
-     //        // Good for smaller files... $s3->put($path, file_get_contents($image), 'public');
-     //        // Better for big files...  $s3->put($path, fopen($image, 'r+'), 'public');
-
-     //        // set and persist information to database
-     //        $artifact = New Artifact;
-        
-     //        $artifact->user_id = $user_id;
-     //        $artifact->assignment_id = $assignment_id;
-     //        $artifact->component_id = $component_id;
-     //        $artifact->is_published = false;
-     //        $artifact->is_visible = true;
-     //        $artifact->artifact_path = $imagePath;
-     //        $artifact->artifact_thumb = $thumbPath;
-     //        $artifact->title = 'untitled';
-     //        $artifact->medium = 'unspecified';
-     //        $artifact->description = 'Add your comments and reflections here';
-     //        $artifact->dimensions_height = 'unspecified';
-     //        $artifact->dimensions_width = 'unspecified';
-     //        $artifact->dimensions_depth = null;
-     //        $artifact->dimensions_units = 'inches';
-     //        $artifact->save();
-            
-     //        flash('An artifact has been successfully added to this assignment!', 'success');
-
-     //        return redirect()->action('AssignmentController@show', $assignment_id);
-     //    }
     
 }
