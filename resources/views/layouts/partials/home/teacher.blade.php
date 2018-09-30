@@ -1,11 +1,8 @@
           
 
-                    <div class="panel-heading">Teacher Dashboard</div>
+                    <div class="panel-heading"><h4>Classes</h4></div>
 
 <div class="panel-body">
-
-<h4>Classes</h4><br/>
-                
                 
                    <ul class="list-inline">
 
