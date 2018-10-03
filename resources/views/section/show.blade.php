@@ -50,12 +50,13 @@
 
                                         @foreach ($roster as $rosterspot)
                                         
-                                             {{ $rosterspot->firstName}} {{ $rosterspot->lastName}} ({{count( $rosterspot->artifacts)}})
+                                             <a href="{{ action('SectionController@progressReport', ['section' => $section->id, 'user' => $rosterspot->id])}}">
+
+                                                {{ $rosterspot->firstName}} {{ $rosterspot->lastName}}</a> ({{count( $rosterspot->artifacts)}})
 
                                         <span class="pull-right">
-
-                                        <a href="{{ action('SectionController@progressReport', ['section' => $section->id, 'user' => $rosterspot->id])}}">Progress</a> | 
-
+                                        
+                                        <a href="mailto:{{$rosterspot->email}} ">Email</a> | 
 
                                         <a href="{{ action('UserController@show', $rosterspot->id) }}">Portfolio</a>
                                         
