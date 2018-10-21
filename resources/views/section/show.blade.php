@@ -1,23 +1,48 @@
 @extends('layouts.app')
 
+
+
 @section('content')
+
 <div class="container">
     <div class="row">
+                    <div class="well">
         <div class="col-md-12">
             
+        
             <div class="panel panel-default">
                
-                <div class="panel-heading">
-                {{$section->label}}
 
-                <span class="pull-right"> <a href='{{action('SectionController@edit', $section->id )}}'>Edit</a></span>
+
+
+
+
+                    <div class="panel-heading">
+                    <div class="well">
+                        <H4>CLASSES</H4>
+                    <span class="pull-right"> <a href='{{action('SectionController@edit', $section->id )}}'>Edit</a></span>
+                
+                <ul class="nav nav-pills">
+      
+      @foreach (Auth::User()->sections as $section)
+
+        <li class="nav-item {{active_check('section/'.$section->id)}}"><a href="{{action('SectionController@show', $section->id)}}">{{ $section->label}}</a></li>
+     
+      @endforeach
+     
+     </ul>
+
+
+
+
+
                 
                 
                <!--  HEAT MAP 
                <span class='pull-right'><a href="{{ action('SectionController@classProgressReport', ['section' => $section->id, 'users' => $section->students ])}}">Heat Map</a></span>
                  -->
 
-                </span>
+             </div>
                 </div>
 
                 <div class="panel-body">
@@ -76,10 +101,13 @@
 
                             <div class="col-md-6">
 
-                            <h3>Assignments</h3><br/>
+                                <h3>Assignments</h3><br/>
                            
+                             <div class="panel panel-default">
 
-                                {{-- Begin Assignments --}}
+                             <div class="panel-heading">
+                            
+                               {{-- Begin Assignments --}}
 
                                 @if ($assignments->count())
             
@@ -125,7 +153,7 @@
 
         </div>
         </div>
-    </div>
+        </div>
 
       <!-- End Panel -->
 
@@ -141,11 +169,17 @@
 
                                     <a class='btn btn-primary pull-right' href='{{action('AssignmentController@create', $section->id) }}'>Create New Assignment</a>
 
+                                    <div class="clearfix"></div>
+
                                 </div>
+                            
                             </div>
 
 
                             </div>
+
+                                    <div class="clearfix"></div>
+
           
                         </div>
                     </div>
