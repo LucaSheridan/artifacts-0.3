@@ -6,7 +6,6 @@
 
 <div class="container">
     <div class="row">
-                    <div class="well">
         <div class="col-md-12">
             
         
@@ -18,31 +17,13 @@
 
 
                     <div class="panel-heading">
-                    <div class="well">
-                        <H4>CLASSES</H4>
                     <span class="pull-right"> <a href='{{action('SectionController@edit', $section->id )}}'>Edit</a></span>
-                
-                <ul class="nav nav-pills">
-      
-      @foreach (Auth::User()->sections as $section)
-
-        <li class="nav-item {{active_check('section/'.$section->id)}}"><a href="{{action('SectionController@show', $section->id)}}">{{ $section->label}}</a></li>
-     
-      @endforeach
-     
-     </ul>
-
-
-
-
-
-                
-                
+                        <H4>{{$section->label}}</H4>
+                 
                <!--  HEAT MAP 
                <span class='pull-right'><a href="{{ action('SectionController@classProgressReport', ['section' => $section->id, 'users' => $section->students ])}}">Heat Map</a></span>
                  -->
 
-             </div>
                 </div>
 
                 <div class="panel-body">
@@ -178,8 +159,7 @@
 
                             </div>
 
-                                    <div class="clearfix"></div>
-
+</div>
           
                         </div>
                     </div>
