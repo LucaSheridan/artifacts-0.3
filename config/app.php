@@ -167,7 +167,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Spatie\Backup\BackupServiceProvider::class,
-        Pyaesone17\ActiveState\ActiveStateServiceProvider::class,
+        //Pyaesone17\ActiveState\ActiveStateServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -235,6 +235,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        //'Active' => Pyaesone17\ActiveState\ActiveFacade::class,
 
     ],
 

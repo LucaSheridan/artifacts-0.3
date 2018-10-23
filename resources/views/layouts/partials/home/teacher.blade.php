@@ -23,7 +23,7 @@
                    
         @endforeach
 
-              <li><a class='btn btn-default' href="section/create">New</a>
+              <li><a class='btn btn-default' href="section/create">Add</a>
               </li>
                 
     </ul>
