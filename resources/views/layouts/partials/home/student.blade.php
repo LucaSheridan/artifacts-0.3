@@ -94,49 +94,13 @@
 
             </div>
 
-            {{ $artifacts->links() }}
         </div>
 
     <!-- End Artifacts -->
 
 <div>
 
-    <!-- Begin Collections -->
-
-    <div class="well">
-
-        <h4>COLLECTIONS</h4>
-        <p>Organize and present your work by creating collections of artifacts.</p>  
-
-         <div class="" style="display: flex">
-
-         @foreach (Auth::User()->collections as $collection)
-
-                <div class="" style="padding:6px;">
-
-                <a href="{{ action('CollectionController@show', $collection->id )}}">
-
-                @if ($collection->cover_thumb)
-
-                    <img  class="img-responsive" src="https://s3.amazonaws.com/artifacts-0.3/{{ $collection->cover_thumb}}">
-            
-            @else
-                    
-            <div style="height:200px; width:200px; background-color:#CFCFCF; ">
-            <p class="text-center">No artifacts have been added to this portfolio.</p>
-            </div>
-
-            @endif
-
-            <H4 class="text-left">{{ $collection->title }}
-            </a>
-
-            <span style="font-size:80%; color: #CCC; margin-right:4px; padding: 2px;" class="pull-right">{{ count($collection->artifacts)}}</span></H4>
-            
-    </div>
-@endforeach
-
-</div>
+   
 
 <div class="clearfix"></div>
 </div>
