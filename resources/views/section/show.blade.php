@@ -29,14 +29,6 @@
                         @endif
 
                     @endforeach
-
-
-
-                    @ifActiveUrl('section/'.$activeSection->id)
-                    {{ $section->id }}
-                    @else
-                    huh?
-                    @endIfActiveUrl
                 
                   </ul>
                   <hr/>
