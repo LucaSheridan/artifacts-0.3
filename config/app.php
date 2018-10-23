@@ -235,7 +235,6 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-        'Active' => Pyaesone17\ActiveState\ActiveFacade::class,
 
     ],
 
