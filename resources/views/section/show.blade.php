@@ -1,54 +1,54 @@
 @extends('layouts.app')
 
-
-
 @section('content')
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            
-        
-            <div class="panel panel-default">
-               
+          
+<div class="container ">
+<div class="row well">
+    
+        <!-- Begin Classes -->
 
+                <div class="col-md-12">
 
-
-
-
-                    <div class="panel-heading">
-                    <span class="pull-right"> <a href='{{action('SectionController@edit', $section->id )}}'>Edit</a></span>
-                        <H4>{{$section->label}}</H4>
-                 
-               <!--  HEAT MAP 
-               <span class='pull-right'><a href="{{ action('SectionController@classProgressReport', ['section' => $section->id, 'users' => $section->students ])}}">Heat Map</a></span>
-                 -->
-
-                </div>
-
-                <div class="panel-body">
+                <span class="pull-right">
+                <a class="" href='{{ action('SectionController@edit', $section->id) }}'>Edit</a>    
+                </span>
                 
-                    <div class="row">
+                <h4>CLASSES</h4>
+
+                <ul class="list-inline">
+
+                    @foreach ( Auth::User()->sections as $section) 
                         
-                        <div class="col-md-12">
+                        @if ( $section->active )
 
-                            <div class="col-md-6">
+                             <li> <a class="btn {{active_check('section/'.$section->id)}}" href="{{action('SectionController@show', $section->id)}}">{{ $section->label}}</a>
+                             </li>
 
+                        @else
+                        @endif
+
+                    @endforeach
+                
+                  </ul>
+                  <hr/>
+
+              </div>
+
+        <!-- End Classes --> 
+
+<!-- End row --> 
                                 
-                            <!-- HEADING -->
+          <!-- Students -->
+          <div class="col-md-6">
+          <h4>STUDENTS ({{ count($roster) }})</h4>
                             
-                            <h3>Students ({{ count($roster) }})</h3><br/>
-                            
-                            <!-- BEGIN PANEL -->
-                            
-                             <div class="panel panel-default">
+          <!-- Roster -->
+          <div class="panel panel-default">
+          
+          <div class="panel-heading">
 
-                            
-                            <div class="panel-heading">
-
-                                 {{-- Begin Roster --}}
-
-                                @if ($roster->count() == 0)
+                                    @if ($roster->count() == 0)
                                     
                                     <p>There are currently no students enrolled in this section.</p>
 
@@ -56,37 +56,35 @@
 
                                         @foreach ($roster as $rosterspot)
                                         
-                                             <a href="{{ action('SectionController@progressReport', ['section' => $section->id, 'user' => $rosterspot->id])}}">
+                                        <a href="{{ action('SectionController@progressReport', ['section' => $section->id, 'user' => $rosterspot->id])}}">
 
-                                                {{ $rosterspot->firstName}} {{ $rosterspot->lastName}}</a> ({{count( $rosterspot->artifacts)}})
+                                        {{ $rosterspot->firstName}} {{ $rosterspot->lastName}}</a> ({{count( $rosterspot->artifacts)}})
 
                                         <span class="pull-right">
                                         
-                                        <a href="mailto:{{$rosterspot->email}} ">Email</a> | 
-
-                                        <a href="{{ action('UserController@show', $rosterspot->id) }}">Portfolio</a>
+                                        <a href="mailto:{{$rosterspot->email}} ">Email</a> | <a href="{{ action('UserController@show', $rosterspot->id) }}">Portfolio</a>
                                         
-                                        </span>
+                                        </span><br/>
 
-                                                <br/>
-
-                                                @endforeach
+                                        @endforeach
 
                                     @endif
                                                                
-                                </div>
+         </div>
 
-                                    <div class="panel-body">Class Enrollment Code: {{$section->code}}</div>
+         <div class="panel-body">Class Enrollment Code: {{$section->code}}
+         </div>
 
-                                </div></div>
+        </div>
 
-                            <div class="col-md-6">
+        </div>
 
-                                <h3>Assignments</h3><br/>
                            
-                             <div class="panel panel-default">
+<!-- Students -->
+          <div class="col-md-6">
+          <h4>ASSIGNMENTS</h4>
 
-                             <div class="panel-heading">
+          
                             
                                {{-- Begin Assignments --}}
 
