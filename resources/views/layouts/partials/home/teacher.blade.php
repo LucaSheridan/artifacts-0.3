@@ -31,7 +31,7 @@
         
         <!-- Begin Collections -->
 
-        <div class="col-md-12">
+<!--         <div class="col-md-12">
 
         <h4>COLLECTIONS</h4>
         <p>Organize and present your work by creating collections of artifacts.</p>   
@@ -63,4 +63,4 @@
     </div>
 
 @endforeach
-</div></div>
+</div></div> -->
