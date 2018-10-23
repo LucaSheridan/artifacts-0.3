@@ -182,6 +182,7 @@ class SectionController extends Controller
      */
     public function show(Section $section)
     {
+        $activeSection = Section::where('id', $section->id)->first();
         $teacher = User::find($section->teacher_id);
         $assignments = Assignment::where('section_id', $section->id)->orderBy('id','desc')->get();
         $roster = User::whereHas('roles', function ($query) { 
@@ -190,7 +191,7 @@ class SectionController extends Controller
         $query->where('id', $section->id );
         })->orderBy('lastName','asc')->get();
         
-        return view('section.show', compact('section','teacher','roster', 'assignments'));
+        return view('section.show', compact('activeSection','teacher','roster', 'assignments'));
     }
 
     

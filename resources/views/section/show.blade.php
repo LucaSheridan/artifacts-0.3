@@ -11,7 +11,7 @@
                 <div class="col-md-12">
 
                 <span class="pull-right">
-                <a class="" href='{{ action('SectionController@edit', $section->id) }}'>Edit</a>    
+                <a class="" href='{{ action('SectionController@edit', $activeSection->id) }}'>Edit</a>    
                 </span>
                 
                 <h4>CLASSES</h4>
@@ -29,6 +29,14 @@
                         @endif
 
                     @endforeach
+
+
+
+                    @ifActiveUrl('section/'.$activeSection->id)
+                    {{ $section->id }}
+                    @else
+                    huh?
+                    @endIfActiveUrl
                 
                   </ul>
                   <hr/>
@@ -56,7 +64,7 @@
 
                                         @foreach ($roster as $rosterspot)
                                         
-                                        <a href="{{ action('SectionController@progressReport', ['section' => $section->id, 'user' => $rosterspot->id])}}">
+                                        <a href="{{ action('SectionController@progressReport', ['section' => $activeSection->id, 'user' => $rosterspot->id])}}">
 
                                         {{ $rosterspot->firstName}} {{ $rosterspot->lastName}}</a> ({{count( $rosterspot->artifacts)}})
 
@@ -72,7 +80,7 @@
                                                                
          </div>
 
-         <div class="panel-body">Class Enrollment Code: {{$section->code}}
+         <div class="panel-body">Class Enrollment Code: {{$activeSection->code}}
          </div>
 
         </div>
