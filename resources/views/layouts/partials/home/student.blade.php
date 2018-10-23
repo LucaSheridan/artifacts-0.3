@@ -2,119 +2,154 @@
 <div class="container">
     
     <div class="panel col-12">
-    <h3 class="text-center mt-2">{{ strtoupper(Auth::User()->firstName.' '.Auth::User()->lastName) }}</h3>
+    
+    <h3 class="mt-2 text-center">{{ strtoupper(Auth::User()->firstName.' '.Auth::User()->lastName) }}</h3>
+    
     </div>
 
-<div class="col-md-3 col-lg-3">
+<!-- Left Column -->
 
+<div class="col-md-12 visible-sm visible-xs">
+    <div class="well">
 
+        <h4>ASSIGNMENTS</h4>
 
-
-<!--         <p>
-        Click on links to upload images.
-        </p><br/>
- -->
-        <!-- Loop Classes -->
-
-    <h4>ASSIGNMENTS</h4>
-    
-<!--     <div class="dropdown">
-    
-    
-    <div class=" dropdown-toggle" type="button" data-toggle="dropdown">
-    <span style="color:#CCC" class="glyphicon glyphicon-cog"></span>
-    </div>
-
-    <ul class="dropdown-menu">
-      <li><a href="{{ url('/enroll')}}">Join another class</a></li>
-    </ul>
-  
-    </div>
- -->
-        @foreach (Auth::User()->sections as $section) 
+        <select class="form-control" onchange="location = this.value;">
         
-        <br><h5 style="text-decoration:underline">{{$section->name}}</h5>                
-     
-           @foreach ($section->assignments as $assignment)
+        <option value="">Choose an assignment ...</option>
 
-            <!-- Toggle Components -->
+        @foreach (Auth::User()->sections as $section)
 
-    
-            <!-- Link to Assignment Process Page -->
+          <optgroup label="{{$section->name}}">
 
-            <a href="{{ action('AssignmentController@show', $assignment->id )}}">
-            {{ $assignment->title}}<br/>
-            </a>
+            @foreach ($section->assignments as $assignment)
 
-           @endforeach
-                                                     
+                <option value="{{action('AssignmentController@show', $assignment->id) }}">{{$assignment->title}}</option>
+        
+            @endforeach
+
+          </optgroup>
+
         @endforeach
-        <br/>
+
+        </select>
+
+    </div>
+</div>
+
+
+<div class="col-md-3 col-lg-3 hidden-sm hidden-xs">
+
+    <div class="well">
+
+     <h4>ASSIGNMENTS</h4>
+        
+    <!-- Loop Classes -->
+
+        @foreach (Auth::User()->sections as $section) 
+             
+        <strong style="color:#CCC;">{{$section->name}}</strong><br/>
+
+        @foreach ($section->assignments as $assignment)
+
+           <!-- Link to Assignment Process Page -->
+
+            <a style="margin-left:10px; text-decoration:none; color:black" href="{{ action('AssignmentController@show', $assignment->id )}}">
+            {{ $assignment->title}}
+            </a><br/>
+            
+           
+           @endforeach  
+
+        @endforeach
+
+    </div>
 
 </div>
+
+<!-- Center Column -->
 
 <div class="col-md-9 col-lg-9">
 
-<h4>PORTFOLIO</h4>
-                    
-<p>Completed and published projects.</p>
-  
-            <div class="flex flex-wrap bg-grey-lighter mt-4">
-                            
-            @foreach ($artifacts as $artifact) 
+    <!-- Begin Artifacts -->
 
-            <div class="flex-col items-center justify-around w-1/2 sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/4 
-            bg-white text-grey-darker text-md items-center justify-around">
-           
-                <a href="{{ action('ArtifactController@show', $artifact->id)}}">
-                <img class="block max-w-full m-4 h-auto p-2" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_thumb}}"></a>
-            
+        <div class="well">
 
-            
-<!--        <div class="sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/4 text-grey-darker text-center bg-grey-light px-4 py-2 m-2">
- -->            
-            
+        <h4>ARTIFACTS</h4>
+        <p>A stream of images that document your creative projects</p>
 
-<!--          <div class="pull-left project-wrapper">
- --> <!-- 
-            <div class="well"> -->
+            <div class="" style="display: flex; flex-wrap: wrap;">
 
-            <!-- <a href="{{ action('ArtifactController@show', $artifact->id)}}">
-            
-            <img src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_thumb}}"></a>
- -->        
-           <div class="leading-tight p-2">
+            @foreach ($artifacts as $artifact)
+ 
+                <div class="" style="padding:12px;">
 
-            <i>{{ $artifact->title }}</i><br/>
-            {{ $artifact->medium }}<br/>
-            {{ $artifact->dimensions_height }} x 
-            {{ $artifact->dimensions_width }} 
+                <a href="{{ action('ArtifactController@show', $artifact->id )}}">
+                
+                <img class="img-responsive" src="https://s3.amazonaws.com/artifacts-0.3/{{ $artifact->artifact_thumb}}"></a>
 
-            @if ($artifact->dimensions_depth)
-        
-                x {{ $artifact->dimensions_depth }}
-        
-            @else
-            @endif
+                </div>
 
-                  {{ $artifact->dimensions_units }}
-            
+            @endforeach
+
             </div>
 
- 
-
+            {{ $artifacts->links() }}
         </div>
 
-    @endforeach
+    <!-- End Artifacts -->
+
+<div>
+
+    <!-- Begin Collections -->
+
+    <div class="well">
+
+        <h4>COLLECTIONS</h4>
+        <p>Organize and present your work by creating collections of artifacts.</p>  
+
+         <div class="" style="display: flex">
+
+         @foreach (Auth::User()->collections as $collection)
+
+                <div class="" style="padding:6px;">
+
+                <a href="{{ action('CollectionController@show', $collection->id )}}">
+
+                @if ($collection->cover_thumb)
+
+                    <img  class="img-responsive" src="https://s3.amazonaws.com/artifacts-0.3/{{ $collection->cover_thumb}}">
+            
+            @else
+                    
+            <div style="height:200px; width:200px; background-color:#CFCFCF; ">
+            <p class="text-center">No artifacts have been added to this portfolio.</p>
+            </div>
+
+            @endif
+
+            <H4 class="text-left">{{ $collection->title }}
+            </a>
+
+            <span style="font-size:80%; color: #CCC; margin-right:4px; padding: 2px;" class="pull-right">{{ count($collection->artifacts)}}</span></H4>
+            
+    </div>
+@endforeach
+
 </div>
-    </div> 
+
+<div class="clearfix"></div>
+</div>
+
+</div>
+
+
 
 </div>
 
 </div>
 
 <br/>
-
 
 
 
