@@ -146,7 +146,7 @@
                                     
                                     @endif  
 
-                                    <a class='btn btn-primary pull-right' href='{{action('AssignmentController@create', $section->id) }}'>Create New Assignment</a>
+                                    <a class='btn btn-primary pull-right' href='{{action('AssignmentController@create', $activeSection->id) }}'>Create New Assignment</a>
 
                                     <div class="clearfix"></div>
 
