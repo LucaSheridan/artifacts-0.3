@@ -16,8 +16,8 @@
 
         </div>
 
-        {{ $checklist }}
-
+<!--         {{ $checklist }}
+ -->
         <!-- Begin Table Div -->
 
         <div class="panel-body">
