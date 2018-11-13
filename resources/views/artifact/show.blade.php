@@ -34,7 +34,7 @@
     <!-- Comments -->
 
 
-        @if ( count($artifact->comments) > 0 )
+    @if ( count($artifact->comments) > 0 )
 
                 <div class="well" style="background-color:lightyellow;">
 
@@ -51,7 +51,8 @@
 
         
         @if (Auth::User()->hasRole('teacher'))
-        <!-- Comment Form -->
+    
+    <!-- Comment Form -->
 
             <div class="form-group">
 
