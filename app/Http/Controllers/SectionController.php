@@ -454,7 +454,6 @@ class SectionController extends Controller
      */
     public function StudentAssignmentProgressView(Section $section, Assignment $assignment, User $user)
     {
-        
         $assignmentChecklist = DB::table('components')->leftjoin('artifacts', function ($join) use ($assignment, $user) {
 
             $join->on('components.id', '=', 'artifacts.component_id')

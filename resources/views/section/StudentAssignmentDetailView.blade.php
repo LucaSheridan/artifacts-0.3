@@ -65,6 +65,26 @@
 
             <div class="panel-body">
 
+        <!-- Feedback -->
+
+        @if ( count($assignment->comments) > 0 )
+
+        <div class="alert-important alert alert-warning}}" style="background:lightyellow;">
+        
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <b>You have Feedback!</b><br/>
+         @foreach ($assignment->comments as $comment)
+        
+        <span style="text-decoration:underline; padding-bottom:0.25em;">{{$comment->artifact->component->title}}:</span> <i>{{$comment->body}}</i><br/>
+    @endforeach
+
+    </div>
+
+    @else
+    @endif
+
+    <!-- End Feedback -->
+
         <table class="table">
 
         @foreach ($assignmentChecklist as $checklistItem)

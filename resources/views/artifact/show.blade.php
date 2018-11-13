@@ -6,13 +6,13 @@
         
 	     <div class="col-sm-6 col-md-8 col-lg-9">
 
-            <a href="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}"><img class="img-responsive" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}"></a><br>
+         <a href="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}"><img class="img-responsive" src="https://s3.amazonaws.com/artifacts-0.3/{{$artifact->artifact_path}}"></a><br>
 
         </div>
 
-		<div class="col-md-4 col-lg-3">
+	    <div class="col-sm-6 col-md-4 col-lg-3">
 
-		<b>Artist:</b> {{ $artifact->user->firstName }} {{ $artifact->user->lastName }}<br/>
+    <b>Artist:</b> {{ $artifact->user->firstName }} {{ $artifact->user->lastName }}<br/>
 
     <b>Assignment:</b> <a href="{{ action('AssignmentController@show', $artifact->assignment_id )}}">{{ $artifact->assignment->title }}</a><br/>
     <b>Component:</b> {{ $artifact->component->title }}<br/>
@@ -29,9 +29,66 @@
 
         @endif
 
-    <br/>
+    <br/><br/>
 
-    @if ($artifact->is_published)
+    <!-- Comments -->
+
+
+        @if ( count($artifact->comments) > 0 )
+
+                <div class="well" style="background-color:lightyellow;">
+
+    <b>Comments:</b><br/>
+        
+        @foreach ($artifact->comments as $comment)
+        
+        <i><span style-style="padding-bottom:3.5em;">{{ $comment->body }}</span></i><br/>
+          
+            @endforeach
+
+        @else
+        @endif
+
+        
+        @if (Auth::User()->hasRole('teacher'))
+        <!-- Comment Form -->
+
+            <div class="form-group">
+
+                <form class="form" role="form" method="POST" action="{{action('ArtifactController@addComment', $artifact->id )}}">
+
+                {!! csrf_field() !!}
+
+            <div class="form-group">
+            
+            <textarea name='body' placeholder='Your comment here' class='form-control'>
+            </textarea>
+            
+            </div>
+
+            <div class="form-group">
+        
+            <input name="artifact_id" type="hidden" value="{{$artifact->id}}">
+           
+                <button type='submit' class="btn btn-primary">
+                Submit    
+                </button>
+            </div>
+            </div>
+    </form>
+
+    @else
+    @endif
+
+    </div>
+
+        <!-- End Comments -->
+
+   
+
+        <!-- Gallery Text -->
+
+        @if ($artifact->is_published)
 
         <b>Title:</b> <i>{{ $artifact->title }}</i><br/>
         <b>Medium:</b> {{ $artifact->medium }}<br/>
@@ -48,12 +105,7 @@
 
               {{ $artifact->dimensions_units }}<br/><br/>
 
-        <b>Gallery Text:</b> {{ $artifact->description }}<br>
-
-      
-        <hr/>
-        
-    
+        <b>Gallery Text:</b> {{ $artifact->description }}<br>    
         
         <br/><br/>
 
@@ -73,9 +125,8 @@
 
         <a class="btn btn-primary m-1" href='{{ action('ArtifactController@rotate', [ 'id' => $artifact->id, 'degrees' => '-90' ]) }}'>Rotate clockwise</a>
 
-        <hr/>        
-
-	    	</div>
+        </div>
+        </div>
 
     </div>
 </div>

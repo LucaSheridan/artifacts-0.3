@@ -16,6 +16,8 @@
 
         </div>
 
+        {{ $checklist }}
+
         <!-- Begin Table Div -->
 
         <div class="panel-body">
@@ -34,7 +36,9 @@
 
                     <tr>
                         <td colspan="4">
-                            <h4>{{ $checklist_item->assignment->title }}</h4>
+                            <h4>
+                                {{ $checklist_item->assignment->title }}</a>
+                            </h4>
                         </td>
                     </tr>
 

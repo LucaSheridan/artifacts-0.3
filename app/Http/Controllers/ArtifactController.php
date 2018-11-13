@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Artifact;
 use App\Component;
+use App\Comment;
 use App\Assignment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +19,42 @@ use Illuminate\Filesystem\Filesystem;
 class ArtifactController extends Controller
 {
 
-    /**
+     /**
+     * Add Comment to Artifact.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function addComment(Request $request, Artifact $artifact)
+       
+        {
+        
+
+        $artifact = Artifact::find($artifact->id);
+
+        $component_title = $artifact->component->title;
+
+        //dd($artifact);
+
+        $comment = $artifact->comments()->create([
+                // 'body' => $component_title.' -> '.$request->input('body'),
+                'body' => $request->input('body'),
+                'user_id' => Auth::User()->id
+        ]);
+
+        //return action('assignment.show')->with('assignment', $assignment_id);
+
+        //return redirect()->action('AssignmentController@show', $artifact->assignment_id);
+
+        return redirect()->action('SectionController@StudentAssignmentProgressView', [
+            'assignment' => $artifact->assignment_id, 
+            'user' => $artifact->user_id, 
+            'section' => $artifact->assignment->section->id ]);
+
+
+        }
+
+
+        /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

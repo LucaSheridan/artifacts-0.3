@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $this->hasMany(Artifact::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function collections()
     {
         return $this->hasMany(Collection::class);

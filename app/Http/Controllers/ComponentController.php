@@ -128,16 +128,15 @@ class ComponentController extends Controller
         ]);
 
         //dd($request->input('title'));
-        //dd($request->input('date_due'));
 
        //set component date due
-        //$date_due = Carbon::parse($request->input('date_due'));
+       
+       //$date_due = Carbon::parse($request->input('date_due'));
 
-        $date_due = Carbon::createFromFormat('m-d-y', $request->input('date_due'), 'America/New_York');
+        $date_due = Carbon::createFromFormat('m-d-y', $request->input('date_due'));
 
         //dd($date_due);
-        
-        //set component time due
+
         $date_due->hour = 23;
         $date_due->minute = 59;
         $date_due->second = 59;
@@ -149,11 +148,9 @@ class ComponentController extends Controller
         $component->save();
 
         $component->title = $request->input('title');
-        $component->date_due = $date_due;
-
         $component->save();
 
-        $assignment = Assignment::findOrFail($component->assignment_id);
+        $assignment = Assignment::find($component->assignment_id);
 
         flash('Component updated successfully!', 'success');
 

@@ -30,4 +30,9 @@ class Assignment extends Model
             return $this->hasMany('App\Artifact');
     }
 
+     public function comments()
+    {
+            return $this->hasManyThrough('App\Comment', 'App\Artifact');
+    }
+
 }

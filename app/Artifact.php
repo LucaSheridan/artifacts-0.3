@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Artifact extends Model
 {
 
-	//protected $dateFormat = 'U';
-    
+   //protected $dateFormat = 'U';
    
    public function user()
     
@@ -46,6 +46,38 @@ class Artifact extends Model
     
     {
          return $this->belongstoMany('App\Collection')->withPivot('position');
+    }
+
+   
+    /**
+     * A post can have many comments.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+   
+
+    //
+
+
+
+
+
+
+
+      /**
+     * Add a comment to the post.
+     *
+     * @param array $attributes
+     */
+    public function addComment($attributes)
+    {
+        $comment = (new Comment)->forceFill($attributes);
+        $comment->user_id = auth()->id();
+        return $this->comments()->save($comment);
     }
 
     

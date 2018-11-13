@@ -164,5 +164,9 @@ Route::get('/artifact/{artifact}/rotate/{degrees}', 'ArtifactController@rotate')
 Route::patch('/artifact/{artifact}/publish', 'ArtifactController@publish');
 Route::get('/artifact/{artifact}/unpublish', 'ArtifactController@unpublish');
 
+// Comment routes
+Route::resource('comment', 'CommentController');
+Route::post('/artifact/{artifact}/comments', 'ArtifactController@addComment');
+
 
 

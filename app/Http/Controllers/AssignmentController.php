@@ -85,9 +85,9 @@ class AssignmentController extends Controller
 
         $assignment = Assignment::with(['components' => function ($query) use ($assignment) {
             $query->where('assignment_id', $assignment->id)->orderBy('date_due');
-            }])->findOrfail($assignment->id);
+            },'comments'])->findOrfail($assignment->id);
         
-        //dd($assignment)->components();
+        //dd($assignment)->comments();
 
         $checklist = DB::table('components')->leftjoin('artifacts', function ($join) use ($assignment) {
 

@@ -1,5 +1,24 @@
-<h1><a href="{{ action('HomeController@index')}}">{{$assignment->section->name }}</a> | {{ $assignment->title}} component list</h1><br/>
+<h1><a href="{{ action('HomeController@index')}}">{{$assignment->section->name }}</a> | {{ $assignment->title}}</h1><br/>
 
+<!-- Feedback -->
+
+        @if ( count($assignment->comments) > 0 )
+
+    <div class="container">
+        <div class="alert-important alert alert-warning}}" style="background:lightyellow;">
+        
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <b>You have Feedback!</b><br/>
+         @foreach ($assignment->comments as $comment)
+        
+        <span style="text-decoration:underline; padding-bottom:0.25em;">{{$comment->artifact->component->title}}:</span> <i>{{$comment->body}}</i><br/>
+    @endforeach
+
+        </div>
+    </div>
+
+    @else
+    @endif
 
     <table class="table">
 

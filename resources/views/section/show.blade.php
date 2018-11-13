@@ -124,7 +124,7 @@
             - <a href='{{action('SectionController@AssignmentComponent', ['section' => $assignment->section->id, 'assignment' => $component->assignment_id, 'component' => $component->id])}}'>{{ $component->title }}</a>
 
             <span class="pull-right">
-            Due {{ Carbon\Carbon::parse($component->date_due)->setTimezone('America/New_York')->format('D n/j') }}</span>
+            Due {{ Carbon\Carbon::parse($component->date_due)->format('D n/j h:i a') }}</span>
 
             <br/>
 

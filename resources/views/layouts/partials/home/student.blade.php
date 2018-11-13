@@ -24,8 +24,17 @@
 
             @foreach ($section->assignments as $assignment)
 
-                <option value="{{action('AssignmentController@show', $assignment->id) }}">{{$assignment->title}}</option>
-        
+                <option value="{{action('AssignmentController@show', $assignment->id) }}">
+
+                    {{$assignment->title}}
+
+                    @if ($assignment->comments->count() > 0)
+
+                     - Feedback </option>
+                    
+                    @else
+                    @endif
+
             @endforeach
 
           </optgroup>
@@ -48,14 +57,15 @@
 
         @foreach (Auth::User()->sections as $section) 
              
-        <strong style="color:#CCC;">{{$section->name}}</strong><br/>
+        <strong>{{$section->label}}</strong><br/>
 
         @foreach ($section->assignments as $assignment)
 
            <!-- Link to Assignment Process Page -->
 
-            <a style="margin-left:10px; text-decoration:none; color:black" href="{{ action('AssignmentController@show', $assignment->id )}}">
+            - <a style="margin-left:10px; text-decoration:none; color:black" href="{{ action('AssignmentController@show', $assignment->id )}}">
             {{ $assignment->title}}
+            <span style="color:#CCC;" class="glyphicon glyphicon-comment" aria-hidden="true"></span>
             </a><br/>
             
            
