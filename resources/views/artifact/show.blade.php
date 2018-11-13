@@ -32,58 +32,7 @@
     <br/><br/>
 
     <!-- Comments -->
-
-
-    @if ( count($artifact->comments) > 0 )
-
-                <div class="well" style="background-color:lightyellow;">
-
-    <b>Comments:</b><br/>
-        
-        @foreach ($artifact->comments as $comment)
-        
-        <i><span style-style="padding-bottom:3.5em;">{{ $comment->body }}</span></i><br/>
-          
-            @endforeach
-
-        @else
-        @endif
-
-        
-        @if (Auth::User()->hasRole('teacher'))
-    
-    <!-- Comment Form -->
-
-            <div class="form-group">
-
-                <form class="form" role="form" method="POST" action="{{action('ArtifactController@addComment', $artifact->id )}}">
-
-                {!! csrf_field() !!}
-
-            <div class="form-group">
-            
-            <textarea name='body' placeholder='Your comment here' class='form-control'>
-            </textarea>
-            
-            </div>
-
-            <div class="form-group">
-        
-            <input name="artifact_id" type="hidden" value="{{$artifact->id}}">
-           
-                <button type='submit' class="btn btn-primary">
-                Submit    
-                </button>
-            </div>
-            </div>
-    </form>
-
-    @else
-    @endif
-
-    </div>
-
-        <!-- End Comments -->
+    <!-- End Comments -->
 
    
 
