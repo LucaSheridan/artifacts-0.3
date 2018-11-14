@@ -28,13 +28,6 @@
 
                     {{$assignment->title}}
 
-                    @if ($assignment->comments->count() > 0)
-
-                     - Feedback </option>
-                    
-                    @else
-                    @endif
-
             @endforeach
 
           </optgroup>
@@ -65,7 +58,6 @@
 
             - <a style="margin-left:10px; text-decoration:none; color:black" href="{{ action('AssignmentController@show', $assignment->id )}}">
             {{ $assignment->title}}
-            <span style="color:#CCC;" class="glyphicon glyphicon-comment" aria-hidden="true"></span>
             </a><br/>
             
            
